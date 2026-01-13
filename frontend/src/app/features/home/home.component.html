@@ -1,0 +1,52 @@
+<app-nav></app-nav>
+<div class="">
+  <section class="hero">
+    <h1>Buy & Sell Ready-to-Use Coding Projects</h1>
+    <p>Browse thousands of complete projects in multiple programming languages. From eCommerce to flight booking systems, find the perfect project to learn from or implement directly.</p>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search for projects (e.g., 'React eCommerce', 'Python Django', 'Java Spring Boot')">
+      <button><i class="fas fa-search"></i> Search</button>
+    </div>
+
+    <div class="stats">
+      <p><i class="fas fa-check-circle"></i> 5,000+ Projects | <i class="fas fa-users"></i> 10,000+ Developers | <i class="fas fa-star"></i> 4.8 Average Rating</p>
+    </div>
+  </section>
+
+    <section class="categories mt-5" id="categories">
+        <h2 class="section-title text-center "> Browse By Programming Language</h2>
+          <div class="filter-tabs text-center">
+            <button class="filter-btn active bg-primary rounded-4" data-filter="all">All Projects</button>
+            <button class="filter-btn rounded-4" data-filter="ecommerce">E-Commerce</button>
+            <button class="filter-btn rounded-4" data-filter="booking">Booking Systems</button>
+            <button class="filter-btn rounded-4" data-filter="quiz">Quiz Apps</button>
+            <button class="filter-btn rounded-4" data-filter="social">Social Media</button>
+          </div>
+
+      <div class="container my-5">
+        <div class="row g-4">
+
+          <!-- Card 1 -->
+          <div class="col-lg-3 col-md-6" *ngFor="let language of languages">
+            <div class="card category-card h-100">
+              <img [src]=" 'http://localhost:8080'+ language.iconUrl" class="card-img-top" alt="JavaScript">
+              <div class="card-body text-center">
+                <h5 class="card-title">{{language.title}}</h5>
+                <p class="card-text">
+                  {{language.description}}
+                  250+ projects including React, Vue, Node.js applications
+                </p>
+                <span class="price">From $19.99</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+
+
+</div>
+

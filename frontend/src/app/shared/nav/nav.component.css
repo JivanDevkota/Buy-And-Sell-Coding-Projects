@@ -1,0 +1,23 @@
+nav {
+  padding: 0;
+  margin: 0;
+}
+
+.custom-nav {
+  background: linear-gradient(90deg, #1e4ed8, #2563eb);
+  padding: 10px 0;
+}
+
+.custom-nav .nav-link {
+  color: #e5e7eb !important;
+  font-weight: 500;
+}
+
+.custom-nav .nav-link:hover,
+.custom-nav .nav-link.active {
+  color: #ffffff !important;
+}
+
+.custom-nav .navbar-brand {
+  font-size: 1.4rem;
+}
