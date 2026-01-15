@@ -9,4 +9,5 @@ public interface AuthService {
     AuthResponse registerUser(RegisterRequest registerRequest);
 
     AuthResponse loginUser(LoginRequest loginRequest);
+    AuthResponse refreshToken(String refreshToken);
 }

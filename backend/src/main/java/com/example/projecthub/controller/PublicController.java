@@ -4,6 +4,7 @@ import com.example.projecthub.dto.language.ProgrammingLanguageResponse;
 import com.example.projecthub.dto.project.ProjectResponse;
 import com.example.projecthub.dto.user.AuthResponse;
 import com.example.projecthub.dto.user.LoginRequest;
+import com.example.projecthub.dto.user.RefreshTokenRequest;
 import com.example.projecthub.dto.user.RegisterRequest;
 import com.example.projecthub.model.Project;
 import com.example.projecthub.service.auth.AuthService;
@@ -11,6 +12,7 @@ import com.example.projecthub.service.language.LanguageService;
 import com.example.projecthub.service.project.ProjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,7 +25,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-@CrossOrigin("*")
+@Slf4j
 public class PublicController {
 
     private final ProjectService projectService;
@@ -63,6 +65,17 @@ public class PublicController {
             return ResponseEntity.status(HttpStatus.OK).body(login);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?>refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
+        try{
+            AuthResponse response = authService.refreshToken(request.getRefreshToken());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Refresh token failed: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 }

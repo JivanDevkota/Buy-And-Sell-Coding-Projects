@@ -1,5 +1,65 @@
 <app-nav></app-nav>
 <div class="container-fluid">
-    <h1>Welcome to Signup page</h1>
+  <h1>Welcome to Signup page</h1>
+  <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="sign-in-form">
+
+    <h2 class="title">Sign In</h2>
+
+    <!-- Username -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        class="form-control"
+        formControlName="username"
+        id="username"
+        placeholder="Enter your username"
+        type="text"
+      />
+
+      <small *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid"
+             class="error">
+        Username is required
+      </small>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+
+      <div class="password-wrapper">
+        <input
+          [type]="hidePassword ? 'password' : 'text'"
+          class="form-control"
+          formControlName="password"
+          id="password"
+          placeholder="Enter your password"
+        />
+
+        <button
+          (click)="togglePasswordVisibility()"
+          class="toggle-btn"
+          type="button">
+          {{ hidePassword ? 'Show' : 'Hide' }}
+        </button>
+      </div>
+
+      <small *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+             class="error">
+        Password must be at least 6 characters
+      </small>
+    </div>
+
+    <!-- Submit -->
+    <button
+      [disabled]="loading || loginForm.invalid"
+      class="submit-btn"
+      type="submit">
+
+      <span *ngIf="!loading">Sign In</span>
+      <span *ngIf="loading">Signing in...</span>
+
+    </button>
+
+  </form>
 
 </div>

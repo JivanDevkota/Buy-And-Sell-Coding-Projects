@@ -1,0 +1,73 @@
+.admin-sidebar {
+  width: 270px;
+  background: linear-gradient(180deg, #0f172a, #020617);
+  color: #e5e7eb;
+}
+
+.admin-header {
+  padding: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.super-admin-badge {
+  background: #dc2626;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.admin-menu {
+  padding: 8px;
+}
+
+.menu-section {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.6;
+  margin: 14px 12px 6px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #cbd5f5;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.menu-item i {
+  font-size: 16px;
+}
+
+.menu-item:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.menu-item.active {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-weight: 600;
+}
+
+.count {
+  background: rgba(255,255,255,0.15);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+.count.warning {
+  background: #f59e0b;
+  color: #000;
+}
+
+.count.danger {
+  background: #dc2626;
+}

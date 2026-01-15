@@ -1,0 +1,134 @@
+<div class="d-flex min-vh-100">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar d-flex flex-column">
+
+    <!-- HEADER -->
+    <div class="admin-header">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-shield-lock-fill text-warning fs-5"></i>
+        <span class="fw-bold">Admin Panel</span>
+      </div>
+      <span class="badge super-admin-badge">SUPER ADMIN</span>
+    </div>
+
+    <!-- MENU -->
+    <div class="admin-menu flex-grow-1">
+
+      <div class="menu-section">DASHBOARD</div>
+
+      <a routerLink="/admin/data"
+         routerLinkActive="active"
+         class="menu-item">
+        <i class="bi bi-speedometer2"></i>
+        <span>Overview</span>
+      </a>
+
+      <div class="menu-section">USER MANAGEMENT</div>
+
+      <a routerLink="/admin/users"
+         routerLinkActive="active"
+         class="menu-item d-flex justify-content-between">
+        <div>
+          <i class="bi bi-people"></i>
+          <span>All Users</span>
+        </div>
+        <span class="count">1,245</span>
+      </a>
+
+      <a routerLink="/admin/sellers"
+         routerLinkActive="active"
+         class="menu-item d-flex justify-content-between">
+        <div>
+          <i class="bi bi-person-badge"></i>
+          <span>Sellers</span>
+        </div>
+        <span class="count">89</span>
+      </a>
+
+      <a routerLink="/admin/buyers"
+         routerLinkActive="active"
+         class="menu-item d-flex justify-content-between">
+        <div>
+          <i class="bi bi-cart"></i>
+          <span>Buyers</span>
+        </div>
+        <span class="count">1,156</span>
+      </a>
+
+      <a routerLink="/admin/admins"
+         routerLinkActive="active"
+         class="menu-item d-flex justify-content-between">
+        <div>
+          <i class="bi bi-shield-check"></i>
+          <span>Administrators</span>
+        </div>
+        <span class="count">3</span>
+      </a>
+
+      <a routerLink="/admin/pending-approvals"
+         routerLinkActive="active"
+         class="menu-item d-flex justify-content-between">
+        <div>
+          <i class="bi bi-hourglass-split"></i>
+          <span>Pending Approvals</span>
+        </div>
+        <span class="count warning">12</span>
+      </a>
+
+      <div class="menu-section">CONTENT MANAGEMENT</div>
+
+      <a routerLink="/admin/projects"
+         routerLinkActive="active"
+         class="menu-item d-flex justify-content-between">
+        <div>
+          <i class="bi bi-folder2-open"></i>
+          <span>All Projects</span>
+        </div>
+        <span class="count">487</span>
+      </a>
+
+      <a routerLink="/admin/pending-projects"
+         routerLinkActive="active"
+         class="menu-item d-flex justify-content-between">
+        <div>
+          <i class="bi bi-clock-history"></i>
+          <span>Pending Projects</span>
+        </div>
+        <span class="count danger">23</span>
+      </a>
+
+      <a routerLink="/admin/reported-content"
+         routerLinkActive="active"
+         class="menu-item d-flex justify-content-between">
+        <div>
+          <i class="bi bi-flag"></i>
+          <span>Reported Content</span>
+        </div>
+        <span class="count danger">7</span>
+      </a>
+
+      <a routerLink="/admin/categories"
+         routerLinkActive="active"
+         class="menu-item">
+        <i class="bi bi-tags"></i>
+        <span>Categories</span>
+      </a>
+
+      <a routerLink="/admin/technologies"
+         routerLinkActive="active"
+         class="menu-item">
+        <i class="bi bi-code-slash"></i>
+        <span>Technologies</span>
+      </a>
+
+    </div>
+
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="flex-grow-1 bg-light p-4">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

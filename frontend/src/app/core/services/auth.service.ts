@@ -20,17 +20,32 @@ export class AuthService {
     return this.http.post(baseUrl + "/register", registerRequest);
   }
 
-  loginUser(loginRequest: LoginRequest): Observable<Boolean> {
+  loginUser(loginRequest: LoginRequest): Observable<boolean> {
     return this.http
       .post<any>(`${baseUrl}/login`, loginRequest)
       .pipe(
         map(response => {
-          LocalstorageService.saveToken(response.accessToken)
-          LocalstorageService.saveRefreshToken(response.refreshToken)
-          LocalstorageService.saveUser(response.user);
+          LocalstorageService.saveToken(response.accessToken);
+          LocalstorageService.saveRefreshToken(response.refreshToken);
+
+          // ✅ build User object from response
+          LocalstorageService.saveUser({
+            userId: response.userId,
+            username: response.username,
+            email: response.email,
+            roles: response.roles
+          });
+
           return true;
         }),
         catchError(() => of(false))
       );
   }
+
+  refreshToken(): Observable<any> {
+    return this.http.post(`${baseUrl}/refresh`, {
+      refreshToken: LocalstorageService.getRefreshToken()
+    });
+  }
+
 }

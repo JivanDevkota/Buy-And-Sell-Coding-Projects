@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {LocalstorageService} from "../../core/services/localstorage.service";
 
 @Component({
   selector: 'app-nav',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent {
-
+  isSellerLoggedIn=LocalstorageService.isSellerLoggedIn();
+  isBuyerLoggedIn=LocalstorageService.isBuyerLoggedIn();
+  isSuperAdminLoggedIn=LocalstorageService.isSuperAdminLoggedIn();
+  username=LocalstorageService.getUserName();
 }

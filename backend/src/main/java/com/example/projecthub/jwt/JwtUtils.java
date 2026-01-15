@@ -22,7 +22,7 @@ public class JwtUtils {
     private String secretKey;
 
     // Access token expiration: 15 minutes
-    @Value("${jwt.access-token-expiration:900000}")
+    @Value("${jwt.access-token-expiration:36000000}")
     private long accessTokenExpiration;
 
     // Refresh token expiration: 7 days

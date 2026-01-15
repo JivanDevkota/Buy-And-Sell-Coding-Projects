@@ -6,7 +6,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import {SharedModule} from "../../shared/module/shared.module";
 import {NgIf} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -18,7 +18,8 @@ import {FormsModule} from "@angular/forms";
     AuthRoutingModule,
     SharedModule,
     NgIf,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
 
   ]
 })

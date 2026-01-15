@@ -9,6 +9,7 @@ import com.example.projecthub.model.User;
 import com.example.projecthub.repository.RoleRepository;
 import com.example.projecthub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -45,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_SELLER");
+        Role role = roleRepository.findByName("ROLE_ADMIN");
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
@@ -68,6 +70,51 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
         return new AuthResponse(accessToken,refreshToken,user.getUsername(),user.getId(), user.getEmail(),user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
+    }
+//
+//    public AuthResponse refreshToken(String refreshToken) {
+//        try{
+//            String username=jwtUtils.extractUsername(refreshToken);
+//            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//
+//            if (jwtUtils.isTokenValid(refreshToken, userDetails)) {
+//                String newAccessToken=jwtUtils.generateAccessToken(userDetails);
+//                String newRefreshToken=jwtUtils.generateRefreshToken(userDetails);
+//
+//                User user=userRepository.findByUsername(username)
+//                        .orElseThrow(()->new RuntimeException("User not found"));
+//                return new AuthResponse(newAccessToken,newRefreshToken,user.getUsername(),user.getId(),user.getEmail(),user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
+//            }
+//            else {
+//                throw new RuntimeException("Refresh token expired");
+//            }
+//        } catch (Exception e) {
+//            log.error("Error refreshing token:{}",e.getMessage() );
+//            throw new RuntimeException("Error refreshing token");
+//        }
+//    }
+
+    public AuthResponse refreshToken(String refreshToken) {
+        String username = jwtUtils.extractUsername(refreshToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        if (!jwtUtils.isTokenValid(refreshToken, userDetails)) {
+            throw new RuntimeException("Invalid or expired refresh token");
+        }
+
+        String newAccessToken = jwtUtils.generateAccessToken(userDetails);
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return new AuthResponse(
+                newAccessToken,
+                refreshToken, // ✅ reuse old refresh token
+                user.getUsername(),
+                user.getId(),
+                user.getEmail(),
+                user.getRoles().stream().map(Role::getName).collect(Collectors.toSet())
+        );
     }
 
 }

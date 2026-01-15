@@ -1,0 +1,99 @@
+.seller-sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #2563eb, #1e40af);
+  color: #fff;
+  position: sticky;
+  top: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.logo-icon {
+  color: #facc15;
+}
+
+.sidebar-menu {
+  padding: 0 10px;
+}
+
+.menu-section {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.7;
+  margin: 16px 12px 6px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin: 4px 0;
+  border-radius: 8px;
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.menu-item i {
+  font-size: 16px;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.menu-item.active {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-weight: 600;
+}
+
+.badge {
+  background: #1e40af;
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+.badge.warning {
+  background: #f59e0b;
+}
+
+.sidebar-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  color: #1e40af;
+  border-radius: 50%;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info .name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.user-info .role {
+  font-size: 12px;
+  opacity: 0.7;
+}

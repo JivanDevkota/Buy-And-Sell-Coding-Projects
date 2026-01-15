@@ -33,6 +33,8 @@ public class User {
     )
     private Set<Role> roles;
 
+    @Enumerated(EnumType.STRING)
+    private Status status=Status.PENDING;
 
     @OneToMany(mappedBy = "seller",cascade = CascadeType.ALL)
     private List<Project>uploadedProjects=new ArrayList<>();

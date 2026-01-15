@@ -1,6 +1,8 @@
 package com.example.projecthub.repository;
 
 import com.example.projecthub.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
 
     boolean existsByUsername(String username);
+
+    Page<User>findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+
 }

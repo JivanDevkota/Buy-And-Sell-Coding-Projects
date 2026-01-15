@@ -42,8 +42,16 @@ export class LocalstorageService {
 
   static getUser(): User | null {
     const user = localStorage.getItem(this.USER_KEY);
-    return user ? JSON.parse(user) : null;
+    if (!user) return null;
+
+    try {
+      return JSON.parse(user);
+    } catch {
+      localStorage.removeItem(this.USER_KEY);
+      return null;
+    }
   }
+
 
   static getUserId(): number | null {
     return this.getUser()?.userId ?? null;
@@ -63,16 +71,20 @@ export class LocalstorageService {
   }
 
   static isSellerLoggedIn(): Boolean {
-    return !! this.getToken() && this.hasRole("ROLE_SELLER")
+    return !!this.getToken() && this.hasRole("ROLE_SELLER")
   }
 
   static isBuyerLoggedIn(): Boolean {
-    return !! this.getToken() && this.hasRole("ROLE_BUYER")
+    return !!this.getToken() && this.hasRole("ROLE_BUYER")
+  }
+
+  static isSuperAdminLoggedIn(): Boolean {
+    return !!this.getToken() && this.hasRole("ROLE_ADMIN")
   }
 
   static signOut() {
     localStorage.removeItem(this.USER_KEY);
-    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.REFRESH_TOKEN_KEY);
   }
 

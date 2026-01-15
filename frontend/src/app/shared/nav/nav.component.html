@@ -1,54 +1,69 @@
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top custom-nav">
-  <div class="container-fluid px-4">
+<ng-container *ngIf="!isSellerLoggedIn && !isBuyerLoggedIn">
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top custom-nav">
+    <div class="container-fluid px-4">
 
-    <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
-      <span class="me-2 text-warning">&lt;/&gt;</span>CodeMarket
-    </a>
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <span class="me-2 text-warning">&lt;/&gt;</span>CodeMarket
+      </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="mainNav">
+      <div class="collapse navbar-collapse" id="mainNav">
 
-      <!-- Center menu -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-3">
-        <li class="nav-item">
-          <a class="nav-link active" href="#"> <i class="bi bi-house-door"></i> Categories </a>
-        </li>
+        <!-- Center menu -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-3">
+          <li class="nav-item">
+            <a class="nav-link active" href="#"> <i class="bi bi-house-door"></i> Categories </a>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-briefcase"></i> Projects</a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-briefcase"></i> Projects</a>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-question-circle"></i> How It Works
-          </a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-question-circle"></i> How It Works
+            </a>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-envelope"></i> Contact
-          </a>
-        </li>
-      </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="bi bi-envelope"></i> Contact
+            </a>
+          </li>
+        </ul>
 
-      <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2">
 
-        <a href="#" class="btn btn-outline-light position-relative">
-          <i class="bi bi-cart"></i> Cart
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          <a href="#" class="btn btn-outline-light position-relative">
+            <i class="bi bi-cart"></i> Cart
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             2
           </span>
-        </a>
+          </a>
 
-        <a  routerLink="/auth/signup" routerLinkActive="active" class="btn btn-light text-primary fw-semibold">
-          <i class="bi bi-person"></i> Sign In
-        </a>
+          <a routerLink="/auth/signup" routerLinkActive="active" class="btn btn-light text-primary fw-semibold">
+            <i class="bi bi-person"></i> Sign In
+          </a>
+        </div>
+
       </div>
-
     </div>
+  </nav>
+
+</ng-container>
+
+<ng-container *ngIf="isSellerLoggedIn">
+  <div class="container">
+
   </div>
-</nav>
+</ng-container>
+
+<ng-container *ngIf="isSuperAdminLoggedIn">
+  <div class="container">
+
+  </div>
+</ng-container>
