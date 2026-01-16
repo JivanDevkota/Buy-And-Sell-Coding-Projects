@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {UserDetailsResponse} from "../model/UserDetailsResponse";
 import {Observable} from "rxjs";
-import {LocalstorageService} from "./localstorage.service";
+import {CategoryDTO} from "../model/CategoryDTO";
 
 
 export interface PaginatedUsersResponse {
@@ -13,6 +13,16 @@ export interface PaginatedUsersResponse {
   hasNext: boolean;
   hasPrevious: boolean;
 }
+
+export interface PaginatedCategoriesResponse {
+  categories: CategoryDTO[];
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+}
+
 export interface UpdateStatusRequest {
   status: string;
   reason: string;
@@ -50,7 +60,22 @@ export class AdminService {
    * Get user status history (optional - for future use)
    */
   getUserStatusHistory(userId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.adminUrl}/${userId}/status-history`);
+    return this.http.get<any[]>(`${this.adminUrl}/admin/${userId}/status-history`);
+  }
+
+  createCategory(categoryDto: CategoryDTO): Observable<CategoryDTO> {
+    return this.http.post<CategoryDTO>(`${this.adminUrl}/admin/add/category`, categoryDto);
+  }
+
+  getAllCategory(): Observable<CategoryDTO[]> {
+    return this.http.get<CategoryDTO[]>(`${this.adminUrl}/admin/recent/categories`);
+  }
+
+  getAllCategories(page: number = 0, size: number = 5): Observable<PaginatedCategoriesResponse> {
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+    return this.http.get<PaginatedCategoriesResponse>(`${this.adminUrl}/admin/recent/categories`, {params})
   }
 }
 

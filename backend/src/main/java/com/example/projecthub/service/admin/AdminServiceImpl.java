@@ -1,12 +1,14 @@
 package com.example.projecthub.service.admin;
 
+import com.example.projecthub.dto.category.CategoryDTO;
 import com.example.projecthub.dto.user.UserDetailsResponse;
+import com.example.projecthub.model.Category;
 import com.example.projecthub.model.Status;
 import com.example.projecthub.model.User;
 import com.example.projecthub.model.UserStatusHistory;
+import com.example.projecthub.repository.CategoryRepository;
 import com.example.projecthub.repository.UserRepository;
 import com.example.projecthub.repository.UserStatusHistoryRepository;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final UserRepository userRepository;
     private final UserStatusHistoryRepository userStatusHistoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public void updateUserStatus(
@@ -79,6 +82,31 @@ public class AdminServiceImpl implements AdminService {
         response.put("totalItems", userPage.getTotalElements());
         response.put("hasNext", userPage.hasNext());
         response.put("hasPrevious", userPage.hasPrevious());
+        return response;
+    }
+
+
+    //category
+    public CategoryDTO createCategory(CategoryDTO dto) {
+        Category category = new Category();
+        category.setName(dto.getName());
+        category.setDescription(dto.getDescription());
+        Category savedCategory = categoryRepository.save(category);
+        return CategoryDTO.toDto(savedCategory);
+    }
+
+    public Map<String, Object> getRecentAddedCategoriesPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Category> categoryPage = categoryRepository.findAllByOrderByCreatedAtDesc(pageable);
+        List<CategoryDTO> categories = categoryPage.getContent().stream()
+                .map(CategoryDTO::toDto).collect(Collectors.toList());
+        Map<String, Object> response = new HashMap<>();
+        response.put("categories", categories);
+        response.put("currentPage", categoryPage.getNumber());
+        response.put("totalPages", categoryPage.getTotalPages());
+        response.put("totalItems", categoryPage.getTotalElements());
+        response.put("hasNext", categoryPage.hasNext());
+        response.put("hasPrevious", categoryPage.hasPrevious());
         return response;
     }
 }

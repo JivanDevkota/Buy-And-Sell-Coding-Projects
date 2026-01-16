@@ -4,18 +4,21 @@ import { CommonModule } from '@angular/common';
 import { SuperAdminRoutingModule } from './super-admin-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardDataComponent } from './dashboard-data/dashboard-data.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { CategoryComponent } from './category/category.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    DashboardDataComponent
+    DashboardDataComponent,
+    CategoryComponent
   ],
     imports: [
         CommonModule,
         SuperAdminRoutingModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ]
 })
 export class SuperAdminModule { }

@@ -9,7 +9,7 @@ public class CategoryDTO {
     private String name;
     private String description;
 
-    public static CategoryDTO from(Category category) {
+    public static CategoryDTO toDto(Category category) {
         CategoryDTO dto = new CategoryDTO();
         dto.id = category.getId();
         dto.name = category.getName();
