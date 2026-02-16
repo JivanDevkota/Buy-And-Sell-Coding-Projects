@@ -2,10 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BuyerRoutingModule } from './buyer-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardDataComponent } from './dashboard-data/dashboard-data.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DashboardComponent,
+    DashboardDataComponent,
+    WishlistComponent
+  ],
   imports: [
     CommonModule,
     BuyerRoutingModule

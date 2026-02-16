@@ -31,6 +31,7 @@ public class CategoryController {
         log.info("recentAddedCategoriesPaginated: {}", recentAddedCategoriesPaginated);
         return ResponseEntity.ok().body(recentAddedCategoriesPaginated);
     }
+    
 
 
 }

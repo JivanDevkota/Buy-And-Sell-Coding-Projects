@@ -1,12 +1,17 @@
 package com.example.projecthub.controller;
 
+import com.example.projecthub.dto.category.CategoryDTO;
 import com.example.projecthub.dto.language.ProgrammingLanguageResponse;
 import com.example.projecthub.dto.project.ProjectResponse;
+import com.example.projecthub.dto.project.PublicProjectDetailsResponse;
+import com.example.projecthub.dto.project.PublicProjectResponse;
 import com.example.projecthub.dto.user.AuthResponse;
 import com.example.projecthub.dto.user.LoginRequest;
 import com.example.projecthub.dto.user.RefreshTokenRequest;
 import com.example.projecthub.dto.user.RegisterRequest;
 import com.example.projecthub.model.Project;
+import com.example.projecthub.repository.CategoryRepository;
+import com.example.projecthub.service.admin.AdminService;
 import com.example.projecthub.service.auth.AuthService;
 import com.example.projecthub.service.language.LanguageService;
 import com.example.projecthub.service.project.ProjectService;
@@ -31,7 +36,7 @@ public class PublicController {
     private final ProjectService projectService;
     private final LanguageService languageService;
     private final AuthService authService;
-
+    private final AdminService adminService;
     @GetMapping("/language/{languageId}/top")
     public ResponseEntity<Page<ProjectResponse>> getTopProjectByLanguage(@PathVariable Long languageId,
                                                                          @PageableDefault(size = 5, sort = "viewCount,desc") Pageable pageable) {
@@ -78,4 +83,25 @@ public class PublicController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
+
+    @GetMapping("/categories")
+    public ResponseEntity<?>getAllCategories(){
+        List<CategoryDTO> allCategory = adminService.getAllCategory();
+        return ResponseEntity.ok(allCategory);
+    }
+
+    @GetMapping("/projects")
+    public ResponseEntity<List<PublicProjectResponse>> getAllProjects(){
+        List<PublicProjectResponse> allProjects = projectService.getAllProjects();
+        return ResponseEntity.ok(allProjects);
+    }
+
+    @GetMapping("/projects/{id}")
+    public ResponseEntity<PublicProjectDetailsResponse> getProjectById(
+            @PathVariable Long id
+    ) {
+        PublicProjectDetailsResponse response = projectService.getProjectDetails(id);
+        return ResponseEntity.ok(response);
+    }
+
 }

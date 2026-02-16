@@ -4,6 +4,8 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {DashboardDataComponent} from "./dashboard-data/dashboard-data.component";
 import {UploadProjectComponent} from "./upload-project/upload-project.component";
 import {ProjectsComponent} from "./projects/projects.component";
+import {UploadProjectfileComponent} from "./upload-projectfile/upload-projectfile.component";
+import {ProjectComponent} from "./project/project.component";
 
 const routes: Routes = [
   {
@@ -25,7 +27,16 @@ const routes: Routes = [
       {
         path: 'projects',
         component:ProjectsComponent
+      },
+      {
+        path:'project/:id/add-file',
+        component:UploadProjectfileComponent
+      },
+      {
+        path:'project/:id',
+        component:ProjectComponent
       }
+
     ]
   }
 ];

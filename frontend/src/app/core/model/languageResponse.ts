@@ -1,6 +1,6 @@
 export interface LanguageResponse {
   id:number;
-  title:string;
+  name:string;
   description:string;
   iconUrl:string;
 }

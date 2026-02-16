@@ -9,12 +9,16 @@ import { HomeComponent } from './features/home/home.component';
 import { SellerHeadComponent } from './shared/seller-head/seller-head.component';
 import { SuperAdminModule } from './features/super-admin/super-admin.module';
 import {AuthInterceptor} from "./core/interceptor/authInterceptor.service";
+import {FooterComponent} from "./shared/footer/footer.component";
+import { ProjectDetailsComponent } from './features/project-details/project-details.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-  ],
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        FooterComponent,
+        ProjectDetailsComponent,
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

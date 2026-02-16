@@ -18,5 +18,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User>findAllByOrderByCreatedAtDesc(Pageable pageable);
 
+    Page<User>findAllByOrderByIdAsc(Pageable pageable);
 
 }

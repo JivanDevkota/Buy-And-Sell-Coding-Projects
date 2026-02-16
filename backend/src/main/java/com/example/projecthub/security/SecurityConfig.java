@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/register", "/api/login", "/api/languages", "/api/refresh", "/error", "/img/**", "/api/authenticate", "/api/public/**").permitAll()
+                        .requestMatchers("/api/register", "/api/login","/api/create/language", "/api/languages", "/api/projects/**", "/api/refresh", "/error", "/img/**", "/uploads/**", "/api/authenticate", "/api/public/**").permitAll()
                         .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/seller/**").hasAuthority("ROLE_SELLER")
                         .requestMatchers("/api/buyer/**").hasAuthority("ROLE_BUYER")

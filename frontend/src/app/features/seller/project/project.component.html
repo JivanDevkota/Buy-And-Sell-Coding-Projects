@@ -1,0 +1,212 @@
+<app-seller-head></app-seller-head>
+
+<div class="container mt-5">
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">Loading project details...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage && !isLoading" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+  </div>
+
+  <!-- Project Details -->
+  <div *ngIf="project && !isLoading">
+
+    <!-- Header with Back Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Project Details</h2>
+      <button class="btn btn-outline-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-left"></i> Back to Projects
+      </button>
+    </div>
+
+    <div class="row">
+
+      <!-- Left Column - Project Info -->
+      <div class="col-lg-5">
+        <div class="card shadow-sm mb-4">
+          <img
+            [src]="'http://localhost:8080' + project.projectImgUrl"
+            class="card-img-top"
+            [alt]="project.title"
+            style="max-height: 300px; object-fit: cover;">
+
+          <div class="card-body">
+            <h3 class="card-title">{{ project.title }}</h3>
+
+            <div class="mb-3">
+              <span class="badge bg-secondary me-2">{{ project.categoryName }}</span>
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-success': project.status === ProjectStatus.APPROVED,
+                      'bg-warning text-dark': project.status === ProjectStatus.DRAFT,
+                      'bg-info text-dark': project.status === ProjectStatus.UNDER_REVIEW,
+                      'bg-danger': project.status === ProjectStatus.REJECTED,
+                      'bg-secondary': project.status === ProjectStatus.SUSPENDED,
+                      'bg-dark': project.status === ProjectStatus.ARCHIVED
+                    }">
+                {{ project.status }}
+              </span>
+            </div>
+
+            <h4 class="text-primary mb-3">${{ project.price }}</h4>
+
+            <h6>Description:</h6>
+            <p class="card-text">{{ project.description }}</p>
+
+            <h6>Languages:</h6>
+            <div class="mb-3">
+              <span
+                *ngFor="let lang of project.languagesName"
+                class="badge bg-light text-dark border me-1 mb-1">
+                {{ lang }}
+              </span>
+            </div>
+
+            <h6>Tags:</h6>
+            <div class="mb-3">
+              <span
+                *ngFor="let tag of project.tags"
+                class="badge bg-info text-dark me-1 mb-1">
+                #{{ tag }}
+              </span>
+            </div>
+
+            <!-- Action Buttons based on Status -->
+            <div class="d-grid gap-2 mt-3">
+              <!-- Submit for Review (DRAFT or REJECTED) -->
+              <button
+                *ngIf="project.status === ProjectStatus.DRAFT || project.status === ProjectStatus.REJECTED"
+                class="btn btn-success"
+                (click)="submitForReview()">
+                <i class="bi bi-send"></i> Submit for Review
+              </button>
+
+              <!-- Withdraw from Review (UNDER_REVIEW) -->
+              <button
+                *ngIf="project.status === ProjectStatus.UNDER_REVIEW"
+                class="btn btn-warning"
+                (click)="withdrawFromReview()">
+                <i class="bi bi-x-circle"></i> Withdraw from Review
+              </button>
+
+              <!-- Status Messages -->
+              <div *ngIf="project.status === ProjectStatus.UNDER_REVIEW"
+                   class="alert alert-info small mb-0">
+                <i class="bi bi-clock-history"></i> Waiting for admin approval
+              </div>
+
+              <div *ngIf="project.status === ProjectStatus.APPROVED"
+                   class="alert alert-success small mb-0">
+                <i class="bi bi-check-circle"></i> Project is live!
+              </div>
+
+              <div *ngIf="project.status === ProjectStatus.REJECTED"
+                   class="alert alert-danger small mb-0">
+                <i class="bi bi-x-circle"></i> Project was rejected. Please update and resubmit.
+              </div>
+
+              <div *ngIf="project.status === ProjectStatus.SUSPENDED"
+                   class="alert alert-warning small mb-0">
+                <i class="bi bi-pause-circle"></i> Project has been suspended by admin.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Project Files -->
+      <div class="col-lg-7">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+              <i class="bi bi-files"></i> Project Files ({{ project.files?.length || 0 }})
+            </h5>
+            <button class="btn btn-sm btn-light" (click)="addFile()">
+              <i class="bi bi-plus-circle"></i> Add File
+            </button>
+          </div>
+
+          <div class="card-body">
+
+            <!-- No Files Message -->
+            <div *ngIf="!project.files || project.files.length === 0" class="text-center py-5 text-muted">
+              <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+              <p class="mt-3">No files uploaded yet</p>
+              <button class="btn btn-primary" (click)="addFile()">
+                <i class="bi bi-plus-circle"></i> Upload First File
+              </button>
+            </div>
+
+            <!-- Files List -->
+            <div *ngIf="project.files && project.files.length > 0" class="list-group">
+              <div
+                *ngFor="let file of project.files; let i = index"
+                class="list-group-item list-group-item-action">
+
+                <div class="row align-items-center">
+
+                  <!-- File Icon/Preview -->
+                  <div class="col-auto">
+                    <!-- Show image preview if it's an image file -->
+                    <div *ngIf="isImageFile(file.fileName)"
+                         style="width: 60px; height: 60px; overflow: hidden; border-radius: 5px;">
+                      <img
+                        [src]="'http://localhost:8080' + file.fileUrl"
+                        [alt]="file.fileName"
+                        style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <!-- Show icon for non-image files -->
+                    <div *ngIf="!isImageFile(file.fileName)"
+                         class="d-flex align-items-center justify-content-center"
+                         style="width: 60px; height: 60px; background-color: #f8f9fa; border-radius: 5px;">
+                      <i [class]="'bi ' + getFileIcon(file.fileType)" style="font-size: 2rem;"></i>
+                    </div>
+                  </div>
+
+                  <!-- File Info -->
+                  <div class="col">
+                    <div class="d-flex align-items-center mb-1">
+                      <h6 class="mb-0 me-2">{{ file.fileName }}</h6>
+                      <span class="badge" [ngClass]="getFileTypeBadgeClass(file.fileType)">
+                        {{ file.fileType }}
+                      </span>
+                    </div>
+
+                    <p class="text-muted small mb-1" *ngIf="file.description">
+                      {{ file.description }}
+                    </p>
+
+                    <small class="text-muted">
+                      Order: {{ file.displayOrder }}
+                    </small>
+                  </div>
+
+                  <!-- Download Button -->
+                  <div class="col-auto">
+                    <button
+                      class="btn btn-sm btn-outline-primary"
+                      (click)="downloadFile(file.fileUrl, file.fileName)">
+                      <i class="bi bi-download"></i> Download
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

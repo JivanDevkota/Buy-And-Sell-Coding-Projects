@@ -3,6 +3,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {DashboardDataComponent} from "./dashboard-data/dashboard-data.component";
 import {CategoryComponent} from "./category/category.component";
+import {AllUsersComponent} from "./all-users/all-users.component";
+import {AllSellersComponent} from "./all-sellers/all-sellers.component";
 
 const routes: Routes = [
   {
@@ -11,6 +13,8 @@ const routes: Routes = [
     children: [
       {path: 'data', component: DashboardDataComponent},
       {path: 'categories', component: CategoryComponent},
+      {path:'users',component:AllUsersComponent},
+      {path:'sellers',component:AllSellersComponent},
     ]
   }
 ];

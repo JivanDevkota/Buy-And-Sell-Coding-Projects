@@ -5,9 +5,11 @@ import {sellerGuard} from "./core/guards/seller.guard";
 import {buyerGuard} from "./core/guards/buyer.guard";
 import {superAdminGuard} from "./core/guards/super-admin.guard";
 import {noauthGuard} from "./core/guards/noauth.guard";
+import {ProjectDetailsComponent} from "./features/project-details/project-details.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path:'projects/:id',component:ProjectDetailsComponent,canActivate:[noauthGuard]},
   {path: 'home', component: HomeComponent,canActivate:[noauthGuard]},
   {
     path:"auth",

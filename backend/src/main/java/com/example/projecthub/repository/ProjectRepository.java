@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
@@ -20,4 +21,46 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                                         order by p.viewCount desc 
                 """)
         Page<Project> findTopByLanguage(@Param("languageId") Long languageId, Pageable pageable);
+
+    Optional<Project> findByIdAndSellerId(Long projectId, Long userId);
+
+
+    @Query("""
+                    select distinct p
+                    from Project  p
+                    left join fetch p.languages
+                    left join fetch p.tags
+                    left join fetch p.category
+                    where p.seller.id= :sellerId
+            """)
+    List<Project> findAllBySellerId(@Param("sellerId") Long sellerId);
+
+
+    @Query("""
+        select p from Project p
+        left join fetch p.languages
+        left join fetch p.tags
+        left join fetch p.category
+        where p.id= :projectId
+""")
+    Optional<Project>findByIdWithLanguages(Long projectId);
+
+    @Query("""
+    select distinct p 
+    from Project p
+    left join fetch p.category
+    left join fetch p.languages
+    where p.isActive=true 
+""")
+    List<Project>findAllWithLanguagesAndCategory();
+
+    @Query("""
+    select distinct p 
+    from Project p
+    left join fetch p.category
+    left join fetch p.languages
+    left join fetch p.tags
+    where p.id  = :projectId
+""")
+    Optional<Project>findProjectDetailsById(@Param("projectId") Long projectId);
 }

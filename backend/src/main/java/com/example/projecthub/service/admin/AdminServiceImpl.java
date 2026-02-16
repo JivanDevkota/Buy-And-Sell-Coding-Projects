@@ -86,6 +86,27 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
+    public Map<String, Object> getAllJoinedUsersPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<User> userPage = userRepository.findAllByOrderByIdAsc(pageable);
+
+        // FIX: Changed from Positive.List to List and fixed toDto() call
+        List<UserDetailsResponse> users = userPage.getContent().stream()
+                .map(UserDetailsResponse::toDto)  // Changed from toDto() to ::toDto
+                .collect(Collectors.toList());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("users", users);
+        response.put("currentPage", userPage.getNumber());
+        response.put("totalPages", userPage.getTotalPages());
+        response.put("totalItems", userPage.getTotalElements());
+        response.put("hasNext", userPage.hasNext());
+        response.put("hasPrevious", userPage.hasPrevious());
+        return response;
+    }
+
+
+
     //category
     public CategoryDTO createCategory(CategoryDTO dto) {
         Category category = new Category();
@@ -109,4 +130,13 @@ public class AdminServiceImpl implements AdminService {
         response.put("hasPrevious", categoryPage.hasPrevious());
         return response;
     }
+
+    @Override
+    public List<CategoryDTO> getAllCategory() {
+        return categoryRepository.findAll()
+                .stream()
+                .map(CategoryDTO::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,6 +1,13 @@
+/* =======================
+   HERO SECTION
+======================= */
 .hero {
-  padding: 4rem 2rem;
-  background: linear-gradient(rgba(37, 99, 235, 0.9), rgba(30, 64, 175, 0.9)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+  padding: 3.5rem 2rem;
+  background: linear-gradient(
+    rgba(37, 99, 235, 0.9),
+    rgba(30, 64, 175, 0.9)
+  ),
+  url("https://images.unsplash.com/photo-1555066931-4365d14bab8c");
   background-size: cover;
   background-position: center;
   color: white;
@@ -8,46 +15,155 @@
 }
 
 .hero h1 {
-  font-size: 3.5rem;
+  font-size: 3rem;
+  font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .hero p {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   max-width: 800px;
   margin: 0 auto 2rem;
   line-height: 1.6;
 }
 
+/* =======================
+   SEARCH BAR
+======================= */
 .search-bar {
-  max-width: 700px;
+  max-width: 650px;
   margin: 2rem auto;
   display: flex;
   background: white;
-  border-radius: 50px;
+  border-radius: 999px;
   overflow: hidden;
-  padding: 5px;
+  padding: 6px;
 }
 
 .search-bar input {
   flex: 1;
-  padding: 1rem 1.5rem;
+  padding: 0.9rem 1.2rem;
   border: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   outline: none;
 }
 
 .search-bar button {
-  background-color: var(--primary);
+  background-color: #2563eb;
   color: white;
   border: none;
-  padding: 0 2rem;
+  padding: 0 1.8rem;
   font-weight: 600;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+/* =======================
+   STATS
+======================= */
+.stats {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+/* =======================
+   CATEGORIES SECTION
+======================= */
+.categories {
+  padding: 4rem 0;
+  background-color: #f8fafc;
+}
+
+.section-title {
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+/* =======================
+   FILTER BUTTONS
+======================= */
+.filter-tabs {
+  margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+  margin: 6px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+  color: #374151;
+  transition: all 0.3s ease;
   cursor: pointer;
 }
 
-.filter-btn{
-  margin:10px;
-  padding: 10px;
-  font-size: small;
+.filter-btn:hover {
+  background-color: #2563eb;
+  color: white;
+}
+
+.filter-btn.active {
+  background-color: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+/* =======================
+   CATEGORY CARDS
+======================= */
+.category-card {
+  border: none;
+  border-radius: 16px;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+}
+
+.category-card img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin: 0 auto 1rem;
+}
+
+.category-card .card-body {
+  padding: 0;
+}
+
+.category-card .card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.category-card .card-text {
+  font-size: 0.8rem;
+  color: #6b7280;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.category-card .price {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.project-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.feature-projects .card-title {
+  font-size: 1.05rem;
 }

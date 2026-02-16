@@ -1,2 +1,75 @@
 <app-seller-head></app-seller-head>
-<p>projects works!</p>
+
+<div class="container mt-5">
+  <div class="row g-3">
+
+    <div
+      *ngFor="let project of projects"
+      class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
+    >
+      <div class="card h-100 shadow-sm small-card">
+
+        <img
+          [src]="'http://localhost:8080' + project.projectImgUrl"
+          alt="Project image"
+          class="card-img-top project-img"
+        />
+
+        <div class="card-body p-2">
+          <h6 class="card-title mb-1 text-truncate">
+            {{ project.title }}
+          </h6>
+
+          <p class="card-text small text-muted description">
+            {{ project.description }}
+          </p>
+
+          <!-- Category -->
+          <span class="badge bg-secondary mb-1">
+            {{ project.categoryName }}
+          </span>
+
+          <!-- Status -->
+          <span class="badge bg-secondary m-2">
+            {{ project.status }}
+          </span>
+
+          <!-- Languages -->
+          <div class="mt-2">
+            <span
+              *ngFor="let lang of project.languagesName"
+              class="badge bg-light text-dark border me-1"
+            >
+              {{ lang }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-footer bg-white border-0 p-2">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <strong class="text-primary">
+              ${{ project.price }}
+            </strong>
+
+            <button
+              class="btn btn-sm btn-outline-primary"
+              [routerLink]="['/seller/project', project.id]">
+              View
+            </button>
+          </div>
+
+          <!-- Add File Button -->
+          <div class="d-grid">
+            <button
+              class="btn btn-sm btn-success"
+              [routerLink]="['/seller/project', project.id, 'add-file']">
+              <i class="bi bi-plus-circle"></i> Add File
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

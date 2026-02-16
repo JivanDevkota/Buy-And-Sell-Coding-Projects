@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {LocalstorageService} from "../../../core/services/localstorage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -7,4 +9,10 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
 
+  constructor(private router: Router) {
+  }
+  logout(){
+    LocalstorageService.signOut();
+    this.router.navigate(['/auth/signin']);
+  }
 }
