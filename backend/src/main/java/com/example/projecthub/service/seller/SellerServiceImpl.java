@@ -24,5 +24,6 @@ public class SellerServiceImpl implements SellerService {
         List<User> sellers = userRepository.findAll();
 
 
+        return null;
     }
 }
