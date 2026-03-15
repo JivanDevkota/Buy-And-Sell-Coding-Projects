@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
+.reviews-wrapper {
+  font-family: 'DM Sans', sans-serif;
+  background: #f1f5f9;
+  min-height: 100vh;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Header */
+.reviews-header {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.header-accent {
+  width: 4px; height: 48px;
+  background: linear-gradient(180deg, #3b82f6, #7c3aed);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-size: 22px; font-weight: 800;
+  color: #0f172a; margin: 0 0 4px;
+}
+
+.header-sub {
+  font-size: 13px; color: #64748b; margin: 0;
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px 22px 18px;
+  border-top: 3px solid var(--accent);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  animation: fadeUp 0.4s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.stat-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.stat-icon {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+
+.stat-value {
+  font-size: 34px; font-weight: 800;
+  color: #0f172a; line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-sub {
+  font-size: 12px; color: #64748b; font-weight: 500;
+}
+
+/* Review List */
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  animation: fadeUp 0.4s ease both;
+}
+
+/* Top Row */
+.review-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.reviewer-name {
+  font-size: 15px; font-weight: 700; color: #0f172a;
+}
+
+.reviewer-meta {
+  font-size: 12px; color: #94a3b8; margin-top: 2px;
+}
+
+/* Stars */
+.stars { display: flex; gap: 3px; }
+.stars i { color: #f59e0b; font-size: 15px; }
+.stars .bi-star { color: #e2e8f0; }
+
+/* Comment */
+.review-comment {
+  font-size: 14px; color: #475569;
+  line-height: 1.6; margin: 0 0 16px;
+}
+
+/* Response Box */
+.response-box {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  background: #f8fafc;
+}
+
+.response-input {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: #334155;
+  background: #fff;
+  resize: vertical;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.response-input:focus { border-color: #3b82f6; }
+
+.response-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+
+.btn-post {
+  background: #3b82f6; color: #fff;
+  border: none; border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: background 0.2s;
+}
+.btn-post:hover { background: #2563eb; }
+
+.btn-cancel {
+  background: #fff; color: #64748b;
+  border: 1px solid #e2e8f0; border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-cancel:hover { background: #f1f5f9; }
+
+/* Reply Button */
+.btn-reply {
+  background: none; border: 1px solid #e2e8f0;
+  border-radius: 8px; padding: 7px 16px;
+  font-size: 13px; font-weight: 600; color: #64748b;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-reply:hover { background: #f1f5f9; border-color: #3b82f6; color: #3b82f6; }
+
+@media (max-width: 768px) {
+  .reviews-wrapper { padding: 16px; }
+  .review-top { flex-direction: column; gap: 10px; }
+}

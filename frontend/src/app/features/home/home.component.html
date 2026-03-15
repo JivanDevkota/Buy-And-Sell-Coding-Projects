@@ -93,22 +93,22 @@
               <!-- Title + Price -->
               <div class="d-flex justify-content-between align-items-start mb-2">
                 <h5 class="card-title fw-bold mb-0">
-                  {{project.title}}
+                  {{ project.title }}
                 </h5>
                 <span class="badge bg-primary fs-6">
-                $ {{project.price}}
+                $ {{ project.price }}
               </span>
               </div>
 
               <!-- Description -->
               <p class="card-text text-muted small">
-              {{project.description}}
+                {{ project.description }}
               </p>
 
               <!-- Tags -->
               <div class="mb-3">
-                <span class="badge bg-secondary me-1"
-                      *ngFor="let lang of project.languagesName">{{lang}}</span>
+                <span *ngFor="let lang of project.languagesName"
+                      class="badge bg-secondary me-1">{{ lang }}</span>
               </div>
 
               <!-- Spacer pushes footer down -->
@@ -117,21 +117,47 @@
                   ★★★★☆
                 </div>
 
-                <button class="btn btn-sm btn-primary">
-                  Add to Cart
+
+                <!-- SUCCESS ALERT -->
+                <div *ngIf="purchaseSuccess"
+                     class="alert alert-success alert-dismissible fade show mx-3 mt-2"
+                     role="alert">
+                  <i class="fas fa-check-circle me-2"></i> {{ purchaseSuccess }}
+                  <button (click)="purchaseSuccess = null" class="btn-close" type="button"></button>
+                </div>
+
+                <!-- ERROR ALERT -->
+                <div *ngIf="purchaseError"
+                     class="alert alert-danger alert-dismissible fade show mx-3 mt-2"
+                     role="alert">
+                  <i class="fas fa-exclamation-circle me-2"></i> {{ purchaseError }}
+                  <button (click)="purchaseError = null" class="btn-close" type="button"></button>
+                </div>
+
+                <button
+                  (click)="purchaseProject(project.id)"
+                  [disabled]="purchaseLoading[project.id]"
+                  [title]="isBuyerLoggedIn ? 'Buy Now' : 'Sign In To Buy'"
+                  class="btn btn-sm btn-primary"
+                >
+
+  <span *ngIf="purchaseLoading[project.id]"
+        class="spinner-border spinner-border-sm me-1">
+  </span>
+                  {{ purchaseLoading[project.id] ? 'Processing...' : (isBuyerLoggedIn ? 'Buy Now' : 'Sign In To Buy') }}
                 </button>
-                  <a
-                    class="btn btn-outline-primary"
-                    [routerLink]="['/projects', project.id]"
-                  >
-                    View Details
-                  </a>
+                <a
+                  [routerLink]="['/projects', project.id]"
+                  class="btn btn-outline-primary"
+                >
+                  View Details
+                </a>
               </div>
 
             </div>
           </div>
         </div>
-    </div>
+      </div>
     </div>
   </section>
 

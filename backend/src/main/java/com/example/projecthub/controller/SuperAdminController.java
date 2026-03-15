@@ -1,12 +1,15 @@
 package com.example.projecthub.controller;
 
+import com.example.projecthub.dto.project.PendingProjects;
 import com.example.projecthub.dto.project.ProjectResponse;
 import com.example.projecthub.dto.user.UpdateUserStatusRequest;
 import com.example.projecthub.service.admin.AdminService;
 import com.example.projecthub.service.project.ProjectService;
+import com.example.projecthub.service.purchase.PurchaseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,7 @@ import java.util.Map;
 public class SuperAdminController {
     private final AdminService adminService;
     private final ProjectService projectService;
+
 
     /**
      * Update user status with reason (Admin only)
@@ -88,6 +92,35 @@ public class SuperAdminController {
                     .body(createErrorResponse(e.getMessage()));
         }
     }
+
+//    @GetMapping("/pending-projects")
+//    public ResponseEntity<Page<PendingProjects>> getPendingProjects(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "5") int size
+//    ) {
+//        return ResponseEntity.ok(
+//                projectService.getUnderReviewProjects(page, size)
+//        );
+//    }
+
+    @GetMapping("/pending-projects")
+    public ResponseEntity<Map<String, Object>> getPendingProjects(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        Page<PendingProjects> projects = projectService.getUnderReviewProjects(page, size);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", projects.getContent());
+        response.put("page", projects.getNumber());
+        response.put("size", projects.getSize());
+        response.put("totalElements", projects.getTotalElements());
+        response.put("totalPages", projects.getTotalPages());
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
     private Map<String, String> createErrorResponse(String message) {
         Map<String, String> error = new HashMap<>();

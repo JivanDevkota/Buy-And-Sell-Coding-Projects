@@ -11,6 +11,9 @@ import {SellerHeadComponent} from "../../shared/seller-head/seller-head.componen
 import {FormsModule} from "@angular/forms";
 import { UploadProjectfileComponent } from './upload-projectfile/upload-projectfile.component';
 import { ProjectComponent } from './project/project.component';
+import { SalesComponent } from './sales/sales.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { ReviewsComponent } from './reviews/reviews.component';
 
 
 @NgModule({
@@ -21,7 +24,10 @@ import { ProjectComponent } from './project/project.component';
     ProjectsComponent,
     SellerHeadComponent,
     UploadProjectfileComponent,
-    ProjectComponent
+    ProjectComponent,
+    SalesComponent,
+    AnalyticsComponent,
+    ReviewsComponent
   ],
     imports: [
         CommonModule,

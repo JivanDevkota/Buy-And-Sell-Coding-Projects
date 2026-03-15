@@ -1,75 +1,313 @@
-<app-seller-head></app-seller-head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Projects Dashboard</title>
 
-<div class="container mt-5">
-  <div class="row g-3">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <div
-      *ngFor="let project of projects"
-      class="col-xl-3 col-lg-4 col-md-6 col-sm-12"
-    >
-      <div class="card h-100 shadow-sm small-card">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-        <img
-          [src]="'http://localhost:8080' + project.projectImgUrl"
-          alt="Project image"
-          class="card-img-top project-img"
-        />
+  <style>
 
-        <div class="card-body p-2">
-          <h6 class="card-title mb-1 text-truncate">
-            {{ project.title }}
-          </h6>
+    body{
+      background:#f5f7fb;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-          <p class="card-text small text-muted description">
-            {{ project.description }}
-          </p>
+    /* Header */
+    .header-box{
+      border-left:5px solid #4f6ef7;
+      background:white;
+      padding:22px;
+      border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
 
-          <!-- Category -->
-          <span class="badge bg-secondary mb-1">
-            {{ project.categoryName }}
-          </span>
+    /* Stat Cards */
+    .stat-card{
+      border:none;
+      border-radius:14px;
+      padding:20px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.05);
+      transition:0.25s;
+    }
 
-          <!-- Status -->
-          <span class="badge bg-secondary m-2">
-            {{ project.status }}
-          </span>
+    .stat-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 8px 22px rgba(0,0,0,0.08);
+    }
 
-          <!-- Languages -->
-          <div class="mt-2">
-            <span
-              *ngFor="let lang of project.languagesName"
-              class="badge bg-light text-dark border me-1"
-            >
-              {{ lang }}
-            </span>
+    .stat-title{
+      font-size:12px;
+      color:#7a8599;
+      font-weight:600;
+    }
+
+    .stat-number{
+      font-size:28px;
+      font-weight:700;
+    }
+
+    .icon-box{
+      width:40px;
+      height:40px;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+    }
+
+    .bg-green{background:#28c76f;}
+    .bg-orange{background:#ff9f43;}
+    .bg-purple{background:#7367f0;}
+    .bg-blue{background:#4f6ef7;}
+
+    /* Project Cards */
+
+    .project-card{
+      border:none;
+      border-radius:14px;
+      box-shadow:0 4px 18px rgba(0,0,0,0.05);
+      transition:0.25s;
+    }
+
+    .project-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 12px 26px rgba(0,0,0,0.08);
+    }
+
+    .project-title{
+      font-weight:600;
+      font-size:16px;
+    }
+
+    .project-desc{
+      font-size:14px;
+      color:#6c757d;
+    }
+
+    .meta span{
+      font-size:13px;
+      color:#6c757d;
+    }
+
+    .price{
+      font-size:22px;
+      font-weight:700;
+    }
+
+    .lang{
+      background:#f1f3f8;
+      padding:4px 10px;
+      border-radius:8px;
+      font-size:12px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="container py-4">
+
+  <!-- Header -->
+
+  <div class="header-box mb-4">
+
+    <h4 class="fw-bold">
+      <i class="bi bi-diagram-3"></i>
+      My Projects
+    </h4>
+
+    <p class="text-muted mb-0">
+      You have <b>8 active projects</b> |
+      Published: <b>5</b> |
+      Draft: <b>2</b> |
+      Pending: <b>1</b>
+    </p>
+
+  </div>
+
+  <!-- Stats -->
+
+  <div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+
+      <div class="card stat-card">
+
+        <div class="d-flex justify-content-between">
+
+          <div>
+            <div class="stat-title">PUBLISHED</div>
+            <div class="stat-number">5</div>
           </div>
-        </div>
 
-        <div class="card-footer bg-white border-0 p-2">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <strong class="text-primary">
-              ${{ project.price }}
-            </strong>
-
-            <button
-              class="btn btn-sm btn-outline-primary"
-              [routerLink]="['/seller/project', project.id]">
-              View
-            </button>
+          <div class="icon-box bg-green">
+            <i class="bi bi-check-circle"></i>
           </div>
 
-          <!-- Add File Button -->
-          <div class="d-grid">
-            <button
-              class="btn btn-sm btn-success"
-              [routerLink]="['/seller/project', project.id, 'add-file']">
-              <i class="bi bi-plus-circle"></i> Add File
-            </button>
-          </div>
         </div>
 
       </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+      <div class="card stat-card">
+
+        <div class="d-flex justify-content-between">
+
+          <div>
+            <div class="stat-title">DRAFTS</div>
+            <div class="stat-number">2</div>
+          </div>
+
+          <div class="icon-box bg-orange">
+            <i class="bi bi-pencil"></i>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+      <div class="card stat-card">
+
+        <div class="d-flex justify-content-between">
+
+          <div>
+            <div class="stat-title">PENDING</div>
+            <div class="stat-number">1</div>
+          </div>
+
+          <div class="icon-box bg-purple">
+            <i class="bi bi-clock"></i>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+      <div class="card stat-card">
+
+        <div class="d-flex justify-content-between">
+
+          <div>
+            <div class="stat-title">TOTAL VIEWS</div>
+            <div class="stat-number">2,847</div>
+          </div>
+
+          <div class="icon-box bg-blue">
+            <i class="bi bi-eye"></i>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
+
+  <!-- Projects -->
+
+  <div class="row g-4">
+
+    <div class="col-md-6" *ngFor="let project of projects" >
+
+      <div class="card project-card">
+
+        <div class="card-body">
+
+          <div class="d-flex justify-content-between">
+
+            <div>
+
+              <h6 class="project-title">
+                <i class="bi bi-bank"></i>
+                {{project.title }}
+              </h6>
+
+              <small class="text-muted">Last updated: 2 days ago</small>
+
+            </div>
+
+            <span class="badge bg-success">{{project.status }}</span>
+
+          </div>
+
+          <p class="project-desc mt-3">
+            {{project.description }}
+          </p>
+
+          <div class="d-flex gap-3 meta mb-3">
+
+            <span><i class="bi bi-cart"></i> 42 sales</span>
+
+            <span><i class="bi bi-star-fill text-warning"></i> 4.8</span>
+
+            <span><i class="bi bi-eye"></i> 1,247 views</span>
+
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-2">
+
+            <div>
+
+              <button class="btn btn-primary btn-sm">
+                <i class="bi bi-pencil"></i> Edit
+              </button>
+
+              <button class="btn btn-warning btn-sm">
+                <i class="bi bi-bar-chart"></i> Stats
+              </button>
+
+            </div>
+
+            <div class="price">$70</div>
+
+          </div>
+
+          <div class="mb-2">
+            <span class="lang" *ngFor="let lang of project.languagesName">{{lang}}</span>
+          </div>
+
+          <div class="d-flex justify-content-between">
+
+            <button class="btn btn-outline-primary btn-sm" [routerLink]="['/seller/project', project.id]">
+              <i class="bi bi-eye"></i>
+              View
+            </button>
+
+            <button class="btn btn-success btn-sm" [routerLink]="['/seller/project', project.id, 'add-file']">
+              <i class="bi bi-plus-circle"></i> Add File
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {UserDetailsResponse} from "../model/UserDetailsResponse";
 import {Observable} from "rxjs";
 import {CategoryDTO} from "../model/CategoryDTO";
+import {PaginatedPendingProjectsResponse, PendingProjects} from "../model/PendingProjects";
 
 
 export interface PaginatedUsersResponse {
@@ -77,5 +78,28 @@ export class AdminService {
       .set('size', size);
     return this.http.get<PaginatedCategoriesResponse>(`${this.adminUrl}/admin/recent/categories`, {params})
   }
+
+  getPendingProjects(page: number, size: number):
+    Observable<PaginatedPendingProjectsResponse> {
+
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<PaginatedPendingProjectsResponse>(
+      `${this.adminUrl}/admin/pending-projects`,
+      { params }
+    );
+  }
+
+  approveProject(projectId: number) {
+    return this.http.put(`${this.adminUrl}/admin/project/${projectId}/approve`, {});
+  }
+
+  rejectProject(projectId: number) {
+    return this.http.put(`${this.adminUrl}/admin/project/${projectId}/suspend`, {});
+  }
+
+
 }
 

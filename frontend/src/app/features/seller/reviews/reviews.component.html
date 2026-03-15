@@ -1,0 +1,116 @@
+<div class="reviews-wrapper">
+
+  <!-- Header -->
+  <div class="reviews-header">
+    <div class="header-accent"></div>
+    <div>
+      <h2 class="header-title"><i class="bi bi-star-fill"></i> Reviews</h2>
+      <p class="header-sub">
+        You have <strong>{{ stats.pending.value }} new reviews</strong> waiting for response
+      </p>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stats-row">
+
+    <div class="stat-card" style="--accent: #16a34a">
+      <div class="stat-top">
+        <span class="stat-label">AVERAGE RATING</span>
+        <div class="stat-icon" style="background:#dcfce7">
+          <i class="bi bi-star-fill" style="color:#16a34a"></i>
+        </div>
+      </div>
+      <div class="stat-value">{{ stats.averageRating.value }}</div>
+      <div class="stat-sub">{{ stats.averageRating.sub }}</div>
+    </div>
+
+    <div class="stat-card" style="--accent: #3b82f6">
+      <div class="stat-top">
+        <span class="stat-label">5-STAR REVIEWS</span>
+        <div class="stat-icon" style="background:#dbeafe">
+          <i class="bi bi-star-fill" style="color:#3b82f6"></i>
+        </div>
+      </div>
+      <div class="stat-value">{{ stats.fiveStars.value }}</div>
+      <div class="stat-sub">{{ stats.fiveStars.sub }}</div>
+    </div>
+
+    <div class="stat-card" style="--accent: #d97706">
+      <div class="stat-top">
+        <span class="stat-label">RESPONSE RATE</span>
+        <div class="stat-icon" style="background:#fef3c7">
+          <i class="bi bi-reply-fill" style="color:#d97706"></i>
+        </div>
+      </div>
+      <div class="stat-value">{{ stats.responseRate.value }}</div>
+      <div class="stat-sub">{{ stats.responseRate.sub }}</div>
+    </div>
+
+    <div class="stat-card" style="--accent: #7c3aed">
+      <div class="stat-top">
+        <span class="stat-label">PENDING RESPONSE</span>
+        <div class="stat-icon" style="background:#ede9fe">
+          <i class="bi bi-clock-fill" style="color:#7c3aed"></i>
+        </div>
+      </div>
+      <div class="stat-value">{{ stats.pending.value }}</div>
+      <div class="stat-sub">{{ stats.pending.sub }}</div>
+    </div>
+
+  </div>
+
+  <!-- Review Cards -->
+  <div class="review-list">
+    <div class="review-card" *ngFor="let review of reviews">
+
+      <!-- Top Row -->
+      <div class="review-top">
+        <div class="reviewer-info">
+          <div class="avatar" [style.background]="review.avatarColor">
+            {{ review.initials }}
+          </div>
+          <div>
+            <div class="reviewer-name">{{ review.name }}</div>
+            <div class="reviewer-meta">{{ review.product }} • {{ review.timeAgo }}</div>
+          </div>
+        </div>
+
+        <!-- Stars -->
+        <div class="stars">
+          <i
+            *ngFor="let s of getStars(5); let i = index"
+            class="bi"
+            [class.bi-star-fill]="i < review.rating"
+            [class.bi-star-half]="false"
+            [class.bi-star]="i >= review.rating"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Comment -->
+      <p class="review-comment">{{ review.comment }}</p>
+
+      <!-- Response Box -->
+      <div class="response-box" *ngIf="review.showResponseBox">
+        <textarea
+          [(ngModel)]="review.response"
+          class="response-input"
+          placeholder="Write your response..."
+          rows="3"
+        ></textarea>
+        <div class="response-actions">
+          <button class="btn-cancel" (click)="toggleResponseBox(review)">Cancel</button>
+          <button class="btn-post" (click)="postResponse(review)">Post Response</button>
+        </div>
+      </div>
+
+      <!-- Reply Button (when box is hidden) -->
+      <button class="btn-reply" *ngIf="!review.showResponseBox" (click)="toggleResponseBox(review)">
+        <i class="bi bi-reply"></i> Reply
+      </button>
+
+    </div>
+  </div>
+
+</div>

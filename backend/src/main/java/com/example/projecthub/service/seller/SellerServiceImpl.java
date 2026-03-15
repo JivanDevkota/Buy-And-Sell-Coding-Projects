@@ -1,6 +1,6 @@
 package com.example.projecthub.service.seller;
 
-import com.example.projecthub.dto.sller.SellerListDTO;
+import com.example.projecthub.dto.seller.SellerListDTO;
 import com.example.projecthub.model.User;
 import com.example.projecthub.repository.ProjectRepository;
 import com.example.projecthub.repository.UserRepository;

@@ -57,4 +57,5 @@ public interface ProjectService {
     ProjectResponse approveProject(Long projectId);
     ProjectResponse rejectProject(Long projectId);
     ProjectResponse suspendProject(Long projectId);
+    Page<PendingProjects> getUnderReviewProjects(int page, int size);
 }

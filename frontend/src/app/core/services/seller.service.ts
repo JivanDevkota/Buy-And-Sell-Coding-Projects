@@ -5,6 +5,8 @@ import {ProjectFileDTO} from '../model/ProjectFileDTO';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ProjectResponse} from "../model/ProjectResponse";
+import {DashboardStats} from "../model/DashboardStats";
+
 
 const baseUrl = 'http://localhost:8080/api';
 
@@ -112,6 +114,10 @@ export class SellerService {
       .pipe(
         catchError(this.handleError)
       );
+  }
+
+  getSalesStats():Observable<DashboardStats>{
+    return this.http.get<DashboardStats>(`${baseUrl}/seller/stats`)
   }
 
   /**

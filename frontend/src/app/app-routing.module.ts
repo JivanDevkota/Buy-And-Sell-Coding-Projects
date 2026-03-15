@@ -9,32 +9,34 @@ import {ProjectDetailsComponent} from "./features/project-details/project-detail
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path:'projects/:id',component:ProjectDetailsComponent,canActivate:[noauthGuard]},
-  {path: 'home', component: HomeComponent,canActivate:[noauthGuard]},
+  {path: 'projects/:id', component: ProjectDetailsComponent},
+  {path: 'home', component: HomeComponent},
   {
-    path:"auth",
-    canActivate:[noauthGuard],
-    loadChildren:()=>import('./features/auth/auth.module').then(m=>m.AuthModule)
+    path: "auth",
+    canActivate: [noauthGuard],
+    loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule)
   },
   {
     path: 'seller',
-    canActivate:[sellerGuard],
+    canActivate: [sellerGuard],
     loadChildren: () =>
       import('./features/seller/seller.module').then((s) => s.SellerModule)
   },
   {
     path: 'buyer',
-    canActivate:[buyerGuard],
+    canActivate: [buyerGuard],
     loadChildren: () =>
       import('./features/buyer/buyer.module').then((b) => b.BuyerModule)
 
   },
   {
-    path:'admin',
-    canActivate:[superAdminGuard],
+    path: 'admin',
+    canActivate: [superAdminGuard],
     loadChildren: () =>
       import('./features/super-admin/super-admin.module').then((s) => s.SuperAdminModule)
-  }
+  },
+  // Fallback
+  {path: '**', redirectTo: '/home'}
 ];
 
 @NgModule({

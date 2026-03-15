@@ -23,10 +23,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Authentication Service Implementation
+ * Handles user registration, login, and token refresh operations
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AuthServiceImpl implements AuthService {
+    
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
@@ -34,11 +39,22 @@ public class AuthServiceImpl implements AuthService {
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * Register a new user with BUYER role by default
+     * 
+     * @param registerRequest contains username, email, password
+     * @return AuthResponse with access token, refresh token, and user info
+     * @throws RuntimeException if username or email already exists
+     */
+    @Override
     public AuthResponse registerUser(RegisterRequest registerRequest) {
         if (userRepository.existsByUsername(registerRequest.getUsername())) {
+            log.warn("Registration failed: Username already taken - {}", registerRequest.getUsername());
             throw new RuntimeException("Username is already taken");
         }
+        
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
+            log.warn("Registration failed: Email already taken - {}", registerRequest.getEmail());
             throw new RuntimeException("Email is already taken");
         }
 
@@ -47,74 +63,111 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_SELLER");
+        Role buyerRole = roleRepository.findByName("ROLE_BUYER");
         Set<Role> roles = new HashSet<>();
-        roles.add(role);
+        roles.add(buyerRole);
         user.setRoles(roles);
+        
         User savedUser = userRepository.save(user);
+        log.info("User registered successfully: {}", savedUser.getUsername());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(savedUser.getUsername());
         String accessToken = jwtUtils.generateAccessToken(userDetails);
         String refreshToken = jwtUtils.generateRefreshToken(userDetails);
-        return new AuthResponse(accessToken, refreshToken, savedUser.getUsername(), savedUser.getId(), user.getEmail(),savedUser.getRoles().stream().map(Role::getName)
-                .collect(Collectors.toSet()));
+        
+        return new AuthResponse(
+            accessToken, 
+            refreshToken, 
+            savedUser.getUsername(), 
+            savedUser.getId(), 
+            user.getEmail(),
+            savedUser.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet())
+        );
     }
 
+    /**
+     * Authenticate user with username and password
+     * 
+     * @param loginRequest contains username and password
+     * @return AuthResponse with access token, refresh token, and user info
+     * @throws UsernameNotFoundException if user is not found
+     */
+    @Override
     public AuthResponse loginUser(LoginRequest loginRequest) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        UserDetails userDetails=(UserDetails) authenticate.getPrincipal();
-        String accessToken = jwtUtils.generateAccessToken(userDetails);
-        String refreshToken = jwtUtils.generateRefreshToken(userDetails);
+        try {
+            Authentication authenticate = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    loginRequest.getUsername(), 
+                    loginRequest.getPassword()
+                )
+            );
+            
+            UserDetails userDetails = (UserDetails) authenticate.getPrincipal();
+            String accessToken = jwtUtils.generateAccessToken(userDetails);
+            String refreshToken = jwtUtils.generateRefreshToken(userDetails);
 
-        User user=userRepository.findByUsername(userDetails.getUsername())
+            User user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
-        return new AuthResponse(accessToken,refreshToken,user.getUsername(),user.getId(), user.getEmail(),user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
-    }
-//
-//    public AuthResponse refreshToken(String refreshToken) {
-//        try{
-//            String username=jwtUtils.extractUsername(refreshToken);
-//            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-//
-//            if (jwtUtils.isTokenValid(refreshToken, userDetails)) {
-//                String newAccessToken=jwtUtils.generateAccessToken(userDetails);
-//                String newRefreshToken=jwtUtils.generateRefreshToken(userDetails);
-//
-//                User user=userRepository.findByUsername(username)
-//                        .orElseThrow(()->new RuntimeException("User not found"));
-//                return new AuthResponse(newAccessToken,newRefreshToken,user.getUsername(),user.getId(),user.getEmail(),user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
-//            }
-//            else {
-//                throw new RuntimeException("Refresh token expired");
-//            }
-//        } catch (Exception e) {
-//            log.error("Error refreshing token:{}",e.getMessage() );
-//            throw new RuntimeException("Error refreshing token");
-//        }
-//    }
-
-    public AuthResponse refreshToken(String refreshToken) {
-        String username = jwtUtils.extractUsername(refreshToken);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-        if (!jwtUtils.isTokenValid(refreshToken, userDetails)) {
-            throw new RuntimeException("Invalid or expired refresh token");
+            log.info("User logged in successfully: {}", user.getUsername());
+            
+            return new AuthResponse(
+                accessToken,
+                refreshToken,
+                user.getUsername(),
+                user.getId(), 
+                user.getEmail(),
+                user.getRoles().stream()
+                    .map(Role::getName)
+                    .collect(Collectors.toSet())
+            );
+        } catch (Exception e) {
+            log.error("Login failed for user: {}", loginRequest.getUsername(), e);
+            throw new RuntimeException("Invalid credentials");
         }
+    }
 
-        String newAccessToken = jwtUtils.generateAccessToken(userDetails);
+    /**
+     * Refresh access token using a valid refresh token
+     * 
+     * @param refreshToken the refresh token from the request
+     * @return AuthResponse with new access token and same refresh token
+     * @throws RuntimeException if refresh token is invalid or expired
+     */
+    @Override
+    public AuthResponse refreshToken(String refreshToken) {
+        try {
+            String username = jwtUtils.extractUsername(refreshToken);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        User user = userRepository.findByUsername(username)
+            if (!jwtUtils.isTokenValid(refreshToken, userDetails)) {
+                log.warn("Invalid refresh token for user: {}", username);
+                throw new RuntimeException("Invalid or expired refresh token");
+            }
+
+            String newAccessToken = jwtUtils.generateAccessToken(userDetails);
+
+            User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return new AuthResponse(
+            log.info("Token refreshed successfully for user: {}", username);
+
+            return new AuthResponse(
                 newAccessToken,
-                refreshToken, // ✅ reuse old refresh token
+                refreshToken,
                 user.getUsername(),
                 user.getId(),
                 user.getEmail(),
-                user.getRoles().stream().map(Role::getName).collect(Collectors.toSet())
-        );
+                user.getRoles().stream()
+                    .map(Role::getName)
+                    .collect(Collectors.toSet())
+            );
+        } catch (Exception e) {
+            log.error("Error refreshing token: {}", e.getMessage(), e);
+            throw new RuntimeException("Error refreshing token: " + e.getMessage());
+        }
     }
 
 }

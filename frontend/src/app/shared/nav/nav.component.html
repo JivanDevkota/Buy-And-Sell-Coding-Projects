@@ -67,3 +67,111 @@
 
   </div>
 </ng-container>
+
+<ng-container *ngIf="isBuyerLoggedIn">
+<!--  <div class="container">-->
+
+<!--  </div>-->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top custom-nav">
+    <div class="container-fluid px-4">
+
+      <a class="navbar-brand fw-bold d-flex align-items-center" routerLink="/home">
+        <span class="brand-icon me-2">&lt;/&gt;</span>CodeMarket
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#buyerNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="buyerNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
+
+          <!-- HOME — go back to browse page -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home" routerLinkActive="active">
+              <i class="bi bi-house-door me-1"></i>Home
+            </a>
+          </li>
+
+          <!-- BROWSE PROJECTS -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home" fragment="categories">
+              <i class="bi bi-grid me-1"></i>Browse Projects
+            </a>
+          </li>
+
+          <!-- MY DASHBOARD — goes to buyer area -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/buyer/overview" routerLinkActive="active">
+              <i class="bi bi-speedometer2 me-1"></i>My Dashboard
+            </a>
+          </li>
+
+          <!-- MY ORDERS shortcut -->
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/buyer/orders" routerLinkActive="active">
+              <i class="bi bi-bag me-1"></i>My Orders
+            </a>
+          </li>
+
+        </ul>
+
+        <div class="d-flex align-items-center gap-2">
+
+          <!-- Cart with count badge -->
+          <a routerLink="/buyer/cart" class="btn btn-outline-light position-relative">
+            <i class="bi bi-cart3"></i> Cart
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              3
+            </span>
+          </a>
+
+          <!-- Username dropdown -->
+          <div class="dropdown">
+            <button
+              class="btn btn-light text-primary fw-semibold dropdown-toggle d-flex align-items-center gap-2"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <div class="avatar-circle">{{ username?.charAt(0)?.toUpperCase() }}</div>
+              {{ username }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+              <li class="px-3 py-2 border-bottom">
+                <div class="fw-bold text-dark small">{{ username }}</div>
+                <div class="text-muted" style="font-size:0.75rem">Premium Buyer</div>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/buyer/overview">
+                  <i class="bi bi-speedometer2 me-2 text-primary"></i>Dashboard
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/buyer/purchases">
+                  <i class="bi bi-bag-check me-2 text-primary"></i>My Purchases
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/buyer/wishlist">
+                  <i class="bi bi-heart me-2 text-primary"></i>Wishlist
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/buyer/profile">
+                  <i class="bi bi-person me-2 text-primary"></i>Profile
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <button class="dropdown-item text-danger" (click)="logout()">
+                  <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+                </button>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+</ng-container>

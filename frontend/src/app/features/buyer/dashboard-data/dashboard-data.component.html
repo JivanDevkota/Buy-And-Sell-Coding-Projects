@@ -1,1 +1,188 @@
-<p>dashboard-data works!</p>
+ q q<div class="dashboard-wrapper">
+
+  <!-- HEADER -->
+  <div class="dashboard-header">
+    <div class="header-left">
+      <div class="header-icon"><i class="bi bi-grid-1x2-fill"></i></div>
+      <div>
+        <h2 class="dash-title">Buyer Dashboard</h2>
+        <p class="dash-subtitle">Welcome back, Alex! Here's your coding projects library and shopping hub.</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-notif">
+        <i class="bi bi-bell"></i>
+        <span class="notif-dot">3</span>
+      </button>
+      <button class="btn-outline"><i class="bi bi-search"></i> Browse Projects</button>
+      <button class="btn-primary"><i class="bi bi-plus-circle"></i> Add Funds</button>
+    </div>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="stat-grid">
+    <div class="stat-card blue">
+      <div class="stat-top">
+        <span class="stat-title">TOTAL PURCHASES</span>
+        <div class="stat-icon blue"><i class="bi bi-bag"></i></div>
+      </div>
+      <div class="stat-value">{{stats.purchasedCount}}</div>
+      <div class="progress"><div class="progress-bar"></div></div>
+      <div class="stat-desc">Projects in your library</div>
+    </div>
+
+    <div class="stat-card purple">
+      <div class="stat-top">
+        <span class="stat-title">WISHLIST ITEMS</span>
+        <div class="stat-icon purple"><i class="bi bi-heart"></i></div>
+      </div>
+      <div class="stat-value">{{stats.wishlistCount}}</div>
+      <div class="stat-desc">Projects saved for later</div>
+    </div>
+
+    <div class="stat-card green">
+      <div class="stat-top">
+        <span class="stat-title">TOTAL SPENT</span>
+        <div class="stat-icon green"><i class="bi bi-currency-dollar"></i></div>
+      </div>
+      <div class="stat-value">${{ stats.lifetimeSpend }}</div>
+      <div class="stat-desc">All-time purchases</div>
+    </div>
+
+    <div class="stat-card orange">
+      <div class="stat-top">
+        <span class="stat-title">DOWNLOADS</span>
+        <div class="stat-icon orange"><i class="bi bi-download"></i></div>
+      </div>
+      <div class="stat-value">24</div>
+      <div class="stat-desc">Files downloaded</div>
+    </div>
+  </div>
+
+  <!-- RECENT PURCHASES -->
+  <div class="section-card">
+    <div class="section-header">
+      <span class="section-title"><i class="bi bi-clock-history"></i> Recent Purchases</span>
+      <button class="btn-outline">View All</button>
+    </div>
+
+    <!-- Purchase 1 -->
+    <div class="purchase-card">
+      <div class="purchase-top">
+        <div class="purchase-left">
+          <div class="purchase-icon" style="background:#3b82f6"><i class="bi bi-cart"></i></div>
+          <div class="purchase-info">
+            <h4>E-Commerce React App</h4>
+            <p>JavaScript • Purchased 2 days ago</p>
+          </div>
+        </div>
+        <div class="purchase-price">$49.99</div>
+      </div>
+
+      <div class="purchase-desc">
+        Complete MERN stack e-commerce solution with admin panel, payment integration, and responsive design.
+      </div>
+
+      <div class="purchase-bottom">
+        <div class="tags">
+          <span>React</span>
+          <span>Node.js</span>
+          <span>MongoDB</span>
+        </div>
+        <div class="purchase-actions-row">
+          <div class="download-badge"><i class="bi bi-check-circle-fill"></i> Download Available</div>
+          <button class="btn-download" ><i class="bi bi-download"></i> Download</button>
+          <button class="btn-review"><i class="bi bi-star"></i> Review</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Purchase 2 -->
+    <div class="purchase-card">
+      <div class="purchase-top">
+        <div class="purchase-left">
+          <div class="purchase-icon" style="background:#10b981"><i class="bi bi-airplane"></i></div>
+          <div class="purchase-info">
+            <h4>Flight Booking System</h4>
+            <p>Spring Boot • Purchased 1 week ago</p>
+          </div>
+        </div>
+        <div class="purchase-price">$79.99</div>
+      </div>
+
+      <div class="purchase-desc">
+        Spring Boot + Angular flight booking system with JWT authentication and admin dashboard.
+      </div>
+
+      <div class="purchase-bottom">
+        <div class="tags">
+          <span>Java</span>
+          <span>Spring Boot</span>
+          <span>Angular</span>
+        </div>
+        <div class="purchase-actions-row">
+          <div class="download-badge"><i class="bi bi-check-circle-fill"></i> Download Available</div>
+          <button class="btn-download"><i class="bi bi-download"></i> Download</button>
+          <button class="btn-review"><i class="bi bi-star"></i> Review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECOMMENDED -->
+  <div class="section-card">
+    <div class="section-header">
+      <span class="section-title"><i class="bi bi-lightbulb"></i> Recommended For You</span>
+      <button class="btn-outline">View More</button>
+    </div>
+
+    <div class="rec-grid">
+
+      <div class="rec-card">
+        <div class="rec-top gradient-purple">
+          <i class="bi bi-mortarboard"></i>
+        </div>
+        <div class="rec-body">
+          <h4>Quiz Learning Platform</h4>
+          <p>Python Django quiz application with multiple categories and leaderboards.</p>
+          <div class="rec-tags">
+            <span>Python</span>
+            <span>Django</span>
+            <span>PostgreSQL</span>
+          </div>
+          <div class="rec-footer">
+            <span class="rec-price">$34.99</span>
+            <div class="rec-actions">
+              <button class="btn-wishlist"><i class="bi bi-heart"></i></button>
+              <button class="btn-add"><i class="bi bi-cart-plus"></i> Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rec-card">
+        <div class="rec-top gradient-orange">
+          <i class="bi bi-people"></i>
+        </div>
+        <div class="rec-body">
+          <h4>Social Media App</h4>
+          <p>React Native social networking app with real-time messaging and photo sharing.</p>
+          <div class="rec-tags">
+            <span>React Native</span>
+            <span>Firebase</span>
+            <span>Redux</span>
+          </div>
+          <div class="rec-footer">
+            <span class="rec-price">$59.99</span>
+            <div class="rec-actions">
+              <button class="btn-wishlist"><i class="bi bi-heart"></i></button>
+              <button class="btn-add"><i class="bi bi-cart-plus"></i> Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {PublicService} from "../../core/services/Public.service";
 import {PublicProjectDetailsResponse} from "../../core/model/PublicProjectDetailsReponse";
 import {ActivatedRoute, Router} from "@angular/router";
+import {BuyerService} from "../../core/services/buyer.service";
+import {LocalstorageService} from "../../core/services/localstorage.service";
 
 @Component({
   selector: 'app-project-details',
@@ -15,7 +17,9 @@ export class ProjectDetailsComponent {
   constructor(
     private publicService: PublicService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private buyerService:BuyerService
+
   ) {}
 
   ngOnInit() {
@@ -71,5 +75,23 @@ export class ProjectDetailsComponent {
       'bg-gray text-white'
     ];
     return colors[index % colors.length];
+  }
+
+  addProjectToWishlist(projectId:number): void {
+    const userId=Number(LocalstorageService.getUserId())
+    if (!LocalstorageService.isBuyerLoggedIn()) {
+      this.router.navigate(['/auth/signin']);
+      return;
+    }
+    this.buyerService.addToWishlist(userId,projectId).subscribe({
+      next: (response) => {
+        console.log('Project added to wishlist successfully:', response);
+        alert('Project added to wishlist successfully!');
+      },
+      error: (error) => {
+        console.error('Error adding project to wishlist:', error);
+        alert('Failed to add project to wishlist. Please try again.');
+      }
+    });
   }
 }

@@ -5,6 +5,7 @@ import com.example.projecthub.dto.project.ProjectDetailsResponse;
 import com.example.projecthub.dto.project.ProjectResponse;
 import com.example.projecthub.dto.projectfile.ProjectFileDTO;
 import com.example.projecthub.service.project.ProjectService;
+import com.example.projecthub.service.purchase.PurchaseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ import java.util.Map;
 public class SellerController {
 
     private final ProjectService projectService;
+    private final PurchaseService purchaseService;
 
     /**
      * Creates a new project
@@ -145,6 +147,16 @@ public class SellerController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(createErrorResponse(e.getMessage()));
         }
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<?>getStats(){
+        return ResponseEntity.ok(Map
+                .of("today", purchaseService.getTodaySales(),
+                        "thisWeek",purchaseService.getWeeklySales(),
+                        "thisMonth",purchaseService.getMonthlySales()
+                )
+        );
     }
 
     /**

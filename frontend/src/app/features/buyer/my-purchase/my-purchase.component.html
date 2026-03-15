@@ -1,0 +1,198 @@
+<div class="purchases-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <i class="fas fa-shopping-bag"></i>
+      </div>
+      <div>
+        <h1 class="page-title">My Purchases</h1>
+        <p class="page-subtitle" *ngIf="!loading">
+          {{ purchases.length }} project{{ purchases.length !== 1 ? 's' : '' }} purchased
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="loading-cards">
+        <div class="skeleton-card" *ngFor="let i of [1,2,3]">
+          <div class="skeleton-img"></div>
+          <div class="skeleton-lines">
+            <div class="skeleton-line w-60"></div>
+            <div class="skeleton-line w-40"></div>
+            <div class="skeleton-line w-80"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error && !loading" class="error-state">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+      <button class="btn-retry" (click)="myPurchases()">Try Again</button>
+    </div>
+
+    <!-- Empty -->
+    <div *ngIf="!loading && !error && purchases.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-shopping-bag"></i>
+      </div>
+      <h3>No purchases yet</h3>
+      <p>Projects you purchase will appear here with download access.</p>
+    </div>
+
+    <!-- Purchase Cards -->
+    <div *ngIf="!loading && purchases.length > 0" class="purchases-list">
+      <div *ngFor="let purchase of purchases; let i = index"
+           class="purchase-card"
+           [style.animation-delay]="i * 60 + 'ms'">
+
+        <!-- Project Image -->
+        <div class="card-image">
+          <img [src]="'http://localhost:8080' + purchase.projectImgUrl"
+               [alt]="purchase.projectTitle"
+               (error)="$any($event.target).src='assets/placeholder.png'"/>
+          <div class="card-badge" [ngClass]="getStatusClass(purchase.status)">
+            {{ purchase.status }}
+          </div>
+        </div>
+
+        <!-- Card Content -->
+        <div class="card-content">
+          <div class="card-top">
+            <div class="project-info">
+              <h4 class="project-title">{{ purchase.projectTitle }}</h4>
+              <p class="seller-name">
+                <i class="fas fa-user-circle me-1"></i>{{ purchase.sellerUsername }}
+              </p>
+              <p class="purchase-date">
+                <i class="fas fa-calendar-alt me-1"></i>
+                {{ purchase.purchasedAt | date:'MMM d, yyyy' }}
+              </p>
+            </div>
+            <div class="price-tag">${{ purchase.paidAmount }}</div>
+          </div>
+
+          <!-- Refunded badge -->
+          <span *ngIf="purchase.isRefunded" class="refund-badge">
+            <i class="fas fa-undo me-1"></i>Refunded
+          </span>
+
+          <!-- Download Section -->
+          <!-- ✅ After -->
+          <div *ngIf="purchase.canDownload && purchase.files && purchase.files.length > 0"
+               class="download-section">
+
+            <div class="download-header">
+              <span class="files-count">
+                <i class="fas fa-folder-open me-1"></i>
+                {{ purchase.files.length }} file{{ purchase.files.length !== 1 ? 's' : '' }} available
+              </span>
+
+              <!-- Download ALL as ZIP button -->
+              <button class="btn-download-all"
+                      (click)="downloadAllAsZip(purchase)"
+                      [disabled]="downloadingZip[purchase.projectId]">
+
+                <!-- Default state -->
+                <ng-container *ngIf="!downloadingZip[purchase.projectId] && !downloadSuccess['zip_' + purchase.projectId]">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download All (.zip)
+                </ng-container>
+
+                <!-- Loading state -->
+                <ng-container *ngIf="downloadingZip[purchase.projectId]">
+                  <span class="spinner-sm"></span>
+                  Preparing ZIP...
+                </ng-container>
+
+                <!-- Success state -->
+                <ng-container *ngIf="downloadSuccess['zip_' + purchase.projectId]">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5"
+                       stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  Downloaded!
+                </ng-container>
+
+              </button>
+            </div>
+
+            <!-- Individual Files -->
+            <div class="files-list">
+              <div *ngFor="let file of purchase.files" class="file-row">
+                <div class="file-left">
+                  <div class="file-icon-wrap"
+                       [style.background]="getFileIconColor(file.fileName) + '18'">
+                    <i [class]="getFileIcon(file.fileName)"
+                       [style.color]="getFileIconColor(file.fileName)"></i>
+                  </div>
+                  <div class="file-details">
+                    <span class="file-name">{{ file.fileName }}</span>
+                    <span class="file-meta">
+                      {{ file.fileSize }}
+                      <span *ngIf="file.description" class="file-desc"> · {{ file.description }}</span>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Single file download button -->
+                <!-- Single file download button -->
+                <button class="btn-file-download"
+                        (click)="downloadFile(file)"
+                        [disabled]="downloadingFile[file.fileId]"
+                        [title]="'Download ' + file.fileName">
+
+                  <!-- Default: download icon SVG -->
+                  <ng-container *ngIf="!downloadingFile[file.fileId] && !downloadSuccess['file_' + file.fileId]">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5"
+                         stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                      <polyline points="7 10 12 15 17 10"/>
+                      <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                  </ng-container>
+
+                  <!-- Loading spinner -->
+                  <span *ngIf="downloadingFile[file.fileId]" class="spinner-sm"></span>
+
+                  <!-- Success checkmark SVG -->
+                  <ng-container *ngIf="downloadSuccess['file_' + file.fileId]">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                         stroke="#10B981" stroke-width="2.5"
+                         stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </ng-container>
+
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Cannot download -->
+          <div *ngIf="!purchase.canDownload" class="no-download-notice">
+            <i class="fas fa-lock me-1"></i>
+            Download unavailable — purchase {{ purchase.status === 'PENDING' ? 'pending' : 'not completed' }}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

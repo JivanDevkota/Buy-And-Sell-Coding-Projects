@@ -1,0 +1,55 @@
+<div *ngIf="loading" class="text-center my-3">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div *ngIf="error" class="alert alert-danger my-3">
+  {{ error }}
+</div>
+
+<div *ngIf="!loading && projects.length > 0" class="table-responsive my-3">
+  <table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+    <tr>
+      <th scope="col">Project Name</th>
+      <th scope="col">Seller</th>
+      <th scope="col">Category</th>
+      <th scope="col">Submitted At</th>
+      <th scope="col">Price</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let project of projects">
+      <td>{{ project.projectName }}</td>
+      <td>{{ project.sellerName }}</td>
+      <td>{{ project.categoryName }}</td>
+      <td>{{ project.submittedAt | date:'short' }}</td>
+      <td>{{ project.price | currency }}</td>
+      <td>
+        <button class="btn btn-success btn-sm me-2" (click)="approve(project.projectId)">
+          Approve
+        </button>
+        <button class="btn btn-danger btn-sm" (click)="reject(project.projectId)">
+          Reject
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="totalPages > 1" class="d-flex justify-content-between align-items-center my-3">
+  <button class="btn btn-outline-primary" (click)="prevPage()" [disabled]="page === 0">
+    &laquo; Previous
+  </button>
+  <span>Page {{ page + 1 }} of {{ totalPages }}</span>
+  <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="page + 1 === totalPages">
+    Next &raquo;
+  </button>
+</div>
+
+<div *ngIf="!loading && projects.length === 0" class="alert alert-info my-3">
+  No pending projects found.
+</div>

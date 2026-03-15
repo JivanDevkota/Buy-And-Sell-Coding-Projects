@@ -1,1 +1,150 @@
-<p>dashboard works!</p>
+<app-nav></app-nav>
+<div class="d-flex min-vh-100">
+
+  <!-- ══════════════════════════════════
+       SIDEBAR
+  ══════════════════════════════════ -->
+  <aside class="buyer-sidebar d-flex flex-column">
+
+    <!-- Logo -->
+    <div class="sidebar-header">
+      <a routerLink="/home" class="logo-link">
+        <span class="logo-icon">&lt;/&gt;</span>
+        <span class="logo-text">CodeMarket</span>
+      </a>
+      <span class="buyer-badge">BUYER</span>
+    </div>
+
+    <!-- Menu -->
+    <nav class="sidebar-menu flex-grow-1">
+
+      <div class="menu-section">Dashboard</div>
+
+      <a class="menu-item"
+         routerLink="/buyer/overview"
+         routerLinkActive="active">
+        <i class="bi bi-grid-1x2"></i>
+        <span>Overview</span>
+      </a>
+
+      <div class="menu-section">My Library</div>
+
+      <a class="menu-item"
+         routerLink="/buyer/purchases"
+         routerLinkActive="active">
+        <i class="bi bi-bag-check"></i>
+        <span>My Purchases</span>
+        <span class="menu-badge">8</span>
+      </a>
+
+      <a class="menu-item"
+         routerLink="/buyer/downloads"
+         routerLinkActive="active">
+        <i class="bi bi-download"></i>
+        <span>Downloads</span>
+        <span class="menu-badge">24</span>
+      </a>
+
+      <a class="menu-item"
+         routerLink="/buyer/wishlist"
+         routerLinkActive="active">
+        <i class="bi bi-heart"></i>
+        <span>Wishlist</span>
+        <span class="menu-badge">5</span>
+      </a>
+
+      <a class="menu-item"
+         routerLink="/buyer/reviews"
+         routerLinkActive="active">
+        <i class="bi bi-star"></i>
+        <span>My Reviews</span>
+        <span class="menu-badge">6</span>
+      </a>
+
+      <div class="menu-section">Shopping</div>
+
+      <a class="menu-item"
+         routerLink="/buyer/cart"
+         routerLinkActive="active">
+        <i class="bi bi-cart3"></i>
+        <span>Shopping Cart</span>
+        <span class="menu-badge danger">3</span>
+      </a>
+
+      <a class="menu-item"
+         routerLink="/buyer/orders"
+         routerLinkActive="active">
+        <i class="bi bi-clock-history"></i>
+        <span>Order History</span>
+        <span class="menu-badge">12</span>
+      </a>
+
+      <a class="menu-item"
+         routerLink="/buyer/recommended"
+         routerLinkActive="active">
+        <i class="bi bi-lightning"></i>
+        <span>Recommended</span>
+      </a>
+
+      <div class="menu-section">Account</div>
+
+      <a class="menu-item"
+         routerLink="/buyer/profile"
+         routerLinkActive="active">
+        <i class="bi bi-person-circle"></i>
+        <span>My Profile</span>
+      </a>
+
+      <a class="menu-item"
+         routerLink="/buyer/payment"
+         routerLinkActive="active">
+        <i class="bi bi-credit-card"></i>
+        <span>Payment Methods</span>
+      </a>
+
+      <a class="menu-item"
+         routerLink="/buyer/settings"
+         routerLinkActive="active">
+        <i class="bi bi-gear"></i>
+        <span>Settings</span>
+      </a>
+
+      <a class="menu-item"
+         routerLink="/buyer/help"
+         routerLinkActive="active">
+        <i class="bi bi-question-circle"></i>
+        <span>Help &amp; Support</span>
+      </a>
+
+      <a class="menu-item text-danger-item"
+         href="javascript:void(0)"
+         (click)="logout()">
+        <i class="bi bi-box-arrow-left"></i>
+        <span>Sign Out</span>
+      </a>
+
+    </nav>
+
+    <!-- User Footer -->
+    <div class="sidebar-footer">
+      <div class="avatar-circle">{{ usernameInitials }}</div>
+      <div class="user-info">
+        <div class="user-name">{{ username }}</div>
+        <div class="user-role">Premium Buyer</div>
+        <div class="wallet-info">
+          <i class="bi bi-wallet2 me-1"></i>Wallet Balance
+          <strong class="ms-1">$245.50</strong>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ══════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════ -->
+  <main class="buyer-main flex-grow-1">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

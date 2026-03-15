@@ -1,0 +1,119 @@
+<div class="analytics-wrapper">
+
+  <!-- Header -->
+  <div class="analytics-header">
+    <div class="header-accent"></div>
+    <div class="header-content">
+      <h2 class="header-title"><i class="bi bi-graph-up"></i> Analytics</h2>
+      <p class="header-sub">Track your project performance</p>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stats-row">
+
+    <!-- Total Views -->
+    <div class="stat-card" style="--accent: #4f46e5">
+      <div class="stat-top">
+        <span class="stat-label">TOTAL VIEWS</span>
+        <div class="stat-icon" style="background: #eef2ff">
+          <i class="bi bi-eye" style="color: #4f46e5"></i>
+        </div>
+      </div>
+      <div class="stat-value">{{ stats.totalViews.value }}</div>
+      <div class="stat-change" [class.up]="stats.totalViews.up" [class.down]="!stats.totalViews.up">
+        <i class="bi" [class.bi-arrow-up]="stats.totalViews.up" [class.bi-arrow-down]="!stats.totalViews.up"></i>
+        {{ stats.totalViews.change }}
+      </div>
+    </div>
+
+    <!-- Downloads -->
+    <div class="stat-card" style="--accent: #16a34a">
+      <div class="stat-top">
+        <span class="stat-label">DOWNLOADS</span>
+        <div class="stat-icon" style="background: #dcfce7">
+          <i class="bi bi-download" style="color: #16a34a"></i>
+        </div>
+      </div>
+      <div class="stat-value">{{ stats.downloads.value }}</div>
+      <div class="stat-change" [class.up]="stats.downloads.up" [class.down]="!stats.downloads.up">
+        <i class="bi" [class.bi-arrow-up]="stats.downloads.up" [class.bi-arrow-down]="!stats.downloads.up"></i>
+        {{ stats.downloads.change }}
+      </div>
+    </div>
+
+    <!-- Conversion Rate -->
+    <div class="stat-card" style="--accent: #d97706">
+      <div class="stat-top">
+        <span class="stat-label">CONVERSION RATE</span>
+        <div class="stat-icon" style="background: #fef3c7">
+          <i class="bi bi-percent" style="color: #d97706"></i>
+        </div>
+      </div>
+      <div class="stat-value">{{ stats.conversionRate.value }}</div>
+      <div class="stat-change" [class.up]="stats.conversionRate.up" [class.down]="!stats.conversionRate.up">
+        <i class="bi" [class.bi-arrow-up]="stats.conversionRate.up" [class.bi-arrow-down]="!stats.conversionRate.up"></i>
+        {{ stats.conversionRate.change }}
+      </div>
+    </div>
+
+    <!-- Avg Time -->
+    <div class="stat-card" style="--accent: #7c3aed">
+      <div class="stat-top">
+        <span class="stat-label">AVG. TIME ON PAGE</span>
+        <div class="stat-icon" style="background: #ede9fe">
+          <i class="bi bi-clock" style="color: #7c3aed"></i>
+        </div>
+      </div>
+      <div class="stat-value">{{ stats.avgTime.value }}</div>
+      <div class="stat-change" [class.up]="stats.avgTime.up" [class.down]="!stats.avgTime.up">
+        <i class="bi" [class.bi-arrow-up]="stats.avgTime.up" [class.bi-arrow-down]="!stats.avgTime.up"></i>
+        {{ stats.avgTime.change }}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-card">
+    <div class="chart-title">Views Over Time</div>
+    <div class="chart-area">
+      <div class="bar-group" *ngFor="let d of chartData">
+        <div class="bar-wrap">
+          <div class="bar" [style.height.%]="barHeight(d.views)" [title]="d.views + ' views'"></div>
+        </div>
+        <span class="bar-label">{{ d.month }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Row -->
+  <div class="bottom-row">
+
+    <!-- Top Projects -->
+    <div class="bottom-card">
+      <h5 class="bottom-title">Top Performing Projects</h5>
+      <div class="project-row" *ngFor="let p of topProjects">
+        <span class="project-name">{{ p.name }}</span>
+        <span class="project-views">{{ p.views }}</span>
+        <span class="project-sales">{{ p.sales }} sales</span>
+      </div>
+    </div>
+
+    <!-- Traffic Sources -->
+    <div class="bottom-card">
+      <h5 class="bottom-title">Traffic Sources</h5>
+      <div class="traffic-row" *ngFor="let t of traffic">
+        <div class="traffic-info">
+          <span class="traffic-source">{{ t.source }}</span>
+          <span class="traffic-pct">{{ t.pct }}%</span>
+        </div>
+        <div class="traffic-bar-bg">
+          <div class="traffic-bar-fill" [style.width.%]="t.pct"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

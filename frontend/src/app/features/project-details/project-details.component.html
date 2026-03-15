@@ -125,10 +125,10 @@
 
           <div class="d-grid gap-2 mb-3">
             <button class="btn btn-primary btn-lg">
-              <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+              <i class="fas fa-shopping-cart me-2"></i>Purchase Now
             </button>
-            <button class="btn btn-outline-primary btn-lg">
-              <i class="far fa-heart me-2"></i>Add to Wishlist
+            <button class="btn btn-outline-primary btn-lg"(click)="addProjectToWishlist(projectDetails.id)">
+              <i class="bi bi-heart-fill"></i> Add to Wishlist
             </button>
           </div>
 
@@ -195,11 +195,11 @@
             </div>
             <div class="col-6 mb-2">
               <div class="text-muted small">Languages</div>
-              <div class="fw-medium">{{ projectDetails.languagesName?.length || 0 }}</div>
+              <div class="fw-medium">{{ projectDetails.languagesName.length || 0 }}</div>
             </div>
             <div class="col-6 mb-2">
               <div class="text-muted small">Tags</div>
-              <div class="fw-medium">{{ projectDetails.tags?.length || 0 }}</div> <!-- FIXED HERE -->
+              <div class="fw-medium">{{ projectDetails.tags.length || 0 }}</div> <!-- FIXED HERE -->
             </div>
             <div class="col-6 mb-2">
               <div class="text-muted small">Last Updated</div>

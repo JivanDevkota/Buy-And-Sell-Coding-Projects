@@ -33,6 +33,10 @@ public class ProjectFile {
 
     private Integer displayOrder=0;
 
+    // ProjectFile.java — add this field
+    @Column(name = "download_count", nullable = false, columnDefinition = "INT DEFAULT 0")
+    private Integer downloadCount = 0;
+
     @PrePersist
     public void onCreate() {
         updatedAt = LocalDateTime.now();

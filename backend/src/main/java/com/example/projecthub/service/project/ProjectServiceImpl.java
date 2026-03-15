@@ -6,21 +6,33 @@ import com.example.projecthub.helper.FileHelper;
 import com.example.projecthub.helper.ImageHelper;
 import com.example.projecthub.model.*;
 import com.example.projecthub.repository.*;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Slf4j
 @Service
@@ -34,6 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ImageHelper imageHelper;
     private final FileHelper fileHelper; // ✅ Add FileHelper
     private final ProjectFileRepository projectFileRepository;
+    private final PurchaseRepository purchaseRepository;
 
     @Override
     @Transactional
@@ -54,7 +67,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(() -> new RuntimeException("Category not found with ID: " + projectDTO.getCategoryId()));
 
         // Fetch and validate languages
-        Set<Language>languages=new HashSet<>( languageRepository.findAllById(projectDTO.getLanguageIds()));
+        Set<Language> languages = new HashSet<>(languageRepository.findAllById(projectDTO.getLanguageIds()));
         if (languages.isEmpty()) {
             throw new ValidationException("At least one valid language is required");
         }
@@ -130,12 +143,12 @@ public class ProjectServiceImpl implements ProjectService {
         return ProjectFileDTO.toDTO(savedFile);
     }
 
-    public List<PublicProjectResponse>getAllProjects(){
-       return projectRepository.findAllWithLanguagesAndCategory()
-               .stream()
-               .limit(6)
-               .map(PublicProjectResponse::toProjectDto)
-               .collect(Collectors.toList());
+    public List<PublicProjectResponse> getAllProjects() {
+        return projectRepository.findAllWithLanguagesAndCategory()
+                .stream()
+                .limit(6)
+                .map(PublicProjectResponse::toProjectDto)
+                .collect(Collectors.toList());
     }
 
     public PublicProjectDetailsResponse getProjectDetails(Long projectId) {
@@ -212,7 +225,7 @@ public class ProjectServiceImpl implements ProjectService {
         log.info("Approving project ID: {}", projectId);
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found with ID: " + projectId));
-        if (project.getStatus()!=ProjectStatus.UNDER_REVIEW){
+        if (project.getStatus() != ProjectStatus.UNDER_REVIEW) {
             throw new ValidationException("Only UNDER_REVIEW project can be approved .");
         }
         project.setStatus(ProjectStatus.APPROVED);
@@ -227,7 +240,7 @@ public class ProjectServiceImpl implements ProjectService {
         log.info("Rejecting project ID: {}", projectId);
         Project project = projectRepository
                 .findById(projectId).orElseThrow(() -> new RuntimeException("Project not found with ID: " + projectId));
-        if (project.getStatus()!=ProjectStatus.UNDER_REVIEW){
+        if (project.getStatus() != ProjectStatus.UNDER_REVIEW) {
             throw new ValidationException("Only UNDER_REVIEW project can be rejected .");
         }
         project.setStatus(ProjectStatus.REJECTED);
@@ -242,7 +255,7 @@ public class ProjectServiceImpl implements ProjectService {
         log.info("Suspending project ID: {}", projectId);
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found with ID: " + projectId));
-        if (project.getStatus()!=ProjectStatus.APPROVED){
+        if (project.getStatus() != ProjectStatus.APPROVED) {
             throw new ValidationException("Only APPROVED project can be suspended .");
         }
         project.setStatus(ProjectStatus.SUSPENDED);
@@ -251,4 +264,13 @@ public class ProjectServiceImpl implements ProjectService {
         log.info("Project ID: {} suspended successfully", projectId);
         return ProjectResponse.toProjectDto(updateProject);
     }
+
+
+    public Page<PendingProjects> getUnderReviewProjects(int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return projectRepository.findAllPendingProjects(ProjectStatus.UNDER_REVIEW, pageable);
+
+    }
+
 }

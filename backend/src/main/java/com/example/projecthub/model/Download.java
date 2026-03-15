@@ -30,6 +30,7 @@ public class Download {
     private String ipAddress;
     private String userAgent;
 
+
     @PrePersist
     public void onCreate(){
         this.downloadedAt = LocalDateTime.now();

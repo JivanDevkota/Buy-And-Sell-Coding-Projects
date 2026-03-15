@@ -9,6 +9,7 @@ import { CategoryComponent } from './category/category.component';
 import { AllUsersComponent } from './all-users/all-users.component';
 import { AllSellersComponent } from './all-sellers/all-sellers.component';
 import { AllBuyersComponent } from './all-buyers/all-buyers.component';
+import { PendingProjectsComponent } from './pending-projects/pending-projects.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AllBuyersComponent } from './all-buyers/all-buyers.component';
     CategoryComponent,
     AllUsersComponent,
     AllSellersComponent,
-    AllBuyersComponent
+    AllBuyersComponent,
+    PendingProjectsComponent
   ],
     imports: [
         CommonModule,

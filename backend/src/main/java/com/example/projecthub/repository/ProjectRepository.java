@@ -1,6 +1,8 @@
 package com.example.projecthub.repository;
 
+import com.example.projecthub.dto.project.PendingProjects;
 import com.example.projecthub.model.Project;
+import com.example.projecthub.model.ProjectStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,14 +15,14 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-        List<Project> findByLanguages_Id(Long languagesId);
+    List<Project> findByLanguages_Id(Long languagesId);
 
-        @Query("""
-                select p from Project p join p.languages l
-                            where l.id= :languageId
-                                        order by p.viewCount desc 
-                """)
-        Page<Project> findTopByLanguage(@Param("languageId") Long languageId, Pageable pageable);
+    @Query("""
+            select p from Project p join p.languages l
+                        where l.id= :languageId
+                                    order by p.viewCount desc 
+            """)
+    Page<Project> findTopByLanguage(@Param("languageId") Long languageId, Pageable pageable);
 
     Optional<Project> findByIdAndSellerId(Long projectId, Long userId);
 
@@ -37,30 +39,47 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
 
     @Query("""
-        select p from Project p
-        left join fetch p.languages
-        left join fetch p.tags
-        left join fetch p.category
-        where p.id= :projectId
-""")
-    Optional<Project>findByIdWithLanguages(Long projectId);
+                    select p from Project p
+                    left join fetch p.languages
+                    left join fetch p.tags
+                    left join fetch p.category
+                    where p.id= :projectId
+            """)
+    Optional<Project> findByIdWithLanguages(Long projectId);
 
     @Query("""
-    select distinct p 
-    from Project p
-    left join fetch p.category
-    left join fetch p.languages
-    where p.isActive=true 
-""")
-    List<Project>findAllWithLanguagesAndCategory();
+                select distinct p 
+                from Project p
+                left join fetch p.category
+                left join fetch p.languages
+                where p.isActive=true 
+            """)
+    List<Project> findAllWithLanguagesAndCategory();
 
     @Query("""
-    select distinct p 
-    from Project p
-    left join fetch p.category
-    left join fetch p.languages
-    left join fetch p.tags
-    where p.id  = :projectId
-""")
-    Optional<Project>findProjectDetailsById(@Param("projectId") Long projectId);
+                select distinct p 
+                from Project p
+                left join fetch p.category
+                left join fetch p.languages
+                left join fetch p.tags
+                where p.id  = :projectId
+            """)
+    Optional<Project> findProjectDetailsById(@Param("projectId") Long projectId);
+
+    @Query("""
+            select new com.example.projecthub.dto.project.PendingProjects(
+                p.id,
+                p.title,
+                s.username,
+                c.name,
+                p.createdAt,
+                p.price
+            )
+            from Project p
+            join p.seller s
+            join p.category c
+            where p.status = :status
+            order by p.createdAt desc
+            """)
+    Page<PendingProjects> findAllPendingProjects(@Param("status") ProjectStatus status, Pageable pageable);
 }

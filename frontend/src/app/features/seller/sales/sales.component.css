@@ -1,0 +1,54 @@
+body{
+  background:#f5f7fb;
+}
+
+/* Header Card */
+.manage-sales-card{
+  background:white;
+  border-left:6px solid #2563eb;
+  border-radius:14px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* Sales Cards */
+.sales-card{
+  background:white;
+  border-top:4px solid;
+  border-radius:14px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.sales-card .card-body{
+  padding:20px;
+}
+
+/* Icons */
+.icon{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+}
+
+/* Purple color */
+.border-purple{
+  border-top:4px solid #8b5cf6;
+}
+
+.text-purple{
+  color:#8b5cf6;
+}
+
+.bg-purple-subtle{
+  background:#ede9fe;
+}
+
+/* Recent Sales */
+.recent-sales-card{
+  background:white;
+  border-radius:14px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}

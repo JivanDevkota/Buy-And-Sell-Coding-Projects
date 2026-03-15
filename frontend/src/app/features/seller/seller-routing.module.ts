@@ -6,6 +6,9 @@ import {UploadProjectComponent} from "./upload-project/upload-project.component"
 import {ProjectsComponent} from "./projects/projects.component";
 import {UploadProjectfileComponent} from "./upload-projectfile/upload-projectfile.component";
 import {ProjectComponent} from "./project/project.component";
+import {SalesComponent} from "./sales/sales.component";
+import {AnalyticsComponent} from "./analytics/analytics.component";
+import {ReviewsComponent} from "./reviews/reviews.component";
 
 const routes: Routes = [
   {
@@ -35,6 +38,18 @@ const routes: Routes = [
       {
         path:'project/:id',
         component:ProjectComponent
+      },
+      {
+        path:'sales',
+        component:SalesComponent
+      },
+      {
+        path:'analytics',
+        component:AnalyticsComponent
+      },
+      {
+        path:'reviews',
+        component:ReviewsComponent
       }
 
     ]

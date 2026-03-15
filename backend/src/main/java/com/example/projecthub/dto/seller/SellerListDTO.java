@@ -1,4 +1,4 @@
-package com.example.projecthub.dto.sller;
+package com.example.projecthub.dto.seller;
 
 import com.example.projecthub.model.Status;
 import lombok.Data;

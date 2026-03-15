@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="00340ad2-e229-42a2-bef4-721426eba45c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilotDiffState.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/controller/PurchaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/project/PendingProjects.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/purchase/PurchaseHistoryResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/purchase/PurchaseResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/purchase/PurchasedFileDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/purchase/RefundRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/review/ReviewRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/wishlist/WishlistResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/exception/AlreadyPurchasedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/exception/InsufficientBalanceException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/exception/PurchaseNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/model/Wishlist.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/ReviewRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/WishlistRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/download/DownloadService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/download/DownloadServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/review/ReviewService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/review/ReviewServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/wishlist/WishlistService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/wishlist/WishlistServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/model/DashboardStats.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/model/PendingProjects.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/model/PurchaseHistoryResponse.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/model/PurchaseRequest.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/model/PurchaseResponse.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/model/PurchasedFile.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/model/WishlistResponse.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/model/buyer-stats.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/services/AuthStateService.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/services/buyer.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/projecthub.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/projecthub.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/controller/SellerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/controller/SellerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/controller/SuperAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/controller/SuperAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/purchase/PurchaseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/purchase/PurchaseRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/sller/SellerListDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/dto/seller/SellerListDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/jwt/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/jwt/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/jwt/JwtUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/jwt/JwtUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/jwt/MyUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/jwt/MyUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/jwt/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/jwt/UserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/model/Download.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/model/Download.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/model/ProjectFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/model/ProjectFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/model/Purchase.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/model/Purchase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/model/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/model/Review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/ProjectFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/ProjectFileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/ProjectRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/ProjectRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/PurchaseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/PurchaseRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/SellerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/repository/SellerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/auth/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/auth/AuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/project/ProjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/project/ProjectService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/project/ProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/project/ProjectServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/purchase/PurchaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/purchase/PurchaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/purchase/PurchaseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/purchase/PurchaseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/seller/SellerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/projecthub/service/seller/SellerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/guards/buyer.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/guards/buyer.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/guards/noauth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/guards/noauth.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/guards/seller.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/guards/seller.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/guards/super-admin.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/guards/super-admin.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/interceptor/authInterceptor.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/interceptor/authInterceptor.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/services/admin.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/services/admin.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/services/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/services/localstorage.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/services/localstorage.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/services/seller.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/services/seller.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/auth/sign-in/sign-in.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/auth/sign-in/sign-in.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/buyer/buyer-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/buyer/buyer-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/buyer/buyer.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/buyer/buyer.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard-data/dashboard-data.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard-data/dashboard-data.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard-data/dashboard-data.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard-data/dashboard-data.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard-data/dashboard-data.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard-data/dashboard-data.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard/dashboard.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard/dashboard.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard/dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard/dashboard.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard/dashboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/buyer/dashboard/dashboard.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/home/home.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/project-details/project-details.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/project-details/project-details.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/project-details/project-details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/project-details/project-details.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/seller/project/project.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/seller/project/project.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/seller/projects/projects.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/seller/projects/projects.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/seller/projects/projects.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/seller/projects/projects.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/seller/seller-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/seller/seller-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/seller/seller.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/seller/seller.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/super-admin/super-admin-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/super-admin/super-admin-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/super-admin/super-admin.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/super-admin/super-admin.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/shared/module/shared.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/shared/module/shared.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/shared/nav/nav.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/shared/nav/nav.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/shared/nav/nav.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/shared/nav/nav.component.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_D:/book/book-network/projecthub" value="3AiMrU8lPyvbWqHdtG13I65nzWD" />
+    </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedChatMode">
+    <option name="chatModeId" value="Agent" />
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="chat-panel" value="Claude Haiku 4.5" />
+      <entry key="agent-panel" value="Claude Haiku 4.5" />
+    </selectedModels>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="325" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="3AiMrU8lPyvbWqHdtG13I65nzWD" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ProjecthubApplication.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\book\\book-network\\projecthub\\frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="ProjecthubApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="projecthub" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.projecthub.ProjecthubApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.31033.145" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="00340ad2-e229-42a2-bef4-721426eba45c" name="Changes" comment="" />
+      <created>1773071138737</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1773071138737</updated>
+      <workItem from="1773071141211" duration="210000" />
+      <workItem from="1773110830206" duration="7823000" />
+      <workItem from="1773136699778" duration="5917000" />
+      <workItem from="1773149026739" duration="22000" />
+      <workItem from="1773151057046" duration="6499000" />
+      <workItem from="1773198254585" duration="17444000" />
+      <workItem from="1773247439399" duration="182000" />
+      <workItem from="1773247651533" duration="2525000" />
+      <workItem from="1773287391855" duration="12967000" />
+      <workItem from="1773303314267" duration="5121000" />
+      <workItem from="1773325131944" duration="5265000" />
+      <workItem from="1773365118629" duration="172000" />
+      <workItem from="1773369790313" duration="3231000" />
+      <workItem from="1773375863442" duration="3143000" />
+      <workItem from="1773452025764" duration="61000" />
+      <workItem from="1773531045454" duration="10529000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

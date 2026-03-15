@@ -20,7 +20,7 @@ public class Purchase {
     private User buyer;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
     private Double paidAmount;
@@ -38,7 +38,7 @@ public class Purchase {
 
     private LocalDateTime purchasedAt;
 
-    private Boolean isRefunded=false;
+    private Boolean refunded=false;
     private LocalDateTime refundedAt;
     private String refundReason;
 
@@ -49,7 +49,7 @@ public class Purchase {
 
     public boolean canDownload(){
         return this.status==PurchaseStatus.COMPLETED &&
-                !this.isRefunded;
+                !this.refunded;
     }
 }
 
