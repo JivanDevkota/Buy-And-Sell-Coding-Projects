@@ -66,13 +66,12 @@ public class AdminServiceImpl implements AdminService {
         userRepository.save(user);
     }
 
-    public Map<String, Object> getRecentlyJoinedUsersPaginated(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<User> userPage = userRepository.findAllByOrderByCreatedAtDesc(pageable);
-
-        // FIX: Changed from Positive.List to List and fixed toDto() call
+    /**
+     * Helper method to paginate users and build response map
+     */
+    private Map<String, Object> buildUserPaginationResponse(Page<User> userPage) {
         List<UserDetailsResponse> users = userPage.getContent().stream()
-                .map(UserDetailsResponse::toDto)  // Changed from toDto() to ::toDto
+                .map(UserDetailsResponse::toDto)
                 .collect(Collectors.toList());
 
         Map<String, Object> response = new HashMap<>();
@@ -85,26 +84,17 @@ public class AdminServiceImpl implements AdminService {
         return response;
     }
 
+    public Map<String, Object> getRecentlyJoinedUsersPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<User> userPage = userRepository.findAllByOrderByCreatedAtDesc(pageable);
+        return buildUserPaginationResponse(userPage);
+    }
 
     public Map<String, Object> getAllJoinedUsersPaginated(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         Page<User> userPage = userRepository.findAllByOrderByIdAsc(pageable);
-
-        // FIX: Changed from Positive.List to List and fixed toDto() call
-        List<UserDetailsResponse> users = userPage.getContent().stream()
-                .map(UserDetailsResponse::toDto)  // Changed from toDto() to ::toDto
-                .collect(Collectors.toList());
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("users", users);
-        response.put("currentPage", userPage.getNumber());
-        response.put("totalPages", userPage.getTotalPages());
-        response.put("totalItems", userPage.getTotalElements());
-        response.put("hasNext", userPage.hasNext());
-        response.put("hasPrevious", userPage.hasPrevious());
-        return response;
+        return buildUserPaginationResponse(userPage);
     }
-
 
 
     //category

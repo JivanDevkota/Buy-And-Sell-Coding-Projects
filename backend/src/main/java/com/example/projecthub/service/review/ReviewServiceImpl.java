@@ -9,6 +9,7 @@ import com.example.projecthub.repository.PurchaseRepository;
 import com.example.projecthub.repository.ReviewRepository;
 import com.example.projecthub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewServiceImpl implements ReviewService {
 
     private final ProjectRepository projectRepository;
@@ -60,6 +62,13 @@ public class ReviewServiceImpl implements ReviewService {
      */
     @Transactional
     public Review addReview(Long buyerId, Long projectId, int rating, String comment) {
+        log.info("Adding review for project: {} by buyer: {} with rating: {}", projectId, buyerId, rating);
+        
+        // Validation: Rating range check (must be done early for quick failure)
+        if (rating < 1 || rating > 5) {
+            log.warn("Invalid rating: {} for buyer: {} on project: {}", rating, buyerId, projectId);
+            throw new RuntimeException("Invalid rating: " + rating + ". Rating must be between 1 and 5.");
+        }
         
         // Validation: Buyer exists
         User buyer = userRepository.findById(buyerId)
@@ -69,21 +78,18 @@ public class ReviewServiceImpl implements ReviewService {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found with ID: " + projectId));
 
-        // Validation: Rating range check (must be done early for quick failure)
-        if (rating < 1 || rating > 5) {
-            throw new RuntimeException("Invalid rating: " + rating + ". Rating must be between 1 and 5.");
-        }
-
         // Validation: Buyer has purchased the project
         boolean hasPurchased = purchaseRepository
                 .existsByBuyerIdAndProjectIdAndStatus(buyerId, projectId, PurchaseStatus.COMPLETED);
         if (!hasPurchased) {
+            log.warn("Buyer: {} attempted to review project: {} without purchasing", buyerId, projectId);
             throw new RuntimeException("You cannot review this project because you haven't purchased it yet.");
         }
 
         // Validation: Buyer hasn't already reviewed this project
         boolean alreadyReviewed = reviewRepository.existsByUserIdAndProjectId(buyerId, projectId);
         if (alreadyReviewed) {
+            log.warn("Buyer: {} already reviewed project: {}", buyerId, projectId);
             throw new RuntimeException("You have already reviewed this project. Each user can leave only one review per project.");
         }
 
@@ -101,6 +107,9 @@ public class ReviewServiceImpl implements ReviewService {
         project.addReview(savedReview);
         projectRepository.save(project);
         
+        log.info("Review successfully added. ID: {} for project: {} by buyer: {}", 
+                savedReview.getId(), projectId, buyerId);
+        
         return savedReview;
     }
 
@@ -116,12 +125,16 @@ public class ReviewServiceImpl implements ReviewService {
      */
     @Transactional(readOnly = true)
     public List<Review> getProjectReview(Long projectId) {
+        log.debug("Fetching reviews for project: {}", projectId);
+        
         // Validation: Project exists
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found with ID: " + projectId));
         
         // Retrieve reviews for the project
-        return reviewRepository.findByProject(project);
+        List<Review> reviews = reviewRepository.findByProject(project);
+        log.info("Found {} reviews for project: {}", reviews.size(), projectId);
+        return reviews;
     }
 
 }

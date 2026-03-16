@@ -60,6 +60,8 @@ public class PurchaseServiceImpl implements PurchaseService {
      */
     @Transactional
     public PurchaseResponseDTO purchaseRequest(Long buyerId, PurchaseRequestDTO purchaseRequestDTO) {
+        log.info("Processing purchase request for buyer: {} on project: {}", buyerId, purchaseRequestDTO.getProjectId());
+        
         User buyer = userRepository.findById(buyerId)
                 .orElseThrow(() -> new RuntimeException("Buyer not found with ID: " + buyerId));
 
@@ -72,11 +74,13 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         // Validation: Cannot buy own project
         if (seller.getId().equals(buyerId)) {
+            log.warn("Buyer {} attempted to purchase own project {}", buyerId, project.getId());
             throw new RuntimeException("You cannot purchase your own project");
         }
 
         // Validation: Project must be approved
         if (project.getStatus() != ProjectStatus.APPROVED) {
+            log.warn("Project {} is not approved. Current status: {}", project.getId(), project.getStatus());
             throw new RuntimeException("Project is not available for purchase. Current status: " + project.getStatus());
         }
 
@@ -84,6 +88,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         boolean alreadyPurchased = purchaseRepository.existsByBuyerIdAndProjectIdAndStatus(
                 buyerId, project.getId(), PurchaseStatus.COMPLETED);
         if (alreadyPurchased) {
+            log.warn("Buyer {} has already purchased project {}", buyerId, project.getId());
             throw new AlreadyPurchasedException("You have already purchased this project");
         }
 
@@ -91,15 +96,14 @@ public class PurchaseServiceImpl implements PurchaseService {
         
         // Validation: Sufficient balance check
         if (buyer.getBalance() < price) {
+            log.warn("Buyer {} insufficient balance. Required: {}, Available: {}", 
+                    buyerId, price, buyer.getBalance());
             throw new InsufficientBalanceException("Insufficient balance. Required: " + price + ", Available: " + buyer.getBalance());
         }
 
         // Update buyer and seller balances
         buyer.deductBalance(price);
         seller.addBalance(price);
-
-        userRepository.save(buyer);
-        userRepository.save(seller);
 
         // Create and save purchase record
         Purchase purchase = new Purchase();
@@ -112,10 +116,17 @@ public class PurchaseServiceImpl implements PurchaseService {
         
         // Increment project purchase count
         project.increasePurchaseCount();
+
+        // Batch all updates in single transaction
+        purchaseRepository.save(purchase);
+        userRepository.save(buyer);
+        userRepository.save(seller);
         projectRepository.save(project);
 
-        Purchase saved = purchaseRepository.save(purchase);
-        return PurchaseResponseDTO.toResponseDto(saved);
+        log.info("Purchase completed successfully. Transaction ID: {}, Amount: {}", 
+                purchase.getTransactionId(), price);
+        
+        return PurchaseResponseDTO.toResponseDto(purchase);
     }
 
 

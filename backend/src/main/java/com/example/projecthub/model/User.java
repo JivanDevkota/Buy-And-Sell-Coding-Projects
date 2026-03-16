@@ -63,12 +63,31 @@ public class User {
                 && p.canDownload());
     }
 
-    public void addBalance(double balance) {
-        this.balance+=balance;
+    /**
+     * Add balance to user account
+     * @param amount amount to add (must be positive)
+     * @throws IllegalArgumentException if amount is negative or zero
+     */
+    public void addBalance(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Balance addition amount must be positive, got: " + amount);
+        }
+        this.balance += amount;
     }
 
-    public void deductBalance(double balance) {
-        this.balance-=balance;
+    /**
+     * Deduct balance from user account
+     * @param amount amount to deduct (must be positive)
+     * @throws IllegalArgumentException if amount is negative, zero, or exceeds current balance
+     */
+    public void deductBalance(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Balance deduction amount must be positive, got: " + amount);
+        }
+        if (this.balance < amount) {
+            throw new IllegalArgumentException("Insufficient balance. Current: " + this.balance + ", Required: " + amount);
+        }
+        this.balance -= amount;
     }
 
 }

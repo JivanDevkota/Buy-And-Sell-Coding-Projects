@@ -61,14 +61,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                     log.debug("JWT Token validated successfully for user: {}", username);
                 } else {
-                    log.warn("JWT Token validation failed for user: {}", username);
+                    log.warn("JWT Token validation failed for user: {} at endpoint: {}", username, request.getRequestURI());
+                    response.sendError(401, "Invalid or expired token");
+                    return;
                 }
             }
             
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            log.error("Error processing JWT token: {}", e.getMessage(), e);
-            filterChain.doFilter(request, response);
+            log.error("Error processing JWT token for endpoint {}: {}", request.getRequestURI(), e.getMessage());
+            response.sendError(401, "Authentication failed: " + e.getMessage());
         }
     }
 }

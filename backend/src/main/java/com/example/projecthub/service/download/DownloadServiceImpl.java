@@ -41,11 +41,15 @@ public class DownloadServiceImpl implements DownloadService {
         ProjectFile projectFile = projectFileRepository.findById(fileId)
                 .orElseThrow(() -> new RuntimeException("File not found with ID: " + fileId));
 
+        if (projectFile.getFileUrl() == null || projectFile.getFileUrl().isEmpty()) {
+            throw new RuntimeException("File URL is invalid");
+        }
+
         boolean hasPurchased = purchaseRepository.existsByBuyerIdAndProjectId(userId, projectFile.getProject().getId());
         if (!hasPurchased) throw new RuntimeException("Access denied.");
 
         String filename = projectFile.getFileUrl().replace("/files/", "");
-        Path resolvedPath = Paths.get(filePath).resolve(filename).normalize();  // ✅ filePath used here
+        Path resolvedPath = Paths.get(filePath).resolve(filename).normalize();
 
         if (!resolvedPath.startsWith(Paths.get(filePath).normalize()))
             throw new RuntimeException("Invalid file path.");
@@ -58,6 +62,7 @@ public class DownloadServiceImpl implements DownloadService {
                 projectFile.getDownloadCount() == null ? 1 : projectFile.getDownloadCount() + 1
         );
         projectFileRepository.save(projectFile);
+        log.info("File {} downloaded by user {}", fileId, userId);
         return resource;
     }
 
@@ -78,8 +83,13 @@ public class DownloadServiceImpl implements DownloadService {
         return outputStream -> {
             try (ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(outputStream))) {
                 for (ProjectFile projectFile : projectFiles) {
+                    if (projectFile.getFileUrl() == null || projectFile.getFileUrl().isEmpty()) {
+                        log.warn("Skipping file with invalid URL for project {}", projectId);
+                        continue;
+                    }
+
                     String filename = projectFile.getFileUrl().replace("/files/", "");
-                    Path resolvedPath = Paths.get(filePath).resolve(filename).normalize();  // ✅ filePath used here
+                    Path resolvedPath = Paths.get(filePath).resolve(filename).normalize();
 
                     if (!resolvedPath.startsWith(Paths.get(filePath).normalize())) {
                         log.warn("Skipping suspicious path: {}", filename);
@@ -104,6 +114,7 @@ public class DownloadServiceImpl implements DownloadService {
                     log.info("Added to ZIP: {} for project {}", entryName, projectId);
                 }
             }
+            log.info("Successfully created ZIP for project {} and user {}", projectId, userId);
         };
     }
 }

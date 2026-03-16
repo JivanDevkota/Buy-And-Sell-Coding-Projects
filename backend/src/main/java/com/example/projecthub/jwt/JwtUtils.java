@@ -61,12 +61,43 @@ public class JwtUtils {
 
     /**
      * Validate token against user details
-     * Checks username match and token expiration
+     * Checks username match and token expiration and token type
      */
     public boolean isTokenValid(String token, UserDetails userDetails) {
         try {
             String username = extractUsername(token);
-            return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+            return username != null && 
+                   username.equals(userDetails.getUsername()) && 
+                   !isTokenExpired(token) &&
+                   isTokenTypeValid(token, TOKEN_TYPE_ACCESS);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Validate refresh token specifically
+     * Checks if token is marked as refresh type
+     */
+    public boolean isRefreshTokenValid(String token, UserDetails userDetails) {
+        try {
+            String username = extractUsername(token);
+            return username != null && 
+                   username.equals(userDetails.getUsername()) && 
+                   !isTokenExpired(token) &&
+                   isTokenTypeValid(token, TOKEN_TYPE_REFRESH);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Verify that token has the expected type claim
+     */
+    private boolean isTokenTypeValid(String token, String expectedType) {
+        try {
+            String tokenType = extractClaims(token, claims -> claims.get(CLAIM_TOKEN_TYPE, String.class));
+            return expectedType.equals(tokenType);
         } catch (Exception e) {
             return false;
         }

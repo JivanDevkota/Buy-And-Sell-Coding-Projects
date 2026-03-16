@@ -139,10 +139,21 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse refreshToken(String refreshToken) {
         try {
+            if (refreshToken == null || refreshToken.isEmpty()) {
+                log.warn("Refresh token is null or empty");
+                throw new RuntimeException("Refresh token cannot be null or empty");
+            }
+
             String username = jwtUtils.extractUsername(refreshToken);
+            
+            if (username == null || username.isEmpty()) {
+                log.warn("Failed to extract username from refresh token");
+                throw new RuntimeException("Invalid refresh token: cannot extract username");
+            }
+
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            if (!jwtUtils.isTokenValid(refreshToken, userDetails)) {
+            if (!jwtUtils.isRefreshTokenValid(refreshToken, userDetails)) {
                 log.warn("Invalid refresh token for user: {}", username);
                 throw new RuntimeException("Invalid or expired refresh token");
             }

@@ -31,8 +31,6 @@ public class FileHelper {
             ".zip", ".rar", ".7z", ".tar", ".gz",
             // Source code
             ".java", ".py", ".js", ".ts", ".html", ".css", ".cpp", ".c", ".h",
-            // Executables
-            ".exe", ".jar", ".apk", ".war",
             // Documents
             ".pdf", ".doc", ".docx", ".txt", ".md",
             // Database
@@ -43,6 +41,7 @@ public class FileHelper {
             ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".svg",
             // Videos
             ".mp4", ".avi", ".mov", ".wmv"
+            // NOTE: Removed .exe, .jar, .war, .apk for security reasons
     );
 
     /**

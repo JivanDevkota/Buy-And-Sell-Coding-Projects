@@ -70,18 +70,29 @@ public class SellerController {
      * Adds a file to an existing project
      * @param projectFileDTO file metadata as JSON
      * @param file the file to upload
-     * @param userId user ID from authentication (or pass via DTO for testing)
+     * @param userDetails authenticated user details
      * @return created project file
      */
     @PostMapping(value = "/project/add-file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> addProjectFile(
             @RequestPart("projectFile") @Valid ProjectFileDTO projectFileDTO,
             @RequestPart("file") MultipartFile file,
-            @RequestParam Long userId
-            ) {  // In production, get from @AuthenticationPrincipal
+            @AuthenticationPrincipal UserDetails userDetails
+            ) {
 
         try {
-            log.info("Received request to add file to project ID: {}", projectFileDTO.getProjectId());
+            if (userDetails == null) {
+                return ResponseEntity.status(401)
+                        .body(createErrorResponse("User authentication required"));
+            }
+
+            // Extract userId from authenticated principal
+            // Note: You may need to create a custom UserDetails that includes the ID
+            // For now, we'll assume the username can be used to fetch the user
+            Long userId = extractUserIdFromDetails(userDetails);
+            
+            log.info("Received request to add file to project ID: {} by user: {}", 
+                    projectFileDTO.getProjectId(), userDetails.getUsername());
 
             if (file.isEmpty()) {
                 return ResponseEntity.badRequest()
@@ -102,6 +113,19 @@ public class SellerController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(createErrorResponse(e.getMessage()));
         }
+    }
+
+    /**
+     * Extract user ID from authenticated UserDetails
+     * This is a helper method - ensure your CustomUserDetails includes the ID
+     */
+    private Long extractUserIdFromDetails(UserDetails userDetails) {
+        // If using custom MyUser class from JWT, cast and extract ID
+        if (userDetails instanceof com.example.projecthub.jwt.MyUser) {
+            return ((com.example.projecthub.jwt.MyUser) userDetails).getId();
+        }
+        // Fallback: Return 0 or throw exception
+        throw new RuntimeException("Cannot extract user ID from authentication principal");
     }
 
     @GetMapping("/{userId}/projects")
