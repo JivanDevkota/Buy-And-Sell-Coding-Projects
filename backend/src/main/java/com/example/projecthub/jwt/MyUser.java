@@ -60,6 +60,11 @@ public class MyUser implements UserDetails {
         return user.getUsername();
     }
 
+
+    public long getId(){
+        return user.getId();
+    }
+
     /**
      * Indicates whether the user's account has expired
      * 

@@ -35,11 +35,11 @@ export class BuyerService{
   }
 
   addToWishlist(buyerId:number,projectId:number):Observable<any> {
-    return this.http.post(`${this.baseUrl}/reviews/project/${projectId}/user/${buyerId}`, {});
+    return this.http.post(`${this.baseUrl}/wishlist/add/${buyerId}/project/${projectId}`, {});
   }
 
-  getAllMyWishlist(projectId:number): Observable<WishlistResponse[]> {
-    return this.http.get<WishlistResponse[]>(`${this.baseUrl}/reviews/project/{projectId}`);
+  getAllMyWishlist(buyerId:number): Observable<WishlistResponse[]> {
+    return this.http.get<WishlistResponse[]>(`${this.baseUrl}/wishlist/${buyerId}/all`);
 
   }
 

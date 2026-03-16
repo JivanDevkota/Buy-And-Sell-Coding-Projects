@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {DashboardDataComponent} from "./dashboard-data/dashboard-data.component";
 import {MyPurchaseComponent} from "./my-purchase/my-purchase.component";
+import {WishlistComponent} from "./wishlist/wishlist.component";
 
 
 const routes: Routes = [
@@ -22,9 +23,10 @@ const routes: Routes = [
       {path: 'cart',       component: DashboardDataComponent},  // same component, different tab
       {path: 'purchases',  component: MyPurchaseComponent},
       {path: 'downloads',  component: DashboardDataComponent},
-      {path: 'wishlist',   component: DashboardDataComponent},
+      {path: 'wishlist',   component: WishlistComponent},
       {path: 'reviews',    component: DashboardDataComponent},
       {path: 'orders',     component: DashboardDataComponent},
+
     ]
   }
 ];

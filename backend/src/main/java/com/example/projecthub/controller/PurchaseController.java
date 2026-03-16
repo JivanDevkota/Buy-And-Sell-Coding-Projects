@@ -4,7 +4,9 @@ import com.example.projecthub.dto.purchase.PurchaseHistoryResponseDTO;
 import com.example.projecthub.dto.purchase.PurchaseRequestDTO;
 import com.example.projecthub.dto.purchase.PurchaseResponseDTO;
 import com.example.projecthub.dto.review.ReviewRequest;
+import com.example.projecthub.dto.wishlist.WishlistResponse;
 import com.example.projecthub.model.Review;
+import com.example.projecthub.model.Wishlist;
 import com.example.projecthub.service.download.DownloadService;
 import com.example.projecthub.service.purchase.PurchaseService;
 import com.example.projecthub.service.review.ReviewService;
@@ -77,6 +79,17 @@ public class PurchaseController {
         return ResponseEntity.ok(stats);
     }
 
+    @PostMapping("/wishlist/add/{buyerId}/project/{projectId}")
+    public ResponseEntity<?>addToWishlist(@PathVariable long buyerId,@PathVariable long projectId){
+        Wishlist wishlist = wishlistService.addProjectToWishlist(buyerId, projectId);
+        return ResponseEntity.ok(wishlist);
+    }
+
+    @GetMapping("/wishlist/{buyerId}/all")
+    public ResponseEntity<?>getAllMyWishlistProjects(@PathVariable long buyerId){
+        List<WishlistResponse> wishlistItem = wishlistService.getWishlistItem(buyerId);
+        return ResponseEntity.ok(wishlistItem);
+    }
 
     /**
      * GET /api/download/file/{fileId}?userId={userId}

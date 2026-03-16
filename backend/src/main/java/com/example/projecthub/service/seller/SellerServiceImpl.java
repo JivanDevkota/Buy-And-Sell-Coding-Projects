@@ -47,7 +47,8 @@ public class SellerServiceImpl implements SellerService {
             log.info("Found {} sellers", sellers.size());
             
             SellerListDTO sellerListDTO = new SellerListDTO();
-            sellerListDTO.setSellers(sellers);
+//
+//            sellerListDTO.setSellers(sellers);
             return sellerListDTO;
         } catch (Exception e) {
             log.error("Error fetching sellers: {}", e.getMessage(), e);
