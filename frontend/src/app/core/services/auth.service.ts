@@ -34,6 +34,8 @@ export class AuthService {
       map(response => {
         this.handleAuthResponse(response);
         console.log("✅ User registered successfully:", response.username);
+        // Notify app about new auth state so components (nav, guards) update immediately
+        this.authState.notify();
         return response;
       }),
       catchError(error => {

@@ -30,7 +30,16 @@ export class BuyerService{
 
   //dash stats
   getBuyerDashStats() :Observable<BuyerStats>{
-    const userId = Number(LocalstorageService.getUserId());
+    const userIdRaw = LocalstorageService.getUserId();
+    const userId = userIdRaw !== null ? Number(userIdRaw) : null;
+    if (!userId) {
+      // Return default empty stats observable to prevent frontend errors when user not set
+      return new Observable<BuyerStats>((subscriber) => {
+        subscriber.next({ lifetimeSpend: 0, purchasedCount: 0, wishlistCount: 0 });
+        subscriber.complete();
+      });
+    }
+
     return this.http.get<BuyerStats>(`${this.baseUrl}/${userId}/stats`);
   }
 
