@@ -1,11 +1,13 @@
+/* Keep nav styling minimal and rely on Bootstrap for layout */
+
 nav {
   padding: 0;
   margin: 0;
 }
 
 .custom-nav {
-  background: linear-gradient(90deg, #1e4ed8, #2563eb);
-  padding: 10px 0;
+  background: linear-gradient(90deg, var(--brand-start), var(--brand-end));
+  padding: 0.5rem 0;
 }
 
 .custom-nav .nav-link {
@@ -19,5 +21,5 @@ nav {
 }
 
 .custom-nav .navbar-brand {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
 }

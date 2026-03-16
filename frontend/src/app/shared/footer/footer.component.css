@@ -1,9 +1,8 @@
-.footer-link {
-  color: #9ca3af;
-  text-decoration: none;
-  transition: color 0.2s ease;
+/* Small footer overrides; layout handled by Bootstrap */
+.footer-link{
+  color:#9ca3af;
+  text-decoration:none;
 }
-
-.footer-link:hover {
-  color: #ffffff;
+.footer-link:hover{
+  color:#ffffff;
 }

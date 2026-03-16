@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Global Bootstrap-first styles and minimal overrides */
+
+:root{
+  --brand-start: #1e4ed8;
+  --brand-end: #2563eb;
+}
+
+body{
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: #f8fafc;
+  color: #111827;
+}
+
+/* Lightweight navbar branding */
+.brand-icon{
+  font-weight:700;
+  color: #ffd54f;
+}
+
+/* Avatar circle used in nav */
+.avatar-circle{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#eef2ff;
+  color:var(--brand-start);
+  font-weight:700;
+}
+
+/* Footer small tweaks */
+footer{
+  margin-top:4rem;
+}
+
+/* Utility to limit content width across pages */
+.main-container{
+  max-width:1120px;
+  margin-left:auto;
+  margin-right:auto;
+  padding-left:1rem;
+  padding-right:1rem;
+}
