@@ -29,14 +29,29 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
 
 
     // SUM revenue for a date range
-    @Query(" select coalesce(sum(p.paidAmount), 0) from Purchase p " +
-            "where p.status = 'COMPLETED' AND  p.purchasedAt between :start and :end")
-    Double sumRevenueByDateRange(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+    @Query("""
+       SELECT COALESCE(SUM(p.paidAmount),0)
+       FROM Purchase p
+       WHERE p.status = 'COMPLETED'
+       AND p.project.seller.id = :sellerId
+       AND p.purchasedAt BETWEEN :start AND :end
+       """)
+    Double sumSellerRevenueByDateRange(
+            @Param("sellerId") long sellerId,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end
+    );
 
     // COUNT sales for date range
-    @Query("SELECT COUNT(p) FROM Purchase p " +
-            "WHERE p.status = 'COMPLETED' AND p.purchasedAt BETWEEN :start AND :end")
-    long countCompletedByDateRange(
+    @Query("""
+       SELECT COUNT(p)
+       FROM Purchase p
+       WHERE p.status = 'COMPLETED'
+       AND p.project.seller.id = :sellerId
+       AND p.purchasedAt BETWEEN :start AND :end
+       """)
+    long countSellerSalesByDateRange(
+            @Param("sellerId") long sellerId,
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end
     );

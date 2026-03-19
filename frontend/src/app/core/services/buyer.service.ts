@@ -23,9 +23,9 @@ export class BuyerService{
     return this.http.post<PurchaseResponse>(`${this.baseUrl}/${buyerId}/purchases`,request);
   }
 
-  myPurchaseProjects(buyerId:number): Observable<PurchaseHistoryResponse>{
+  myPurchaseProjects(buyerId:number): Observable<PurchaseHistoryResponse[]>{
     return this.http
-      .get<PurchaseHistoryResponse>(`${this.baseUrl}/${buyerId}/my-purchases`)
+      .get<PurchaseHistoryResponse[]>(`${this.baseUrl}/${buyerId}/my-purchases`)
   }
 
   //dash stats
@@ -52,6 +52,11 @@ export class BuyerService{
 
   }
 
+  deleteMyWishlist(projectId:number): Observable<any> {
+    const buyerId=Number(LocalstorageService.getUserId());
+    return this.http.delete(`${this.baseUrl}/${buyerId}/wishlist/${projectId}`);
+  }
+
   downloadProjectZip(projectId: number): Observable<Blob> {
     const userId = Number(LocalstorageService.getUserId());
     return this.http.get(`${this.baseUrl}/download/project/${projectId}?userId=${userId}`, {
@@ -65,4 +70,36 @@ export class BuyerService{
       responseType: 'blob'
     });
   }
+
+  // Review operations
+  /**
+   * Add a review for a purchased project
+   * @param projectId the project to review
+   * @param rating rating score 1-5
+   * @param comment review comment
+   * @returns Observable of review response
+   */
+  addReview(projectId: number, rating: number, comment: string): Observable<any> {
+    const buyerId = Number(LocalstorageService.getUserId());
+    if (!buyerId) {
+      return new Observable(subscriber => {
+        subscriber.error(new Error('User not authenticated'));
+      });
+    }
+    return this.http.post(`${this.baseUrl}/reviews/project/${projectId}/user/${buyerId}`, {
+      rating,
+      comment
+    });
+  }
+
+  /**
+   * Get all reviews for a project
+   * @param projectId the project ID
+   * @returns Observable of reviews list
+   */
+  getProjectReviews(): Observable<any[]> {
+    const userId=Number(LocalstorageService.getUserId());
+    return this.http.get<any[]>(`${this.baseUrl}/reviews/project/${userId}`);
+  }
+
 }

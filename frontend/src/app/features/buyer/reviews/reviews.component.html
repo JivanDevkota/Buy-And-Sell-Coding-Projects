@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="header">
+    <h2>Your Reviews</h2>
+
+    <select [(ngModel)]="selectedProject">
+      <option>All Projects</option>
+      <option *ngFor="let review of reviews">
+        {{ review.projectName }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngFor="let review of reviews" class="review-card">
+
+    <!-- Top Section -->
+    <div class="review-header">
+      <div class="avatar">
+        {{ review.reviewerInitials }}
+      </div>
+
+      <div class="info">
+        <h3>{{ review.projectName }}</h3>
+        <p class="time">Reviewed {{ review.timeAgo }}</p>
+      </div>
+
+       Stars
+      <div class="stars">
+        <span >⭐{{review.rating}}</span>
+      </div>
+    </div>
+
+    <!-- Comment -->
+    <p class="comment">
+      "{{ review.comment }}"
+    </p>
+
+    <!-- Seller Response -->
+    <div *ngIf="review.sellerResponse" class="seller-response">
+      <strong>Seller response:</strong>
+      {{ review.sellerResponse }}
+      <div class="response-time">
+        Responded {{ review.sellerResponseTime }}
+      </div>
+    </div>
+
+    <!-- Edit Button -->
+    <button class="edit-btn">✏️ Edit Review</button>
+
+  </div>
+</div>

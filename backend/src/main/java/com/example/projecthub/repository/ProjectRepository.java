@@ -82,4 +82,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
             order by p.createdAt desc
             """)
     Page<PendingProjects> findAllPendingProjects(@Param("status") ProjectStatus status, Pageable pageable);
+
+    @Query("SELECT p FROM Project p LEFT JOIN FETCH p.tags WHERE p.id = :projectId")
+    Optional<Project>findByIdWithTags(Long projectId);
 }

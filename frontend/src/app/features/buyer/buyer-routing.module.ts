@@ -4,6 +4,7 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {DashboardDataComponent} from "./dashboard-data/dashboard-data.component";
 import {MyPurchaseComponent} from "./my-purchase/my-purchase.component";
 import {WishlistComponent} from "./wishlist/wishlist.component";
+import {ReviewsComponent} from "./reviews/reviews.component";
 
 
 const routes: Routes = [
@@ -20,12 +21,11 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'overview', pathMatch: 'full'},
       {path: 'overview',   component: DashboardDataComponent},
-      {path: 'cart',       component: DashboardDataComponent},  // same component, different tab
       {path: 'purchases',  component: MyPurchaseComponent},
       {path: 'downloads',  component: DashboardDataComponent},
       {path: 'wishlist',   component: WishlistComponent},
-      {path: 'reviews',    component: DashboardDataComponent},
-      {path: 'orders',     component: DashboardDataComponent},
+      {path: 'reviews',    component: ReviewsComponent},
+
 
     ]
   }

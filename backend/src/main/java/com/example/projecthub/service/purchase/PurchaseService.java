@@ -14,7 +14,7 @@ public interface PurchaseService {
     double getLifeTimeSpend(Long buyerId);
 
 
-    Map<String,Object> getTodaySales();
-    Map<String,Object>getWeeklySales();
-    Map<String,Object>getMonthlySales();
+    Map<String,Object> getTodaySales(long sellerId);
+    Map<String,Object>getWeeklySales(long sellerId);
+    Map<String,Object>getMonthlySales(long sellerId);
 }

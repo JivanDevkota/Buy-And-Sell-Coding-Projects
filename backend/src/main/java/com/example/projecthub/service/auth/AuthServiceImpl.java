@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,17 +22,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-/**
- * Authentication Service Implementation
- * Handles user registration, login, and token refresh operations
- */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AuthServiceImpl implements AuthService {
-    
+
+    private static final String USERNAME_EXISTS = "Username is already taken";
+    private static final String EMAIL_EXISTS = "Email is already taken";
+    private static final String INVALID_CREDENTIALS = "Invalid username or password";
+    private static final String REFRESH_TOKEN_INVALID = "Invalid or expired refresh token";
+    private static final String REFRESH_TOKEN_EMPTY = "Refresh token cannot be null or empty";
+    private static final String USER_NOT_FOUND = "User not found";
+    private static final String ROLE_BUYER = "ROLE_BUYER";
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
@@ -39,23 +43,22 @@ public class AuthServiceImpl implements AuthService {
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
 
-    /**
-     * Register a new user with BUYER role by default
-     * 
-     * @param registerRequest contains username, email, password
-     * @return AuthResponse with access token, refresh token, and user info
-     * @throws RuntimeException if username or email already exists
-     */
     @Override
     public AuthResponse registerUser(RegisterRequest registerRequest) {
         if (userRepository.existsByUsername(registerRequest.getUsername())) {
             log.warn("Registration failed: Username already taken - {}", registerRequest.getUsername());
-            throw new RuntimeException("Username is already taken");
+            throw new IllegalArgumentException(USERNAME_EXISTS);
         }
-        
+
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
             log.warn("Registration failed: Email already taken - {}", registerRequest.getEmail());
-            throw new RuntimeException("Email is already taken");
+            throw new IllegalArgumentException(EMAIL_EXISTS);
+        }
+
+        Role buyerRole = roleRepository.findByName(ROLE_BUYER);
+        if (buyerRole == null) {
+            log.error("Buyer role not found in database");
+            throw new RuntimeException("Buyer role not found");
         }
 
         User user = new User();
@@ -63,122 +66,91 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
-        Role buyerRole = roleRepository.findByName("ROLE_BUYER");
         Set<Role> roles = new HashSet<>();
         roles.add(buyerRole);
         user.setRoles(roles);
-        
+
         User savedUser = userRepository.save(user);
         log.info("User registered successfully: {}", savedUser.getUsername());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(savedUser.getUsername());
-        String accessToken = jwtUtils.generateAccessToken(userDetails);
-        String refreshToken = jwtUtils.generateRefreshToken(userDetails);
-        
-        return new AuthResponse(
-            accessToken, 
-            refreshToken, 
-            savedUser.getUsername(), 
-            savedUser.getId(), 
-            user.getEmail(),
-            savedUser.getRoles().stream()
-                .map(Role::getName)
-                .collect(Collectors.toSet())
-        );
+        return buildAuthResponse(savedUser, userDetails);
     }
 
-    /**
-     * Authenticate user with username and password
-     * 
-     * @param loginRequest contains username and password
-     * @return AuthResponse with access token, refresh token, and user info
-     * @throws UsernameNotFoundException if user is not found
-     */
     @Override
     public AuthResponse loginUser(LoginRequest loginRequest) {
         try {
             Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                    loginRequest.getUsername(), 
-                    loginRequest.getPassword()
-                )
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
             );
-            
-            UserDetails userDetails = (UserDetails) authenticate.getPrincipal();
-            String accessToken = jwtUtils.generateAccessToken(userDetails);
-            String refreshToken = jwtUtils.generateRefreshToken(userDetails);
 
-            User user = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+            UserDetails userDetails = (UserDetails) authenticate.getPrincipal();
+            String username = userDetails.getUsername();
+            
+            User user = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 
             log.info("User logged in successfully: {}", user.getUsername());
-            
-            return new AuthResponse(
-                accessToken,
-                refreshToken,
-                user.getUsername(),
-                user.getId(), 
-                user.getEmail(),
-                user.getRoles().stream()
-                    .map(Role::getName)
-                    .collect(Collectors.toSet())
-            );
-        } catch (Exception e) {
-            log.error("Login failed for user: {}", loginRequest.getUsername(), e);
-            throw new RuntimeException("Invalid credentials");
+            return buildAuthResponse(user, userDetails);
+
+        } catch (AuthenticationException e) {
+            log.warn("Login failed for user: {}", loginRequest.getUsername());
+            throw new IllegalArgumentException(INVALID_CREDENTIALS);
         }
     }
 
-    /**
-     * Refresh access token using a valid refresh token
-     * 
-     * @param refreshToken the refresh token from the request
-     * @return AuthResponse with new access token and same refresh token
-     * @throws RuntimeException if refresh token is invalid or expired
-     */
     @Override
     public AuthResponse refreshToken(String refreshToken) {
-        try {
-            if (refreshToken == null || refreshToken.isEmpty()) {
-                log.warn("Refresh token is null or empty");
-                throw new RuntimeException("Refresh token cannot be null or empty");
-            }
+        if (refreshToken == null || refreshToken.isEmpty()) {
+            log.warn("Refresh token is null or empty");
+            throw new IllegalArgumentException(REFRESH_TOKEN_EMPTY);
+        }
 
-            String username = jwtUtils.extractUsername(refreshToken);
-            
-            if (username == null || username.isEmpty()) {
-                log.warn("Failed to extract username from refresh token");
-                throw new RuntimeException("Invalid refresh token: cannot extract username");
-            }
+        String username = jwtUtils.extractUsername(refreshToken);
+        if (username == null) {
+            log.warn("Failed to extract username from refresh token");
+            throw new IllegalArgumentException(REFRESH_TOKEN_INVALID);
+        }
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            if (!jwtUtils.isRefreshTokenValid(refreshToken, userDetails)) {
-                log.warn("Invalid refresh token for user: {}", username);
-                throw new RuntimeException("Invalid or expired refresh token");
-            }
+        if (!jwtUtils.isRefreshTokenValid(refreshToken, userDetails)) {
+            log.warn("Invalid refresh token for user: {}", username);
+            throw new IllegalArgumentException(REFRESH_TOKEN_INVALID);
+        }
 
-            String newAccessToken = jwtUtils.generateAccessToken(userDetails);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 
-            User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        String newAccessToken = jwtUtils.generateAccessToken(userDetails);
+        log.info("Token refreshed successfully for user: {}", username);
 
-            log.info("Token refreshed successfully for user: {}", username);
+        return buildAuthResponse(user, userDetails, refreshToken, newAccessToken);
+    }
 
-            return new AuthResponse(
-                newAccessToken,
+    private AuthResponse buildAuthResponse(User user, UserDetails userDetails) {
+        String accessToken = jwtUtils.generateAccessToken(userDetails);
+        String refreshToken = jwtUtils.generateRefreshToken(userDetails);
+        return buildAuthResponse(user, userDetails, refreshToken, accessToken);
+    }
+
+    private AuthResponse buildAuthResponse(User user, UserDetails userDetails, String refreshToken, String accessToken) {
+        Set<String> roleNames = new HashSet<>();
+        for (Role role : user.getRoles()) {
+            roleNames.add(role.getName());
+        }
+
+        return new AuthResponse(
+                accessToken,
                 refreshToken,
                 user.getUsername(),
                 user.getId(),
                 user.getEmail(),
-                user.getRoles().stream()
-                    .map(Role::getName)
-                    .collect(Collectors.toSet())
-            );
-        } catch (Exception e) {
-            log.error("Error refreshing token: {}", e.getMessage(), e);
-            throw new RuntimeException("Error refreshing token: " + e.getMessage());
-        }
+                roleNames
+        );
     }
 
 }

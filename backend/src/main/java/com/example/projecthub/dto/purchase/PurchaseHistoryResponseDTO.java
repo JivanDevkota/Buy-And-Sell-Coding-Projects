@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class PurchaseHistoryResponseDTO {
     private Long id;
     private String projectTitle;
+    private String projectDescription;
     private String projectImgUrl;
     private String sellerUsername;
     private Double paidAmount;
@@ -27,6 +28,7 @@ public class PurchaseHistoryResponseDTO {
         PurchaseHistoryResponseDTO dto = new PurchaseHistoryResponseDTO();
         dto.setId(purchase.getId());
         dto.setProjectTitle(purchase.getProject().getTitle());
+        dto.setProjectDescription(purchase.getProject().getDescription());
         dto.setProjectImgUrl(purchase.getProject().getProjectImgUrl());
         dto.setSellerUsername(purchase.getProject().getSeller().getUsername());
         dto.setPaidAmount(purchase.getPaidAmount());

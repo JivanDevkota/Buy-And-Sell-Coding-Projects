@@ -54,6 +54,7 @@ public class SecurityConfig {
                             "/api/refresh", 
                             "/api/authenticate",
                             "/api/public/**",
+                            "/api/categories",
                             "/error", 
                             "/img/**", 
                             "/uploads/**"

@@ -10,5 +10,6 @@ import java.util.List;
 public interface LanguageService {
 
     List<ProgrammingLanguageResponse> getAllLanguages();
-    LanguageDTO createProgrammingLanguage(LanguageDTO languageDTO, MultipartFile file)throws IOException;
+
+    LanguageDTO createProgrammingLanguage(LanguageDTO languageDTO, MultipartFile file) throws IOException;
 }

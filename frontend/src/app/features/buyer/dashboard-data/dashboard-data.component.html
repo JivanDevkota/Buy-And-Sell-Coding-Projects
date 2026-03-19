@@ -67,20 +67,20 @@
     </div>
 
     <!-- Purchase 1 -->
-    <div class="purchase-card">
+    <div class="purchase-card" *ngFor="let purchase of purchases">
       <div class="purchase-top">
         <div class="purchase-left">
           <div class="purchase-icon" style="background:#3b82f6"><i class="bi bi-cart"></i></div>
           <div class="purchase-info">
-            <h4>E-Commerce React App</h4>
-            <p>JavaScript • Purchased 2 days ago</p>
+            <h4>{{purchase.projectTitle}}</h4>
+            <p>{{ purchase.purchasedAt }}</p>
           </div>
         </div>
-        <div class="purchase-price">$49.99</div>
+        <div class="purchase-price">${{purchase.paidAmount}}</div>
       </div>
 
       <div class="purchase-desc">
-        Complete MERN stack e-commerce solution with admin panel, payment integration, and responsive design.
+        {{ purchase.projectDescription }}
       </div>
 
       <div class="purchase-bottom">
@@ -91,39 +91,22 @@
         </div>
         <div class="purchase-actions-row">
           <div class="download-badge"><i class="bi bi-check-circle-fill"></i> Download Available</div>
-          <button class="btn-download" ><i class="bi bi-download"></i> Download</button>
-          <button class="btn-review"><i class="bi bi-star"></i> Review</button>
-        </div>
-      </div>
-    </div>
+          <button class="btn-download"
+                  (click)="downloadAllAsZip(purchase)"
+                  [disabled]="downloadingZip[purchase.projectId]">
 
-    <!-- Purchase 2 -->
-    <div class="purchase-card">
-      <div class="purchase-top">
-        <div class="purchase-left">
-          <div class="purchase-icon" style="background:#10b981"><i class="bi bi-airplane"></i></div>
-          <div class="purchase-info">
-            <h4>Flight Booking System</h4>
-            <p>Spring Boot • Purchased 1 week ago</p>
-          </div>
-        </div>
-        <div class="purchase-price">$79.99</div>
-      </div>
+            <i class="bi bi-download"></i>
 
-      <div class="purchase-desc">
-        Spring Boot + Angular flight booking system with JWT authentication and admin dashboard.
-      </div>
+            <span *ngIf="!downloadingZip[purchase.projectId]">
+    Download
+  </span>
 
-      <div class="purchase-bottom">
-        <div class="tags">
-          <span>Java</span>
-          <span>Spring Boot</span>
-          <span>Angular</span>
-        </div>
-        <div class="purchase-actions-row">
-          <div class="download-badge"><i class="bi bi-check-circle-fill"></i> Download Available</div>
-          <button class="btn-download"><i class="bi bi-download"></i> Download</button>
-          <button class="btn-review"><i class="bi bi-star"></i> Review</button>
+            <span *ngIf="downloadingZip[purchase.projectId]">
+    Preparing...
+  </span>
+
+          </button>
+          <button class="btn-review" (click)="openReviewModal(purchase.projectId, purchase.projectTitle)"><i class="bi bi-star"></i> Review</button>
         </div>
       </div>
     </div>
@@ -186,3 +169,12 @@
   </div>
 
 </div>
+
+<!-- Review Modal Component -->
+<app-review-modal
+  [isVisible]="showReviewModal"
+  [projectId]="reviewProjectId"
+  [projectTitle]="reviewProjectTitle"
+  (close)="closeReviewModal()"
+  (reviewSubmitted)="onReviewSubmitted($event)">
+</app-review-modal>

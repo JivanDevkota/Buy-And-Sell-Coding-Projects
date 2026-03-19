@@ -1,5 +1,6 @@
 package com.example.projecthub.service.review;
 
+import com.example.projecthub.dto.review.ReviewResponseDTO;
 import com.example.projecthub.model.Review;
 
 import java.util.List;
@@ -21,11 +22,11 @@ public interface ReviewService {
     /**
      * Retrieves all reviews for a specific project.
      * 
-     * @param projectId the unique identifier of the project
+     * @param userId the unique identifier of the project
      * @return list of reviews for the project (empty if no reviews exist)
      * @throws RuntimeException if project not found
      */
-    List<Review> getProjectReview(Long projectId);
+    List<ReviewResponseDTO> getMyReviews(Long userId);
 
     /**
      * Submits a new review for a project.

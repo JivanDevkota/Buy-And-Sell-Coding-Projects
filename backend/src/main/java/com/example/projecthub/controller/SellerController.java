@@ -4,6 +4,7 @@ import com.example.projecthub.dto.project.ProjectDTO;
 import com.example.projecthub.dto.project.ProjectDetailsResponse;
 import com.example.projecthub.dto.project.ProjectResponse;
 import com.example.projecthub.dto.projectfile.ProjectFileDTO;
+import com.example.projecthub.jwt.MyUser;
 import com.example.projecthub.service.project.ProjectService;
 import com.example.projecthub.service.purchase.PurchaseService;
 import jakarta.validation.Valid;
@@ -12,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -174,11 +177,13 @@ public class SellerController {
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<?>getStats(){
+    public ResponseEntity<?>getStats(Authentication authentication){
+       MyUser user=(MyUser)authentication.getPrincipal();
+        long sellerId = user.getId();
         return ResponseEntity.ok(Map
-                .of("today", purchaseService.getTodaySales(),
-                        "thisWeek",purchaseService.getWeeklySales(),
-                        "thisMonth",purchaseService.getMonthlySales()
+                .of("today", purchaseService.getTodaySales(sellerId),
+                        "thisWeek",purchaseService.getWeeklySales(sellerId),
+                        "thisMonth",purchaseService.getMonthlySales(sellerId)
                 )
         );
     }

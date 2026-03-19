@@ -41,4 +41,34 @@ export class WishlistComponent implements OnInit {
       }
     })
   }
+
+  // deleteMyWishlist(projectId:number){
+  //   this.buyerService.deleteMyWishlist(projectId).subscribe({
+  //     next: data=>{
+  //       console.log(data);
+  //       this.loadWishlists();
+  //     },
+  //     error: error=>{
+  //       console.log(error);
+  //     }
+  //   })
+  // }
+
+  deleteMyWishlist(projectId: number) {
+    // ✅ remove from UI instantly
+    this.wishlist = this.wishlist.filter(item => item.id !== projectId);
+
+    // ✅ then call backend
+    this.buyerService.deleteMyWishlist(projectId).subscribe({
+      next: () => {
+        console.log("Deleted successfully");
+      },
+      error: (error) => {
+        console.log(error);
+
+        // ❗ rollback if API fails
+        this.loadWishlists();
+      }
+    });
+  }
 }

@@ -16,9 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Service implementation for managing sellers.
  * Handles seller-related operations including listing and filtering.
- * 
- * @author Project Hub Team
- * @version 1.0
+ *
  */
 @Service
 @RequiredArgsConstructor

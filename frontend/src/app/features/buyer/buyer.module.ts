@@ -8,6 +8,7 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 import {SharedModule} from "../../shared/module/shared.module";
 import { MyPurchaseComponent } from './my-purchase/my-purchase.component';
 import {FormsModule} from "@angular/forms";
+import { ReviewsComponent } from './reviews/reviews.component';
 
 
 @NgModule({
@@ -15,13 +16,14 @@ import {FormsModule} from "@angular/forms";
     DashboardComponent,
     DashboardDataComponent,
     WishlistComponent,
-    MyPurchaseComponent
+    MyPurchaseComponent,
+    ReviewsComponent
   ],
     imports: [
         CommonModule,
         BuyerRoutingModule,
         SharedModule,
-        FormsModule
+        FormsModule,
     ]
 })
 export class BuyerModule { }
