@@ -1,160 +1,145 @@
 <app-nav></app-nav>
 
-<div>
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <h1>Buy & Sell Ready-to-Use Coding Projects</h1>
-    <p>
-      Browse thousands of complete projects in multiple programming languages.
-      From eCommerce to flight booking systems, find the perfect project to learn
-      from or implement directly.
-    </p>
+<div class="page-wrapper">
 
-    <div class="search-bar">
-      <input
-        placeholder="Search for projects (e.g. React eCommerce, Django, Spring Boot)"
-        type="text"
-      />
-      <button>
-        <i class="fas fa-search"></i> Search
-      </button>
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero-bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
     </div>
 
-    <div class="stats">
-      <p>
-        <i class="fas fa-check-circle"></i> 5,000+ Projects |
-        <i class="fas fa-users"></i> 10,000+ Developers |
-        <i class="fas fa-star"></i> 4.8 Rating
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Trusted by 10,000+ developers worldwide
+      </div>
+
+      <h1 class="hero-title">
+        Buy & Sell<br/>
+        <span class="hero-title-accent">Ready-to-Use</span><br/>
+        Coding Projects
+      </h1>
+
+      <p class="hero-subtitle">
+        Browse thousands of complete projects across every stack.
+        From eCommerce to flight booking — find, learn, and ship faster.
       </p>
+
+      <div class="search-bar">
+        <div class="search-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <input
+          placeholder="Search projects — React eCommerce, Django, Spring Boot..."
+          type="text"
+        />
+        <button class="search-btn">Search</button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num">5,000+</span>
+          <span class="stat-label">Projects</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">10K+</span>
+          <span class="stat-label">Developers</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num">4.8 ★</span>
+          <span class="stat-label">Avg Rating</span>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- CATEGORIES -->
+  <!-- ===================== CATEGORIES ===================== -->
   <section class="categories" id="categories">
-    <h2 class="section-title text-center">
-      Browse By Programming Language
-    </h2>
-
-    <div class="filter-tabs text-center">
-      <button class="filter-btn active">All Projects</button>
-      <button class="filter-btn">E-Commerce</button>
-      <button class="filter-btn">Booking</button>
-      <button class="filter-btn">Quiz</button>
-      <button class="filter-btn">Social</button>
-    </div>
-
     <div class="container">
-      <div class="row g-4 justify-content-center">
-        <div
-          *ngFor="let language of languages"
-          class="col-xl-2 col-lg-3 col-md-4 col-sm-6"
-        >
-          <div class="card category-card">
-            <img
-              [src]="'http://localhost:8080' + language.iconUrl"
-              alt="{{ language.name }}"
-            />
+      <div class="section-header">
+        <p class="section-eyebrow">Browse by Stack</p>
+        <h2 class="section-title">Programming Languages</h2>
+      </div>
 
-            <div class="card-body">
-              <h6 class="card-title">{{ language.name }}</h6>
-              <p class="card-text">
-                {{ language.description }}
-              </p>
-              <span class="price">From $19.99</span>
-            </div>
+      <div class="filter-tabs">
+        <button class="filter-btn active">All Projects</button>
+        <button class="filter-btn">E-Commerce</button>
+        <button class="filter-btn">Booking</button>
+        <button class="filter-btn">Quiz</button>
+        <button class="filter-btn">Social</button>
+      </div>
+
+      <div class="lang-grid">
+        <div *ngFor="let language of languages" class="lang-card">
+          <div class="lang-card-icon">
+            <img [src]="'http://localhost:8080' + language.iconUrl" alt="{{ language.name }}" />
+          </div>
+          <div class="lang-card-body">
+            <h6 class="lang-name">{{ language.name }}</h6>
+            <p class="lang-desc">{{ language.description }}</p>
+            <span class="lang-price">From $19.99</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="feature-projects py-5 bg-light">
-    <h2 class="section-title text-center mb-4">
-      Featured Projects
-    </h2>
-
+  <!-- ===================== FEATURED PROJECTS ===================== -->
+  <section class="featured-projects">
     <div class="container">
-      <div class="row g-4">
+      <div class="section-header">
+        <p class="section-eyebrow">Handpicked for You</p>
+        <h2 class="section-title">Featured Projects</h2>
+      </div>
 
-        <!-- CARD -->
-        <div *ngFor="let project of projects" class="col-lg-4 col-md-6 col-sm-12">
-          <div class="card project-card h-100 shadow-sm">
+      <div class="projects-grid">
+        <div *ngFor="let project of projects" class="project-card">
 
-            <!-- Image -->
-            <img
-              [src]="'http://localhost:8080'+project.projectImgUrl"
-              alt="project-img"
-              class="card-img-top"
-            />
+          <div class="project-img-wrap">
+            <img [src]="'http://localhost:8080' + project.projectImgUrl" alt="project-img" />
+            <div class="project-price-badge">${{ project.price }}</div>
+          </div>
 
-            <!-- Body -->
-            <div class="card-body d-flex flex-column">
+          <div class="project-body">
+            <h5 class="project-title">{{ project.title }}</h5>
+            <p class="project-desc">{{ project.description }}</p>
 
-              <!-- Title + Price -->
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <h5 class="card-title fw-bold mb-0">
-                  {{ project.title }}
-                </h5>
-                <span class="badge bg-primary fs-6">
-                $ {{ project.price }}
-              </span>
+            <div class="project-tags">
+              <span *ngFor="let lang of project.languagesName" class="tag">{{ lang }}</span>
+            </div>
+
+            <div class="project-footer">
+              <div class="project-rating">
+                <span class="stars">★★★★☆</span>
               </div>
 
-              <!-- Description -->
-              <p class="card-text text-muted small">
-                {{ project.description }}
-              </p>
-
-              <!-- Tags -->
-              <div class="mb-3">
-                <span *ngFor="let lang of project.languagesName"
-                      class="badge bg-secondary me-1">{{ lang }}</span>
-              </div>
-
-              <!-- Spacer pushes footer down -->
-              <div class="mt-auto d-flex justify-content-between align-items-center">
-                <div class="text-warning">
-                  ★★★★☆
-                </div>
-
-
-                <!-- SUCCESS ALERT -->
-                <div *ngIf="purchaseSuccess"
-                     class="alert alert-success alert-dismissible fade show mx-3 mt-2"
-                     role="alert">
-                  <i class="fas fa-check-circle me-2"></i> {{ purchaseSuccess }}
-                  <button (click)="purchaseSuccess = null" class="btn-close" type="button"></button>
-                </div>
-
-                <!-- ERROR ALERT -->
-                <div *ngIf="purchaseError"
-                     class="alert alert-danger alert-dismissible fade show mx-3 mt-2"
-                     role="alert">
-                  <i class="fas fa-exclamation-circle me-2"></i> {{ purchaseError }}
-                  <button (click)="purchaseError = null" class="btn-close" type="button"></button>
-                </div>
-
+              <div class="project-actions">
+                <a [routerLink]="['/projects', project.id]" class="btn-outline">Details</a>
                 <button
                   (click)="purchaseProject(project.id)"
                   [disabled]="purchaseLoading[project.id]"
                   [title]="isBuyerLoggedIn ? 'Buy Now' : 'Sign In To Buy'"
-                  class="btn btn-sm btn-primary"
+                  class="btn-primary-action"
                 >
-
-  <span *ngIf="purchaseLoading[project.id]"
-        class="spinner-border spinner-border-sm me-1">
-  </span>
-                  {{ purchaseLoading[project.id] ? 'Processing...' : (isBuyerLoggedIn ? 'Buy Now' : 'Sign In To Buy') }}
+                  <span *ngIf="purchaseLoading[project.id]" class="spinner"></span>
+                  {{ purchaseLoading[project.id] ? 'Processing...' : (isBuyerLoggedIn ? 'Buy Now' : 'Sign In') }}
                 </button>
-                <a
-                  [routerLink]="['/projects', project.id]"
-                  class="btn btn-outline-primary"
-                >
-                  View Details
-                </a>
               </div>
-
             </div>
+          </div>
+
+          <!-- Alerts inside card -->
+          <div *ngIf="purchaseSuccess" class="card-alert card-alert-success">
+            <i class="fas fa-check-circle"></i> {{ purchaseSuccess }}
+            <button (click)="purchaseSuccess = null" class="alert-close">×</button>
+          </div>
+          <div *ngIf="purchaseError" class="card-alert card-alert-error">
+            <i class="fas fa-exclamation-circle"></i> {{ purchaseError }}
+            <button (click)="purchaseError = null" class="alert-close">×</button>
           </div>
         </div>
       </div>
@@ -162,4 +147,5 @@
   </section>
 
 </div>
+
 <app-footer></app-footer>

@@ -4,6 +4,8 @@ import {UserDetailsResponse} from "../model/UserDetailsResponse";
 import {Observable} from "rxjs";
 import {CategoryDTO} from "../model/CategoryDTO";
 import {PaginatedPendingProjectsResponse, PendingProjects} from "../model/PendingProjects";
+import {DashboardUserStats} from "../model/DashboardUserStats";
+import {PageResponse, SellerSummaryDTO} from "../model/Seller";
 
 
 export interface PaginatedUsersResponse {
@@ -88,7 +90,7 @@ export class AdminService {
 
     return this.http.get<PaginatedPendingProjectsResponse>(
       `${this.adminUrl}/admin/pending-projects`,
-      { params }
+      {params}
     );
   }
 
@@ -100,6 +102,41 @@ export class AdminService {
     return this.http.put(`${this.adminUrl}/admin/project/${projectId}/suspend`, {});
   }
 
+  getUsersStats(): Observable<DashboardUserStats> {
+    return this.http.get<DashboardUserStats>(`${this.adminUrl}/admin/users/stats`);
+  }
+
+  // getSellers(page: number, size: number): Observable<PageResponse<SellerSummaryDTO>> {
+  //   const params = new HttpParams()
+  //     .set('page', page.toString())
+  //     .set('size', size.toString());
+  //
+  //   return this.http.get<PageResponse<SellerSummaryDTO>>(
+  //     `${this.adminUrl}/admin/sellers`,
+  //     {params}
+  //   );
+  //
+  // }
+
+  getSellers(
+    page: number,
+    size: number,
+    status?: string
+  ): Observable<PageResponse<SellerSummaryDTO>> {
+
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    if (status && status !== 'ALL') {
+      params = params.set('status', status);
+    }
+
+    return this.http.get<PageResponse<SellerSummaryDTO>>(
+      `${this.adminUrl}/admin/sellers`,
+      { params }
+    );
+  }
 
 }
 

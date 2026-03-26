@@ -9,6 +9,7 @@ import {ProjectComponent} from "./project/project.component";
 import {SalesComponent} from "./sales/sales.component";
 import {AnalyticsComponent} from "./analytics/analytics.component";
 import {ReviewsComponent} from "./reviews/reviews.component";
+import {EditProjectComponent} from "./edit-project/edit-project.component";
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path:'project/:id/add-file',
         component:UploadProjectfileComponent
+      },
+      {
+        path:'edit',
+        component:EditProjectComponent
       },
       {
         path:'project/:id',

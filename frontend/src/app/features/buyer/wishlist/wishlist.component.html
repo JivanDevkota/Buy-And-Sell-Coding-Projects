@@ -2,19 +2,24 @@
 
   <!-- Header -->
   <div class="wishlist-header">
-    <h2>
-      <span class="header-heart">&#9829;</span> My Wishlist
-    </h2>
-    <p>You have <strong>{{ wishlist.length }} projects</strong> saved for later</p>
+    <div class="header-content">
+      <div class="header-left">
+        <div class="header-icon">♡</div>
+        <div>
+          <h2>My Wishlist</h2>
+          <p>{{ wishlist.length }} project{{ wishlist.length !== 1 ? 's' : '' }} saved for later</p>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Main Panel -->
-  <div class="wishlist-panel">
+  <!-- Body -->
+  <div class="wishlist-body">
 
     <!-- Controls -->
     <div class="wishlist-controls">
       <h3 class="section-title">
-        <span class="section-heart">&#9829;</span> Saved Projects
+        <i class="bi bi-heart-fill"></i> Saved Projects
       </h3>
       <div class="controls-right">
         <input
@@ -23,21 +28,34 @@
           [(ngModel)]="searchText"
           class="search-input"
         />
-        <select class="sort-select">09
-          <option>Sort by: Recently Added</option>
-          <option>Sort by: Price Low–High</option>
-          <option>Sort by: Top Rated</option>
+        <select class="sort-select">
+          <option>Recently Added</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+          <option>Top Rated</option>
         </select>
       </div>
     </div>
 
+    <!-- Empty State -->
+    <div *ngIf="wishlist.length === 0" class="empty-state">
+      <div class="empty-icon">♡</div>
+      <h3>Your wishlist is empty</h3>
+      <p>Projects you save will appear here for easy access later.</p>
+    </div>
+
     <!-- Cards Grid -->
-    <div class="wishlist-grid">
+    <div class="wishlist-grid" *ngIf="wishlist.length > 0">
       <div class="wl-card" *ngFor="let item of wishlist; let i = index">
 
-        <!-- Thumbnail Banner -->
+        <!-- Banner -->
         <div class="card-banner" [ngClass]="getBannerClass(i)">
-          <img *ngIf="item.projectImg";p [src]="item.projectImg" [alt]="item.projectName" class="banner-img" />
+          <img
+            *ngIf="item.projectImg"
+            [src]="item.projectImg"
+            [alt]="item.projectName"
+            class="banner-img"
+          />
           <ng-container *ngIf="!item.projectImg">
             <svg *ngIf="i % 3 === 0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="banner-svg">
               <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
@@ -51,35 +69,35 @@
           </ng-container>
         </div>
 
-        <!-- Card Body -->
+        <!-- Body -->
         <div class="card-body">
           <h3 class="card-title">{{ item.projectName }}</h3>
           <p class="card-desc">{{ item.projectDescription }}</p>
 
-          <!-- Tech Tags -->
           <div class="card-tags">
             <span class="tag" *ngFor="let lang of item.languageName">{{ lang }}</span>
           </div>
 
-          <!-- Rating — demo text until API ready -->
           <div class="card-rating">
-            <span class="star">&#9733;</span>
+            <span class="star">★</span>
             <span class="rating-value">4.7</span>
             <span class="review-count">(120 reviews)</span>
           </div>
 
-          <!-- Footer: price + buttons -->
           <div class="card-footer">
             <div class="card-price">${{ item.price }}</div>
             <div class="card-actions">
-              <button class="btn-wish" title="Saved to wishlist" (click)="deleteMyWishlist(item.projectId)">
-                <span class="btn-heart">&#9829;</span>
+              <button
+                class="btn-wish"
+                title="Remove from wishlist"
+                (click)="deleteMyWishlist(item.projectId)">
+                ♥
               </button>
               <button class="btn-add">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="cart-icon">
                   <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM7.17 14.75L5.12 4H3V2H6l.85 4H20l-2.5 8H7.17z"/>
                 </svg>
-                Add
+                Buy Now
               </button>
             </div>
           </div>

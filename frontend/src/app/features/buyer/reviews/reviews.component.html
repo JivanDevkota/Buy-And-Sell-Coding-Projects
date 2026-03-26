@@ -1,50 +1,73 @@
-<div class="container">
-  <div class="header">
-    <h2>Your Reviews</h2>
+<div class="reviews-page">
 
-    <select [(ngModel)]="selectedProject">
-      <option>All Projects</option>
-      <option *ngFor="let review of reviews">
-        {{ review.projectName }}
-      </option>
-    </select>
+  <!-- Page Header -->
+  <div class="reviews-page-header">
+    <div class="page-header-inner">
+      <div class="page-header-left">
+        <div class="page-header-icon">★</div>
+        <div>
+          <h2 class="page-header-title">Your Reviews</h2>
+          <p class="page-header-sub">{{ reviews.length }} review{{ reviews.length !== 1 ? 's' : '' }} submitted</p>
+        </div>
+      </div>
+      <select
+        [(ngModel)]="selectedProject"
+        class="header-select">
+        <option>All Projects</option>
+        <option *ngFor="let review of reviews">{{ review.projectName }}</option>
+      </select>
+    </div>
   </div>
 
-  <div *ngFor="let review of reviews" class="review-card">
+  <!-- Body -->
+  <div class="reviews-body">
 
-    <!-- Top Section -->
-    <div class="review-header">
-      <div class="avatar">
-        {{ review.reviewerInitials }}
-      </div>
-
-      <div class="info">
-        <h3>{{ review.projectName }}</h3>
-        <p class="time">Reviewed {{ review.timeAgo }}</p>
-      </div>
-
-       Stars
-      <div class="stars">
-        <span >⭐{{review.rating}}</span>
-      </div>
+    <!-- Empty State -->
+    <div *ngIf="reviews.length === 0" class="empty-state">
+      <div class="empty-icon">★</div>
+      <h3>No reviews yet</h3>
+      <p>After purchasing a project, leave a review to help other buyers.</p>
     </div>
 
-    <!-- Comment -->
-    <p class="comment">
-      "{{ review.comment }}"
-    </p>
+    <!-- Review Cards -->
+    <div class="reviews-list" *ngIf="reviews.length > 0">
+      <div class="review-card" *ngFor="let review of reviews">
 
-    <!-- Seller Response -->
-    <div *ngIf="review.sellerResponse" class="seller-response">
-      <strong>Seller response:</strong>
-      {{ review.sellerResponse }}
-      <div class="response-time">
-        Responded {{ review.sellerResponseTime }}
+        <!-- Header Row -->
+        <div class="review-header">
+          <div class="avatar">{{ review.reviewerInitials }}</div>
+          <div class="info">
+            <h3>{{ review.projectName }}</h3>
+            <p class="time">Reviewed {{ review.timeAgo }}</p>
+          </div>
+          <div class="stars">
+            <span *ngFor="let s of [1,2,3,4,5]"
+                  [class]="s <= review.rating ? 'star-filled' : 'star-empty'">★</span>
+            <span class="rating-num">{{ review.rating }}.0</span>
+          </div>
+        </div>
+
+        <!-- Comment -->
+        <p class="comment">"{{ review.comment }}"</p>
+
+        <!-- Seller Response -->
+        <div *ngIf="review.sellerResponse" class="seller-response">
+          <div class="seller-response-label">
+            <i class="bi bi-reply-fill"></i> Seller Response
+          </div>
+          <p class="seller-response-text">{{ review.sellerResponse }}</p>
+          <div class="response-time">Responded {{ review.sellerResponseTime }}</div>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer">
+          <button class="edit-btn">
+            <i class="bi bi-pencil"></i> Edit Review
+          </button>
+        </div>
+
       </div>
     </div>
-
-    <!-- Edit Button -->
-    <button class="edit-btn">✏️ Edit Review</button>
 
   </div>
 </div>

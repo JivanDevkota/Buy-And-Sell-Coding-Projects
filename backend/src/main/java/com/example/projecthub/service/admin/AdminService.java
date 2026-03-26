@@ -1,8 +1,12 @@
 package com.example.projecthub.service.admin;
 
 import com.example.projecthub.dto.category.CategoryDTO;
+import com.example.projecthub.dto.dashboard.DashboardAdminStats;
+import com.example.projecthub.dto.seller.SellerSummaryDTO;
 import com.example.projecthub.model.Category;
 import com.example.projecthub.model.Status;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -22,4 +26,9 @@ public interface AdminService {
 
     List<CategoryDTO> getAllCategory();
     CategoryDTO createCategory(CategoryDTO dto);
+
+    DashboardAdminStats getDashboardStats();
+
+    Page<SellerSummaryDTO> getSellers(Status status, Pageable pageable);
+
 }

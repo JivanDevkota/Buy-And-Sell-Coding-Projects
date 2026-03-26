@@ -1,118 +1,133 @@
-<app-seller-head></app-seller-head>
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-          <h3 class="mb-0">Add File to Project</h3>
-          <button type="button" class="btn btn-sm btn-light" (click)="goBack()">
-            ← Back to Projects
-          </button>
-        </div>
-        <div class="card-body">
+<div class="add-file-page">
 
-          <!-- Success Message -->
-          <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ successMessage }}
-            <button type="button" class="btn-close" (click)="successMessage = ''"></button>
-          </div>
-
-          <!-- Error Message -->
-          <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ errorMessage }}
-            <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
-          </div>
-
-          <form (ngSubmit)="submitProjectFile()">
-
-            <!-- File Type -->
-            <div class="mb-3">
-              <label for="fileType" class="form-label">File Type <span class="text-danger">*</span></label>
-              <select
-                class="form-select"
-                id="fileType"
-                [(ngModel)]="projectFileForm.fileType"
-                name="fileType"
-                required>
-                <option *ngFor="let type of fileTypes" [value]="type">
-                  {{ type }}
-                </option>
-              </select>
-              <small class="form-text text-muted">
-                Select the type of file you're uploading
-              </small>
-            </div>
-
-            <!-- Description -->
-            <div class="mb-3">
-              <label for="description" class="form-label">Description (Optional)</label>
-              <textarea
-                class="form-control"
-                id="description"
-                [(ngModel)]="projectFileForm.description"
-                name="description"
-                rows="3"
-                maxlength="500"
-                placeholder="Add a description for this file"></textarea>
-              <small class="form-text text-muted">
-                {{ projectFileForm.description?.length || 0 }}/500 characters
-              </small>
-            </div>
-
-            <!-- Display Order -->
-            <div class="mb-3">
-              <label for="displayOrder" class="form-label">Display Order (Optional)</label>
-              <input
-                type="number"
-                class="form-control"
-                id="displayOrder"
-                [(ngModel)]="projectFileForm.displayOrder"
-                name="displayOrder"
-                min="0"
-                placeholder="Enter display order (0 for automatic)">
-              <small class="form-text text-muted">
-                Leave as 0 to automatically append to the end
-              </small>
-            </div>
-
-            <!-- File Upload -->
-            <div class="mb-3">
-              <label for="fileInput" class="form-label">Select File <span class="text-danger">*</span></label>
-              <input
-                type="file"
-                class="form-control"
-                id="fileInput"
-                (change)="onFileSelected($event)"
-                required>
-              <small class="form-text text-muted">
-                Maximum file size: 10MB
-              </small>
-              <div *ngIf="selectedFileName" class="mt-2 alert alert-info">
-                <strong>Selected file:</strong> {{ selectedFileName }}
-              </div>
-            </div>
-
-            <!-- Submit Buttons -->
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                (click)="resetForm()"
-                [disabled]="isLoading">
-                Reset
-              </button>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                [disabled]="isLoading">
-                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-                {{ isLoading ? 'Uploading...' : 'Add File' }}
-              </button>
-            </div>
-
-          </form>
-        </div>
+  <!-- Page Header Card -->
+  <div class="page-header-card">
+    <div class="header-left">
+      <div class="header-icon">
+        <i class="bi bi-file-earmark-plus-fill"></i>
+      </div>
+      <div>
+        <h2 class="header-title">Add File to Project</h2>
+        <p class="header-sub">Upload source code, documentation or assets</p>
       </div>
     </div>
+    <button (click)="goBack()" class="btn-back" type="button">
+      <i class="bi bi-arrow-left"></i> Back to Projects
+    </button>
   </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+    <div class="form-card-body">
+
+      <!-- Success Alert -->
+      <div *ngIf="successMessage" class="alert-success-box">
+        <i class="bi bi-check-circle-fill"></i>
+        {{ successMessage }}
+        <button (click)="successMessage = ''" class="alert-close" type="button">×</button>
+      </div>
+
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage" class="alert-error-box">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        {{ errorMessage }}
+        <button (click)="errorMessage = ''" class="alert-close" type="button">×</button>
+      </div>
+
+      <form (ngSubmit)="submitProjectFile()">
+
+        <!-- File Type -->
+        <div class="form-field">
+          <label class="form-label" for="fileType">
+            File Type <span class="required">*</span>
+          </label>
+          <select
+            [(ngModel)]="projectFileForm.fileType"
+            class="form-select"
+            id="fileType"
+            name="fileType"
+            required>
+            <option disabled value="">Select file type...</option>
+            <option *ngFor="let type of fileTypes" [value]="type">{{ type }}</option>
+          </select>
+          <p class="form-hint">Select the type that best describes this file</p>
+        </div>
+
+        <hr class="field-divider"/>
+
+        <!-- Description -->
+        <div class="form-field">
+          <label class="form-label" for="description">Description</label>
+          <textarea
+            [(ngModel)]="projectFileForm.description"
+            class="form-textarea"
+            id="description"
+            maxlength="500"
+            name="description"
+            placeholder="Briefly describe what this file contains (optional)"
+            rows="3">
+          </textarea>
+          <span class="char-count">{{ projectFileForm.description?.length || 0 }} / 500</span>
+        </div>
+
+        <!-- Display Order -->
+        <div class="form-field">
+          <label class="form-label" for="displayOrder">Display Order</label>
+          <input
+            [(ngModel)]="projectFileForm.displayOrder"
+            class="form-input"
+            id="displayOrder"
+            min="0"
+            name="displayOrder"
+            placeholder="0"
+            type="number"/>
+          <p class="form-hint">Leave as 0 to automatically append to the end</p>
+        </div>
+
+        <hr class="field-divider"/>
+
+        <!-- File Upload -->
+        <div class="form-field">
+          <label class="form-label" for="fileInput">
+            Select File <span class="required">*</span>
+          </label>
+          <div [class.has-file]="selectedFileName" class="file-upload-area">
+            <input
+              (change)="onFileSelected($event)"
+              id="fileInput"
+              required
+              type="file"/>
+            <div class="upload-icon"><i class="bi bi-file-earmark-arrow-up"></i></div>
+            <div class="upload-text">Click to upload or drag & drop</div>
+            <div class="upload-hint">Max file size: 10 MB</div>
+          </div>
+          <div *ngIf="selectedFileName" class="file-selected-info">
+            <i class="bi bi-check-circle-fill"></i>
+            {{ selectedFileName }}
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="form-footer">
+          <button
+            (click)="resetForm()"
+            [disabled]="isLoading"
+            class="btn-reset"
+            type="button">
+            Reset
+          </button>
+          <button
+            [disabled]="isLoading"
+            class="btn-submit"
+            type="submit">
+            <span *ngIf="isLoading" class="spinner-sm"></span>
+            <i *ngIf="!isLoading" class="bi bi-cloud-upload"></i>
+            {{ isLoading ? 'Uploading...' : 'Add File' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
 </div>

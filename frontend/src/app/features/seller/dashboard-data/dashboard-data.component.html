@@ -1,123 +1,106 @@
-<div class="container-fluid p-4 bg-light min-vh-100">
+<div class="dashboard-page">
 
-  <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm">
-    <div>
-      <h3 class="mb-1 fw-bold">Seller Dashboard</h3>
-      <small class="text-muted">Welcome back, John! Here's what's happening with your projects today.</small>
+  <!-- Page Header Card -->
+  <div class="dashboard-header">
+    <div class="header-left">
+      <div class="header-icon">
+        <i class="bi bi-speedometer2"></i>
+      </div>
+      <div>
+        <h3 class="header-title">Seller Dashboard</h3>
+        <p class="header-sub">Welcome back! Here's what's happening with your projects today.</p>
+      </div>
     </div>
-    <div class="d-flex align-items-center gap-3">
-
-      <button class="btn btn-outline-primary position-relative" type="button">
+    <div class="header-right">
+      <button class="btn-notif" type="button">
         <i class="bi bi-bell"></i>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-          3
-        </span>
+        <span class="notif-dot">3</span>
       </button>
-
-      <button class="btn btn-outline-primary" type="button">Help</button>
-
-      <button class="btn btn-primary" type="button">
-        + Upload Project
+      <button class="btn-help" type="button">
+        <i class="bi bi-question-circle"></i> Help
+      </button>
+      <button class="btn-upload" type="button" routerLink="/seller/upload">
+        <i class="bi bi-cloud-upload"></i> Upload Project
       </button>
     </div>
   </div>
 
-  <!-- Tabs -->
-  <ul class="nav nav-tabs mb-4">
-    <li class="nav-item">
-      <a class="nav-link active" href="#">Overview</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Projects</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Analytics</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Earnings</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Reviews</a>
-    </li>
-  </ul>
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-box">
+    <div class="spinner-border mb-3" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p style="font-size:13px;color:#94a3b8;margin:0">Loading dashboard...</p>
+  </div>
 
-  <!-- Stats Cards -->
-  <div class="row g-3 mb-4">
+  <!-- Error -->
+  <div *ngIf="error" class="error-box">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    Failed to load dashboard data. Please try again.
+  </div>
 
-    <div class="col-md-3 col-6">
-      <div class="card rounded shadow-sm h-100">
-        <div class="card-body">
-          <small class="text-uppercase text-muted">Total Earnings</small>
-          <div class="d-flex justify-content-between align-items-center mt-2">
-            <h4 class="fw-bold mb-0">$4,850.75</h4>
-            <span class="badge bg-primary rounded-circle p-2">
-              <i class="bi bi-currency-dollar"></i>
-            </span>
-          </div>
-          <small class="text-success">
-            <i class="bi bi-arrow-up me-1"></i>12.5% from last month
-          </small>
-        </div>
+  <!-- Stat Cards -->
+  <div *ngIf="!loading && stats as s" class="stat-grid">
+
+    <!-- Total Earnings -->
+    <div class="stat-card purple">
+      <div class="stat-top">
+        <span class="stat-label">Total Earnings</span>
+        <div class="stat-icon purple"><i class="bi bi-wallet2"></i></div>
+      </div>
+      <div class="stat-value">${{ s.totalEarnings.toFixed(1) | number:'1.0-2' }}</div>
+      <div class="stat-change" [class.up]="s.earningsChange >= 0" [class.down]="s.earningsChange < 0">
+        <i class="bi" [class.bi-arrow-up-short]="s.earningsChange >= 0" [class.bi-arrow-down-short]="s.earningsChange < 0"></i>
+        {{ s.earningsChange | number:'1.0-1' }}% from last month
       </div>
     </div>
 
-    <div class="col-md-3 col-6">
-      <div class="card rounded shadow-sm h-100">
-        <div class="card-body">
-          <small class="text-uppercase text-muted">Total Sales</small>
-          <div class="d-flex justify-content-between align-items-center mt-2">
-            <h4 class="fw-bold mb-0">127</h4>
-            <span class="badge bg-success rounded-circle p-2">
-              <i class="bi bi-cart"></i>
-            </span>
-          </div>
-          <small class="text-success">
-            <i class="bi bi-arrow-up me-1"></i>8.2% from last month
-          </small>
-        </div>
+    <!-- Total Sales -->
+    <div class="stat-card green">
+      <div class="stat-top">
+        <span class="stat-label">Total Sales</span>
+        <div class="stat-icon green"><i class="bi bi-cart-fill"></i></div>
+      </div>
+      <div class="stat-value">{{ s.totalSales }}</div>
+      <div class="stat-change" [class.up]="s.salesChange >= 0" [class.down]="s.salesChange < 0">
+        <i class="bi" [class.bi-arrow-up-short]="s.salesChange >= 0" [class.bi-arrow-down-short]="s.salesChange < 0"></i>
+        {{ s.salesChange | number: '1.0-1' }}% from last month
       </div>
     </div>
 
-    <div class="col-md-3 col-6">
-      <div class="card rounded shadow-sm h-100">
-        <div class="card-body">
-          <small class="text-uppercase text-muted">Active Projects</small>
-          <div class="d-flex justify-content-between align-items-center mt-2">
-            <h4 class="fw-bold mb-0">8</h4>
-            <span class="badge bg-purple rounded-circle p-2" style="background-color:#c8a2c8;">
-              <i class="bi bi-share"></i>
-            </span>
-          </div>
-          <small class="text-success">
-            <i class="bi bi-arrow-up me-1"></i>2 new this month
-          </small>
-        </div>
+    <!-- Active Projects -->
+    <div class="stat-card blue">
+      <div class="stat-top">
+        <span class="stat-label">Active Projects</span>
+        <div class="stat-icon blue"><i class="bi bi-diagram-3-fill"></i></div>
+      </div>
+      <div class="stat-value">{{ s.activeProjects }}</div>
+      <div class="stat-change up">
+        <i class="bi bi-check-circle-fill"></i>
+        Updated recently
       </div>
     </div>
 
-    <div class="col-md-3 col-6">
-      <div class="card rounded shadow-sm h-100">
-        <div class="card-body">
-          <small class="text-uppercase text-muted">Average Rating</small>
-          <div class="d-flex justify-content-between align-items-center mt-2">
-            <h4 class="fw-bold mb-0">4.8</h4>
-            <span class="badge bg-warning rounded-circle p-2 text-dark">
-              <i class="bi bi-star-fill"></i>
-            </span>
-          </div>
-          <small class="text-danger">
-            <i class="bi bi-arrow-down me-1"></i>0.2 from last month
-          </small>
-        </div>
+    <!-- Average Rating -->
+    <div class="stat-card amber">
+      <div class="stat-top">
+        <span class="stat-label">Average Rating</span>
+        <div class="stat-icon amber"><i class="bi bi-star-fill"></i></div>
+      </div>
+      <div class="stat-value">{{ s.averageRating }}</div>
+      <div class="stat-change" [class.up]="s.ratingChange >= 0" [class.down]="s.ratingChange < 0">
+        <i class="bi" [class.bi-arrow-up-short]="s.ratingChange >= 0" [class.bi-arrow-down-short]="s.ratingChange < 0"></i>
+        {{ s.ratingChange }} from last month
       </div>
     </div>
 
   </div>
 
-  <!-- Large content block placeholder -->
-  <div class="card rounded shadow-sm" style="height: 350px; background-color: #e8e8e8;">
-    <!-- Content such as charts or tables can go here -->
+  <!-- Chart / Content Placeholder -->
+  <div class="chart-placeholder">
+    <div class="placeholder-icon"><i class="bi bi-graph-up-arrow"></i></div>
+    <div class="placeholder-text">Sales & Revenue Chart</div>
+    <div class="placeholder-sub">Connect your analytics to visualise trends</div>
   </div>
 
 </div>

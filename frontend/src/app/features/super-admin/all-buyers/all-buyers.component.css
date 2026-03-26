@@ -1,0 +1,344 @@
+/* =============================================
+   buyers-management.component.css
+   ============================================= */
+
+/* ---------- CSS Variables ---------- */
+:host {
+  --bg:           #f0f2f7;
+  --surface:      #ffffff;
+  --border:       #e2e6ef;
+  --text:         #1a1d2e;
+  --muted:        #6b7280;
+  --green:        #16a34a;
+  --green-bg:     #dcfce7;
+  --blue:         #2563eb;
+  --blue-bg:      #dbeafe;
+  --amber:        #d97706;
+  --amber-bg:     #fef3c7;
+  --purple:       #7c3aed;
+  --purple-bg:    #ede9fe;
+  --accent-green: #22c55e;
+  --accent-blue:  #3b82f6;
+  --accent-amber: #f59e0b;
+  --radius:       14px;
+  --shadow:       0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+/* ---------- Container ---------- */
+.container {
+  max-width:   960px;
+  margin:      0 auto;
+  padding:     32px 24px;
+  font-family: 'DM Sans', sans-serif;
+  background:  var(--bg);
+  min-height:  100vh;
+  color:       var(--text);
+  box-sizing:  border-box;
+}
+
+/* =============================================
+   HEADER
+   ============================================= */
+.header {
+  background:    var(--surface);
+  border-radius: var(--radius);
+  border-left:   4px solid #2563eb;
+  padding:       20px 24px;
+  margin-bottom: 24px;
+  box-shadow:    var(--shadow);
+}
+
+.header-top {
+  display:       flex;
+  align-items:   center;
+  gap:           12px;
+  margin-bottom: 6px;
+}
+
+.header-icon {
+  width:           36px;
+  height:          36px;
+  background:      #1a1d2e;
+  border-radius:   8px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+}
+
+.header-icon svg {
+  width:  18px;
+  height: 18px;
+  fill:   #ffffff;
+}
+
+.header h1 {
+  font-size:   22px;
+  font-weight: 600;
+  color:       var(--text);
+  margin:      0;
+}
+
+.header-meta {
+  font-size: 13px;
+  color:     var(--muted);
+}
+
+.header-meta strong {
+  color:       var(--text);
+  font-weight: 600;
+}
+
+/* =============================================
+   STATS GRID
+   ============================================= */
+.stats-grid {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   16px;
+  margin-bottom:         16px;
+}
+
+.stats-bottom {
+  display:               grid;
+  grid-template-columns: 1fr 2fr;
+  gap:                   16px;
+  margin-bottom:         24px;
+}
+
+/* =============================================
+   STAT CARD
+   ============================================= */
+.stat-card {
+  background:    var(--surface);
+  border-radius: var(--radius);
+  padding:       20px;
+  box-shadow:    var(--shadow);
+  border:        1px solid var(--border);
+  position:      relative;
+  overflow:      hidden;
+  box-sizing:    border-box;
+}
+
+/* Colored top accent bar */
+.stat-card::before {
+  content:  '';
+  position: absolute;
+  top:      0;
+  left:     0;
+  right:    0;
+  height:   3px;
+}
+
+.stat-card.green::before  { background: var(--accent-green); }
+.stat-card.blue::before   { background: var(--accent-blue); }
+.stat-card.amber::before  { background: var(--accent-amber); }
+.stat-card.purple::before { background: var(--purple); }
+
+.stat-top {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     flex-start;
+  margin-bottom:   14px;
+}
+
+.stat-label {
+  font-size:      11px;
+  font-weight:    600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color:          var(--muted);
+}
+
+/* ---------- Icon Wrapper ---------- */
+.stat-icon-wrap {
+  width:           36px;
+  height:          36px;
+  border-radius:   10px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+}
+
+.stat-icon-wrap.green  { background: var(--green-bg); }
+.stat-icon-wrap.blue   { background: var(--blue-bg); }
+.stat-icon-wrap.amber  { background: var(--amber-bg); }
+.stat-icon-wrap.purple { background: var(--purple-bg); }
+
+.stat-icon-wrap svg { width: 18px; height: 18px; }
+
+.stat-icon-wrap.green  svg { fill: var(--green); }
+.stat-icon-wrap.blue   svg { fill: var(--blue); }
+.stat-icon-wrap.amber  svg { fill: var(--amber); }
+.stat-icon-wrap.purple svg { fill: var(--purple); }
+
+/* ---------- Value & Sub ---------- */
+.stat-value {
+  font-size:     28px;
+  font-weight:   600;
+  color:         var(--text);
+  line-height:   1;
+  margin-bottom: 6px;
+}
+
+.stat-card.top-buyer .stat-value {
+  font-size: 22px;
+}
+
+.stat-sub {
+  font-size: 12px;
+  color:     var(--muted);
+}
+
+/* =============================================
+   TABLE CARD
+   ============================================= */
+.table-card {
+  background:    var(--surface);
+  border-radius: var(--radius);
+  box-shadow:    var(--shadow);
+  border:        1px solid var(--border);
+  overflow:      hidden;
+}
+
+.table-header {
+  padding:       20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display:       flex;
+  align-items:   center;
+  gap:           10px;
+}
+
+.table-header svg {
+  width:  18px;
+  height: 18px;
+  fill:   var(--text);
+}
+
+.table-header h2 {
+  font-size:   16px;
+  font-weight: 600;
+  margin:      0;
+}
+
+/* =============================================
+   TABLE
+   ============================================= */
+table {
+  width:           100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  font-size:      11px;
+  font-weight:    600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color:          var(--muted);
+  padding:        10px 24px;
+  text-align:     left;
+  background:     #f8fafc;
+  border-bottom:  1px solid var(--border);
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition:    background 0.15s;
+}
+
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover      { background: #f8fafc; }
+
+tbody td {
+  padding:        14px 24px;
+  font-size:      13px;
+  color:          var(--text);
+  vertical-align: middle;
+}
+
+td.spent { font-weight: 600; }
+
+/* =============================================
+   BUYER CELL
+   ============================================= */
+.buyer-cell {
+  display:     flex;
+  align-items: center;
+  gap:         12px;
+}
+
+.avatar {
+  width:           36px;
+  height:          36px;
+  border-radius:   50%;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  font-size:       13px;
+  font-weight:     600;
+  flex-shrink:     0;
+}
+
+.av-blue   { background: var(--blue-bg);   color: var(--blue); }
+.av-green  { background: var(--green-bg);  color: var(--green); }
+.av-amber  { background: var(--amber-bg);  color: var(--amber); }
+.av-purple { background: var(--purple-bg); color: var(--purple); }
+
+.buyer-name {
+  font-weight: 600;
+  font-size:   13px;
+}
+
+.buyer-email {
+  font-size:  12px;
+  color:      var(--muted);
+  margin-top: 1px;
+}
+
+/* =============================================
+   BADGE
+   ============================================= */
+.badge {
+  display:      inline-flex;
+  align-items:  center;
+  padding:      3px 10px;
+  border-radius: 20px;
+  font-size:    11px;
+  font-weight:  600;
+}
+
+.badge-active   { background: var(--green-bg); color: #15803d; }
+.badge-inactive { background: #f1f5f9;         color: #64748b; }
+
+/* =============================================
+   BUTTON
+   ============================================= */
+.btn-view {
+  background:  var(--blue);
+  color:       #ffffff;
+  border:      none;
+  padding:     6px 14px;
+  border-radius: 8px;
+  font-size:   12px;
+  font-weight: 500;
+  cursor:      pointer;
+  font-family: inherit;
+  transition:  background 0.15s, transform 0.1s;
+}
+
+.btn-view:hover  { background: #1d4ed8; }
+.btn-view:active { transform: scale(0.97); }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 700px) {
+  .stats-grid   { grid-template-columns: 1fr 1fr; }
+  .stats-bottom { grid-template-columns: 1fr; }
+
+  .container { padding: 16px 12px; }
+
+  thead th:nth-child(3), tbody td:nth-child(3),
+  thead th:nth-child(5), tbody td:nth-child(5) { display: none; }
+}

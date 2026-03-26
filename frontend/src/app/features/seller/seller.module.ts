@@ -14,6 +14,7 @@ import { ProjectComponent } from './project/project.component';
 import { SalesComponent } from './sales/sales.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { ReviewsComponent } from './reviews/reviews.component';
+import { EditProjectComponent } from './edit-project/edit-project.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ReviewsComponent } from './reviews/reviews.component';
     ProjectComponent,
     SalesComponent,
     AnalyticsComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    EditProjectComponent
   ],
     imports: [
         CommonModule,

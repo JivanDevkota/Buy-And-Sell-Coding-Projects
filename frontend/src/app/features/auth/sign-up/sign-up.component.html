@@ -1,24 +1,23 @@
 <app-nav></app-nav>
 
-<div class="container min-vh-100 d-flex align-items-center justify-content-center">
+<div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
   <div class="row w-100 justify-content-center">
-    <div class="col-lg-4 col-md-6">
+    <div class="col-lg-4 col-md-6 col-sm-10">
 
       <!-- Error Alert -->
-      <div *ngIf="error" class="alert alert-danger text-center">
+      <div *ngIf="error" class="alert alert-danger text-center mb-3">
         {{ error }}
       </div>
 
-      <!-- Register Card -->
-      <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-body p-4">
+      <!-- Card -->
+      <div class="card border-0">
+        <div class="card-body">
 
           <!-- Header -->
           <div class="text-center mb-4">
+            <div class="auth-logo">&lt;/&gt;</div>
             <h3 class="fw-bold">Create Account</h3>
-            <p class="text-muted mb-0">
-              Join us and start your journey
-            </p>
+            <p class="text-muted mb-0">Join us and start your journey</p>
           </div>
 
           <!-- Form -->
@@ -62,22 +61,21 @@
 
             <button
               [disabled]="loading"
-              class="btn btn-success btn-lg w-100 mt-3"
+              class="btn btn-success btn-lg w-100 mt-2"
               type="submit"
             >
-              <span *ngIf="!loading">Register</span>
+              <span *ngIf="!loading">Create Account</span>
               <span *ngIf="loading">Creating account...</span>
             </button>
 
           </form>
 
           <!-- Footer -->
-          <div class="text-center mt-4">
+          <hr class="auth-divider"/>
+          <div class="text-center">
             <small class="text-muted">
               Already have an account?
-              <a class="fw-semibold text-decoration-none" routerLink="/auth/signin">
-                Login
-              </a>
+              <a class="fw-semibold text-decoration-none" routerLink="/auth/signin">Sign in</a>
             </small>
           </div>
 

@@ -6,6 +6,7 @@ import {CategoryComponent} from "./category/category.component";
 import {AllUsersComponent} from "./all-users/all-users.component";
 import {AllSellersComponent} from "./all-sellers/all-sellers.component";
 import {PendingProjectsComponent} from "./pending-projects/pending-projects.component";
+import {AllBuyersComponent} from "./all-buyers/all-buyers.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
       {path: 'categories', component: CategoryComponent},
       {path:'users',component:AllUsersComponent},
       {path:'sellers',component:AllSellersComponent},
+      {path:'buyers',component:AllBuyersComponent},
       {path:'pending-projects',component:PendingProjectsComponent},
     ]
   }

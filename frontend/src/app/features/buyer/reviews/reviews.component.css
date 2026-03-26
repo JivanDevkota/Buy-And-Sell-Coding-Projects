@@ -1,81 +1,155 @@
-.container {
-  max-width: 800px;
-  margin: auto;
-  font-family: Arial, sans-serif;
+:host {
+  display: block;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+.reviews-page {
+  /*background: #f1f5f9;*/
+  /*min-height: 100vh;*/
+  /*padding: 24px;*/
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 24px 40px;
 }
+
+/* PAGE HEADER CARD */
+.reviews-page-header {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(15,23,42,0.05);
+}
+
+.page-header-inner {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.page-header-left { display: flex; align-items: center; gap: 14px; }
+
+.page-header-icon {
+  width: 44px; height: 44px; background: #f59e0b;
+  border-radius: 12px; display: flex; align-items: center;
+  justify-content: center; font-size: 19px; color: #ffffff; flex-shrink: 0;
+}
+
+.page-header-title {
+  font-family: 'Bricolage Grotesque', Georgia, serif;
+  font-size: 1.2rem; font-weight: 800; color: #0f172a;
+  margin: 0 0 2px; letter-spacing: -0.02em; line-height: 1;
+}
+.page-header-sub { font-size: 12px; color: #94a3b8; margin: 0; }
+
+.header-select {
+  padding: 7px 30px 7px 12px;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-size: 12px; border: 1.5px solid #e2e8f0; border-radius: 9px;
+  background: #ffffff; color: #374151; cursor: pointer; outline: none;
+  -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+  min-width: 160px; transition: border-color .2s;
+}
+.header-select:focus { border-color: #2563eb; }
+
+/* BODY */
+.reviews-body { max-width: 100%; }
+
+/* SECTION CARD */
+.section-card {
+  background: #ffffff; border: 1.5px solid #e2e8f0;
+  border-radius: 16px; box-shadow: 0 2px 10px rgba(15,23,42,0.04); overflow: hidden;
+}
+
+/* REVIEW CARDS */
+.reviews-list { display: flex; flex-direction: column; gap: 0; }
 
 .review-card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 20px;
-  background: #fff;
+  padding: 16px 20px; border-bottom: 1px solid #f8fafc;
+  transition: background 0.15s;
 }
+.review-card:last-child { border-bottom: none; }
+.review-card:hover { background: #fafafa; }
 
 .review-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; gap: 11px; margin-bottom: 12px;
 }
 
 .avatar {
-  width: 45px;
-  height: 45px;
-  background: #3f51b5;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, #2563eb, #818cf8);
+  color: #ffffff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bricolage Grotesque', Georgia, serif;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
 }
 
-.info {
-  flex: 1;
-  margin-left: 10px;
+.info { flex: 1; min-width: 0; }
+.info h3 {
+  font-family: 'Bricolage Grotesque', Georgia, serif;
+  font-size: 14px; font-weight: 700; color: #0f172a;
+  margin: 0 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+.time { font-size: 11px; color: #94a3b8; margin: 0; }
 
-.time {
-  color: gray;
-  font-size: 13px;
-}
-
-.stars {
-  color: gold;
+.stars { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
+.star-filled { color: #f59e0b; font-size: 13px; line-height: 1; }
+.star-empty  { color: #e2e8f0; font-size: 13px; line-height: 1; }
+.rating-num  {
+  font-family: 'Bricolage Grotesque', Georgia, serif;
+  font-size: 12px; font-weight: 700; color: #0f172a; margin-left: 3px;
 }
 
 .comment {
-  margin: 15px 0;
-  font-style: italic;
+  font-size: 12px; color: #475569; line-height: 1.75; font-style: italic;
+  background: #f8fafc; border: 1.5px solid #f1f5f9;
+  border-left: 3px solid #2563eb; border-radius: 0 8px 8px 0;
+  padding: 10px 13px; margin: 0 0 11px;
 }
 
 .seller-response {
-  background: #f5f5f5;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  background: #f8fafc; border: 1.5px solid #e2e8f0;
+  border-radius: 9px; padding: 10px 13px; margin-bottom: 11px;
 }
+.seller-response-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: #64748b; margin-bottom: 5px;
+  display: flex; align-items: center; gap: 4px;
+}
+.seller-response-label i { color: #2563eb; }
+.seller-response-text { font-size: 12px; color: #475569; line-height: 1.6; margin: 0 0 4px; }
+.response-time { font-size: 10px; color: #94a3b8; }
 
-.response-time {
-  font-size: 12px;
-  color: gray;
+.card-footer {
+  display: flex; justify-content: flex-end;
+  padding-top: 9px; border-top: 1px solid #f1f5f9;
 }
 
 .edit-btn {
-  border: none;
-  background: #eee;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 13px; background: transparent; border: 1.5px solid #e2e8f0;
+  border-radius: 8px; font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-size: 11px; font-weight: 600; color: #475569; cursor: pointer; transition: all .2s;
 }
+.edit-btn:hover { border-color: #2563eb; color: #2563eb; background: #eff6ff; }
 
-.edit-btn:hover {
-  background: #ddd;
+/* EMPTY */
+.empty-state { text-align: center; padding: 60px 20px; }
+.empty-icon {
+  width: 64px; height: 64px; border-radius: 50%; background: #fef3c7;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px; font-size: 26px; color: #d97706;
+}
+.empty-state h3 {
+  font-family: 'Bricolage Grotesque', Georgia, serif;
+  font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: 5px;
+}
+.empty-state p { font-size: 12px; color: #94a3b8; }
+
+@media (max-width: 768px) {
+  .reviews-page { padding: 14px; }
+  .page-header-inner { flex-direction: column; align-items: flex-start; }
+  .header-select { width: 100%; }
 }

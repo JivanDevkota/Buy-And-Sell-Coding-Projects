@@ -84,5 +84,16 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     Page<PendingProjects> findAllPendingProjects(@Param("status") ProjectStatus status, Pageable pageable);
 
     @Query("SELECT p FROM Project p LEFT JOIN FETCH p.tags WHERE p.id = :projectId")
-    Optional<Project>findByIdWithTags(Long projectId);
+    Optional<Project> findByIdWithTags(Long projectId);
+
+
+    @Query("""
+            select count(p)
+                from Project p
+                    WHERE p.seller.id = :sellerId
+                AND p.isActive=true 
+            """)
+    Long getActiveProjectsBySeller(Long sellerId);
+
+
 }

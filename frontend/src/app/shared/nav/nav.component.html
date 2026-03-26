@@ -1,9 +1,10 @@
 <ng-container *ngIf="!isSellerLoggedIn && !isBuyerLoggedIn">
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top custom-nav">
+  <nav class="navbar navbar-expand-lg sticky-top custom-nav">
     <div class="container-fluid px-4">
 
-      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
-        <span class="me-2 text-warning">&lt;/&gt;</span>CodeMarket
+      <a class="navbar-brand" href="#">
+        <span class="brand-icon">&lt;/&gt;</span>
+        CodeMarket
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
@@ -12,23 +13,22 @@
 
       <div class="collapse navbar-collapse" id="mainNav">
 
-        <!-- Center menu -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-3">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-1">
           <li class="nav-item">
-            <a class="nav-link active" href="#"> <i class="bi bi-house-door"></i> Categories </a>
+            <a class="nav-link active" href="#">
+              <i class="bi bi-house-door"></i> Categories
+            </a>
           </li>
-
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <i class="bi bi-briefcase"></i> Projects</a>
+              <i class="bi bi-briefcase"></i> Projects
+            </a>
           </li>
-
           <li class="nav-item">
             <a class="nav-link" href="#">
               <i class="bi bi-question-circle"></i> How It Works
             </a>
           </li>
-
           <li class="nav-item">
             <a class="nav-link" href="#">
               <i class="bi bi-envelope"></i> Contact
@@ -37,15 +37,11 @@
         </ul>
 
         <div class="d-flex align-items-center gap-2">
-
           <a href="#" class="btn btn-outline-light position-relative">
             <i class="bi bi-cart"></i> Cart
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            2
-          </span>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
           </a>
-
-          <a routerLink="/auth/signup" routerLinkActive="active" class="btn btn-light text-primary fw-semibold">
+          <a routerLink="/auth/signup" routerLinkActive="active" class="btn btn-light">
             <i class="bi bi-person"></i> Sign In
           </a>
         </div>
@@ -53,30 +49,25 @@
       </div>
     </div>
   </nav>
-
 </ng-container>
 
-<ng-container *ngIf="isSellerLoggedIn">
-  <div class="container">
 
-  </div>
+<ng-container *ngIf="isSellerLoggedIn">
+  <div class="container"></div>
 </ng-container>
 
 <ng-container *ngIf="isSuperAdminLoggedIn">
-  <div class="container">
-
-  </div>
+  <div class="container"></div>
 </ng-container>
 
-<ng-container *ngIf="isBuyerLoggedIn">
-<!--  <div class="container">-->
 
-<!--  </div>-->
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top custom-nav">
+<ng-container *ngIf="isBuyerLoggedIn">
+  <nav class="navbar navbar-expand-lg sticky-top custom-nav">
     <div class="container-fluid px-4">
 
-      <a class="navbar-brand fw-bold d-flex align-items-center" routerLink="/home">
-        <span class="brand-icon me-2">&lt;/&gt;</span>CodeMarket
+      <a class="navbar-brand" routerLink="/home">
+        <span class="brand-icon">&lt;/&gt;</span>
+        CodeMarket
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#buyerNav">
@@ -84,33 +75,29 @@
       </button>
 
       <div class="collapse navbar-collapse" id="buyerNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-1">
 
-          <!-- HOME — go back to browse page -->
           <li class="nav-item">
             <a class="nav-link" routerLink="/home" routerLinkActive="active">
-              <i class="bi bi-house-door me-1"></i>Home
+              <i class="bi bi-house-door"></i> Home
             </a>
           </li>
 
-          <!-- BROWSE PROJECTS -->
           <li class="nav-item">
             <a class="nav-link" routerLink="/home" fragment="categories">
-              <i class="bi bi-grid me-1"></i>Browse Projects
+              <i class="bi bi-grid"></i> Browse Projects
             </a>
           </li>
 
-          <!-- MY DASHBOARD — goes to buyer area -->
           <li class="nav-item">
             <a class="nav-link" routerLink="/buyer/overview" routerLinkActive="active">
-              <i class="bi bi-speedometer2 me-1"></i>My Dashboard
+              <i class="bi bi-speedometer2"></i> My Dashboard
             </a>
           </li>
 
-          <!-- MY ORDERS shortcut -->
           <li class="nav-item">
             <a class="nav-link" routerLink="/buyer/orders" routerLinkActive="active">
-              <i class="bi bi-bag me-1"></i>My Purchases
+              <i class="bi bi-bag"></i> My Purchases
             </a>
           </li>
 
@@ -118,25 +105,17 @@
 
         <div class="d-flex align-items-center gap-2">
 
-          <!-- Cart with count badge -->
-<!--          <a routerLink="/buyer/cart" class="btn btn-outline-light position-relative">-->
-<!--            <i class="bi bi-cart3"></i> Cart-->
-<!--            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">-->
-<!--              3-->
-<!--            </span>-->
-<!--          </a>-->
-
-          <!-- Username dropdown -->
           <div class="dropdown">
             <button
-              class="btn btn-light text-primary fw-semibold dropdown-toggle d-flex align-items-center gap-2"
+              class="btn btn-light dropdown-toggle d-flex align-items-center gap-2"
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false">
               <div class="avatar-circle">{{ username?.charAt(0)?.toUpperCase() }}</div>
               {{ username }}
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+
+            <ul class="dropdown-menu dropdown-menu-end">
               <li class="px-3 py-2 border-bottom">
                 <div class="fw-bold text-dark small">{{ username }}</div>
                 <div class="text-muted" style="font-size:0.75rem">Premium Buyer</div>

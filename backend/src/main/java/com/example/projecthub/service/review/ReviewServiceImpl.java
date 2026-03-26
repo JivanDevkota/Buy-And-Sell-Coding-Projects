@@ -1,5 +1,6 @@
 package com.example.projecthub.service.review;
 
+import com.example.projecthub.dto.dashboard.DashboardResponse;
 import com.example.projecthub.dto.review.ReviewResponseDTO;
 import com.example.projecthub.model.Project;
 import com.example.projecthub.model.PurchaseStatus;
@@ -19,20 +20,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Service implementation for managing project reviews and ratings.
- *
- * Handles review operations including:
- * - Adding new reviews with validation
- * - Verifying purchase eligibility before review
- * - Preventing duplicate reviews
- * - Rating validation (1-5 scale)
- * - Retrieving project reviews
- * - Updating project average ratings
- *
- * @author Project Hub Team
- * @version 1.0
- */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -45,7 +32,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     /**
      * Adds a new review for a project with comprehensive validation.
-     *
+     * <p>
      * Validates:
      * - Buyer exists and is valid
      * - Project exists and is valid
@@ -54,10 +41,10 @@ public class ReviewServiceImpl implements ReviewService {
      * - Rating is within 1-5 range
      * - Updates project's average rating after review is added
      *
-     * @param buyerId the ID of the buyer submitting the review
+     * @param buyerId   the ID of the buyer submitting the review
      * @param projectId the ID of the project being reviewed
-     * @param rating the rating score (1-5)
-     * @param comment the review comment text
+     * @param rating    the rating score (1-5)
+     * @param comment   the review comment text
      * @return Review the created review entity
      * @throws RuntimeException if buyer not found
      * @throws RuntimeException if project not found
@@ -121,7 +108,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     /**
      * Retrieves all reviews for a specific project.
-     *
+     * <p>
      * Fetches reviews in database order (typically chronological).
      * Returns empty list if project has no reviews.
      *
@@ -181,4 +168,7 @@ public class ReviewServiceImpl implements ReviewService {
         else
             return "just now";
     }
+
+
+
 }

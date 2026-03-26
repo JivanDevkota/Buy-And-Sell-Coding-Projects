@@ -12,30 +12,35 @@
 
 <!-- Project Details -->
 <div *ngIf="!loading && projectDetails" class="container py-4">
+
   <!-- Breadcrumb -->
   <nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
-      <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Projects</a></li>
+      <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/">Projects</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ projectDetails.title }}</li>
     </ol>
   </nav>
 
   <div class="row g-3">
-    <!-- Main Content -->
+
+    <!-- ========================
+         MAIN CONTENT
+    ======================== -->
     <div class="col-lg-8">
+
       <!-- Project Header Card -->
-      <div class="card border-0 shadow-sm mb-3">
-        <div class="card-body p-3">
+      <div class="card border-0 shadow-sm mb-3 project-header-card">
+        <div class="card-body">
           <div class="d-flex justify-content-between align-items-start mb-2">
-            <div class="flex-grow-1">
+            <div class="flex-grow-1 pe-3">
               <h1 class="h3 fw-bold mb-2">{{ projectDetails.title }}</h1>
               <div class="d-flex align-items-center flex-wrap gap-2 mb-3">
                 <span class="badge bg-primary bg-opacity-10 text-primary border border-primary px-3 py-1">
                   <i class="fas fa-folder me-1"></i>{{ projectDetails.categoryName }}
                 </span>
-                <div class="d-flex align-items-center">
-                  <span class="text-warning me-1">
+                <div class="d-flex align-items-center gap-1">
+                  <span class="text-warning">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -46,29 +51,28 @@
                 </div>
               </div>
             </div>
-            <div class="text-end">
+            <div class="text-end flex-shrink-0">
               <h3 class="text-success fw-bold mb-0">${{ projectDetails.price }}</h3>
               <small class="text-muted">One-time payment</small>
             </div>
           </div>
 
           <!-- Project Image -->
-          <div class="mb-3">
+          <div class="mb-1">
             <img
               [src]="'http://localhost:8080' + projectDetails.projectImgUrl"
-              class="img-fluid rounded-2 shadow-sm"
+              class="img-fluid"
               alt="{{ projectDetails.title }}"
-              onerror="this.src='https://via.placeholder.com/800x450/007bff/ffffff?text=Project+Image'"
-              style="max-height: 400px; width: 100%; object-fit: cover;"
+              onerror="this.src='https://via.placeholder.com/800x450/2563eb/ffffff?text=Project+Image'"
             />
           </div>
         </div>
       </div>
 
       <!-- Description Card -->
-      <div class="card border-0 shadow-sm mb-3">
-        <div class="card-body p-3">
-          <h5 class="fw-bold mb-3 text-primary">
+      <div class="card border-0 shadow-sm mb-3 description-card">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">
             <i class="fas fa-file-alt me-2"></i>Description
           </h5>
           <p class="text-dark lh-base mb-0">{{ projectDetails.description }}</p>
@@ -76,15 +80,15 @@
       </div>
 
       <!-- Technologies Card -->
-      <div class="card border-0 shadow-sm">
-        <div class="card-body p-3">
-          <h5 class="fw-bold mb-3 text-primary">
+      <div class="card border-0 shadow-sm tech-card">
+        <div class="card-body">
+          <h5 class="fw-bold mb-3">
             <i class="fas fa-cogs me-2"></i>Technologies & Tags
           </h5>
 
           <!-- Languages -->
-          <div class="mb-3">
-            <h6 class="fw-semibold mb-2 text-muted">Programming Languages & Frameworks</h6>
+          <div class="mb-4">
+            <h6 class="fw-semibold mb-2">Programming Languages & Frameworks</h6>
             <div class="d-flex flex-wrap gap-2">
               <span
                 *ngFor="let lang of projectDetails.languagesName; let i = index"
@@ -98,7 +102,7 @@
 
           <!-- Tags -->
           <div>
-            <h6 class="fw-semibold mb-2 text-muted">Project Tags</h6>
+            <h6 class="fw-semibold mb-2">Project Tags</h6>
             <div class="d-flex flex-wrap gap-2">
               <span
                 *ngFor="let tag of projectDetails.tags; let i = index"
@@ -113,50 +117,54 @@
       </div>
     </div>
 
-    <!-- Sidebar -->
+    <!-- ========================
+         SIDEBAR
+    ======================== -->
     <div class="col-lg-4">
+
       <!-- Purchase Card -->
-      <div class="card border-0 shadow-sm sticky-top mb-3" style="top: 20px;">
-        <div class="card-body p-3">
+      <div class="card border-0 shadow-sm sticky-top mb-3 purchase-card">
+        <div class="card-body">
+
           <div class="text-center mb-3">
             <h4 class="text-success fw-bold mb-0">${{ projectDetails.price }}</h4>
             <small class="text-muted">One-time purchase • Lifetime access</small>
           </div>
 
-          <div class="d-grid gap-2 mb-3">
+          <div class="d-grid gap-2 mb-4">
             <button class="btn btn-primary btn-lg">
               <i class="fas fa-shopping-cart me-2"></i>Purchase Now
             </button>
-            <button class="btn btn-outline-primary btn-lg"(click)="addProjectToWishlist(projectDetails.id)">
+            <button class="btn btn-outline-primary btn-lg" (click)="addProjectToWishlist(projectDetails.id)">
               <i class="bi bi-heart-fill"></i> Add to Wishlist
             </button>
           </div>
 
-          <!-- Features -->
-          <div class="mb-3">
+          <!-- What's Included -->
+          <div class="mb-4">
             <h6 class="fw-bold mb-2">What's Included</h6>
             <div class="row g-2">
               <div class="col-6">
-                <div class="feature-item p-2 border rounded text-center">
-                  <i class="fas fa-file-code fa-lg text-primary mb-2"></i>
+                <div class="feature-item">
+                  <i class="fas fa-file-code fa-lg mb-2"></i>
                   <div class="small">Source Code</div>
                 </div>
               </div>
               <div class="col-6">
-                <div class="feature-item p-2 border rounded text-center">
-                  <i class="fas fa-book fa-lg text-primary mb-2"></i>
+                <div class="feature-item">
+                  <i class="fas fa-book fa-lg mb-2"></i>
                   <div class="small">Documentation</div>
                 </div>
               </div>
               <div class="col-6">
-                <div class="feature-item p-2 border rounded text-center">
-                  <i class="fas fa-database fa-lg text-primary mb-2"></i>
+                <div class="feature-item">
+                  <i class="fas fa-database fa-lg mb-2"></i>
                   <div class="small">Database</div>
                 </div>
               </div>
               <div class="col-6">
-                <div class="feature-item p-2 border rounded text-center">
-                  <i class="fas fa-headset fa-lg text-primary mb-2"></i>
+                <div class="feature-item">
+                  <i class="fas fa-headset fa-lg mb-2"></i>
                   <div class="small">Support</div>
                 </div>
               </div>
@@ -165,19 +173,19 @@
 
           <!-- Project Stats -->
           <div class="border-top pt-3">
-            <h6 class="fw-bold mb-2">Project Stats</h6>
-            <div class="row text-center">
+            <h6 class="fw-bold mb-3">Project Stats</h6>
+            <div class="row text-center g-0">
               <div class="col-4">
-                <div class="stat-value fw-bold">24</div>
-                <div class="stat-label text-muted small">Sales</div>
+                <div class="stat-value">24</div>
+                <div class="stat-label">Sales</div>
               </div>
               <div class="col-4">
-                <div class="stat-value fw-bold">15</div>
-                <div class="stat-label text-muted small">Downloads</div>
+                <div class="stat-value">15</div>
+                <div class="stat-label">Downloads</div>
               </div>
               <div class="col-4">
-                <div class="stat-value fw-bold">8</div>
-                <div class="stat-label text-muted small">Reviews</div>
+                <div class="stat-value">8</div>
+                <div class="stat-label">Reviews</div>
               </div>
             </div>
           </div>
@@ -185,23 +193,23 @@
       </div>
 
       <!-- Project Info Card -->
-      <div class="card border-0 shadow-sm mb-3">
-        <div class="card-body p-3">
+      <div class="card border-0 shadow-sm mb-3 info-card">
+        <div class="card-body">
           <h6 class="fw-bold mb-3">Project Details</h6>
-          <div class="row">
-            <div class="col-6 mb-2">
+          <div class="row g-0">
+            <div class="col-6 mb-3">
               <div class="text-muted small">Category</div>
               <div class="fw-medium">{{ projectDetails.categoryName }}</div>
             </div>
-            <div class="col-6 mb-2">
+            <div class="col-6 mb-3">
               <div class="text-muted small">Languages</div>
               <div class="fw-medium">{{ projectDetails.languagesName.length || 0 }}</div>
             </div>
-            <div class="col-6 mb-2">
+            <div class="col-6 mb-3">
               <div class="text-muted small">Tags</div>
-              <div class="fw-medium">{{ projectDetails.tags.length || 0 }}</div> <!-- FIXED HERE -->
+              <div class="fw-medium">{{ projectDetails.tags.length || 0 }}</div>
             </div>
-            <div class="col-6 mb-2">
+            <div class="col-6 mb-3">
               <div class="text-muted small">Last Updated</div>
               <div class="fw-medium">Feb 2024</div>
             </div>
@@ -210,18 +218,19 @@
       </div>
 
       <!-- Need Help Card -->
-      <div class="card border-0 shadow-sm">
-        <div class="card-body p-3">
+      <div class="card border-0 shadow-sm help-card">
+        <div class="card-body">
           <div class="text-center">
-            <i class="fas fa-question-circle fa-2x text-primary mb-2"></i>
+            <i class="fas fa-question-circle fa-2x mb-2"></i>
             <h6 class="fw-bold mb-1">Have Questions?</h6>
-            <p class="text-muted small mb-2">Contact the seller for more details</p>
+            <p class="text-muted small mb-3">Contact the seller for more details</p>
             <button class="btn btn-outline-primary btn-sm w-100">
               <i class="fas fa-envelope me-1"></i>Contact Seller
             </button>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>

@@ -254,7 +254,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     public Page<PendingProjects> getUnderReviewProjects(int page, int size) {
-
         Pageable pageable = PageRequest.of(page, size);
         return projectRepository.findAllPendingProjects(ProjectStatus.UNDER_REVIEW, pageable);
 

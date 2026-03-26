@@ -1,132 +1,132 @@
-<div class="container my-4">
+<div class="sales-page">
 
-  <!-- Header -->
-  <div class="manage-sales-card p-4 mb-4">
-    <div class="d-flex align-items-start">
-      <i class="bi bi-list-check fs-3 me-3"></i>
-      <div>
-        <h3 class="mb-1 fw-bold">Manage Sales</h3>
-        <p class="text-muted mb-0">Track and manage your project sales</p>
+  <!-- Page Header Card -->
+  <div class="manage-sales-card">
+    <div class="header-left">
+      <div class="header-icon">
+        <i class="bi bi-list-check"></i>
       </div>
+      <div>
+        <h3 class="header-title">Manage Sales</h3>
+        <p class="header-sub">Track and manage your project sales</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="btn-export">
+        <i class="bi bi-download"></i> Export
+      </button>
     </div>
   </div>
 
-  <!-- Loading Spinner -->
-  <div *ngIf="loading" class="text-center py-5">
-    <div class="spinner-border text-primary" role="status"></div>
-    <p class="text-muted mt-2">Loading stats...</p>
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-box">
+    <div class="spinner-border mb-3" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p style="font-size:13px;color:#94a3b8;margin:0">Loading sales data...</p>
   </div>
 
   <!-- Error -->
-  <div *ngIf="error" class="alert alert-danger d-flex justify-content-between align-items-center">
+  <div *ngIf="error" class="error-box">
     <span><i class="bi bi-exclamation-triangle me-2"></i>{{ error }}</span>
-    <button class="btn btn-sm btn-danger" (click)="fetchStats()">Retry</button>
+    <button class="btn-retry" (click)="fetchStats()">
+      <i class="bi bi-arrow-clockwise"></i> Retry
+    </button>
   </div>
 
-  <!-- Stats Cards -->
-  <div class="row g-4" *ngIf="!loading && !error && stats">
+  <!-- Stat Cards -->
+  <div *ngIf="!loading && !error && stats" class="stat-grid">
 
     <!-- Today -->
-    <div class="col-md-4">
-      <div class="sales-card border-success">
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <span class="text-muted">TODAY'S SALES</span>
-            <div class="icon bg-success-subtle">
-              <i class="bi bi-gear text-success"></i>
-            </div>
-          </div>
-          <h2 class="mt-3 fw-bold">{{ stats.today.count }}</h2>
-          <p class="text-muted">{{ stats.today.revenue | currency }} revenue</p>
-        </div>
+    <div class="stat-card green">
+      <div class="stat-top">
+        <span class="stat-label">Today's Sales</span>
+        <div class="stat-icon green"><i class="bi bi-sun-fill"></i></div>
+      </div>
+      <div class="stat-number">{{ stats.today.count }}</div>
+      <div class="stat-revenue">
+        <i class="bi bi-arrow-up-short"></i>
+        {{ stats.today.revenue | currency }} revenue
       </div>
     </div>
 
-    <!-- Week -->
-    <div class="col-md-4">
-      <div class="sales-card border-primary">
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <span class="text-muted">THIS WEEK</span>
-            <div class="icon bg-primary-subtle">
-              <i class="bi bi-calendar text-primary"></i>
-            </div>
-          </div>
-          <h2 class="mt-3 fw-bold">{{ stats.thisWeek.count }}</h2>
-          <p class="text-muted">{{ stats.thisWeek.revenue | currency }} revenue</p>
-        </div>
+    <!-- This Week -->
+    <div class="stat-card blue">
+      <div class="stat-top">
+        <span class="stat-label">This Week</span>
+        <div class="stat-icon blue"><i class="bi bi-calendar-week-fill"></i></div>
+      </div>
+      <div class="stat-number">{{ stats.thisWeek.count }}</div>
+      <div class="stat-revenue">
+        <i class="bi bi-arrow-up-short"></i>
+        {{ stats.thisWeek.revenue | currency }} revenue
       </div>
     </div>
 
-    <!-- Month -->
-    <div class="col-md-4">
-      <div class="sales-card border-purple">
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <span class="text-muted">THIS MONTH</span>
-            <div class="icon bg-purple-subtle">
-              <i class="bi bi-calendar3 text-purple"></i>
-            </div>
-          </div>
-          <h2 class="mt-3 fw-bold">{{ stats.thisMonth.count }}</h2>
-          <p class="text-muted">{{ stats.thisMonth.revenue | currency }} revenue</p>
-        </div>
+    <!-- This Month -->
+    <div class="stat-card purple">
+      <div class="stat-top">
+        <span class="stat-label">This Month</span>
+        <div class="stat-icon purple"><i class="bi bi-calendar3-fill"></i></div>
+      </div>
+      <div class="stat-number">{{ stats.thisMonth.count }}</div>
+      <div class="stat-revenue">
+        <i class="bi bi-arrow-up-short"></i>
+        {{ stats.thisMonth.revenue | currency }} revenue
       </div>
     </div>
-
-    <!-- Conversion -->
-<!--    <div class="col-md-4">-->
-<!--      <div class="sales-card border-warning">-->
-<!--        <div class="card-body">-->
-<!--          <div class="d-flex justify-content-between">-->
-<!--            <span class="text-muted">CONVERSION RATE</span>-->
-<!--            <div class="icon bg-warning-subtle">-->
-<!--              <i class="bi bi-percent text-warning"></i>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <h2 class="mt-3 fw-bold">{{ stats.conversion.rate }}%</h2>-->
-<!--          <p class="text-muted">-->
-<!--            {{ stats.conversion.sales | number }} sales /-->
-<!--            {{ stats.conversion.views | number }} views-->
-<!--          </p>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
 
   </div>
 
-  <!-- Recent Sales -->
-  <div class="recent-sales-card p-4 mt-5" *ngIf="!loading && !error">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h4 class="fw-bold">
-        <i class="bi bi-cart me-2"></i> Recent Sales
+  <!-- Recent Sales Card -->
+  <div *ngIf="!loading && !error" class="recent-sales-card">
+
+    <div class="recent-sales-header">
+      <h4 class="recent-sales-title">
+        <i class="bi bi-cart-fill"></i> Recent Sales
       </h4>
-      <div class="d-flex gap-3">
-        <select class="form-select form-select-sm">
+      <div class="header-controls">
+        <select class="period-select">
           <option>Last 7 days</option>
+          <option>Last 30 days</option>
+          <option>This month</option>
+          <option>All time</option>
         </select>
-        <button class="btn btn-primary btn-sm">
+        <button class="btn-export-sm">
           <i class="bi bi-download"></i> Export
         </button>
       </div>
     </div>
 
-    <!-- Sale Item -->
-    <div class="sale-item d-flex justify-content-between py-3 border-bottom">
-      <div>
-        <h6 class="fw-bold mb-1">E-Commerce React App</h6>
-        <small class="text-muted">Alex Johnson • 2 hours ago</small>
+    <!-- Sales list (replace with *ngFor="let sale of sales" in real usage) -->
+    <div class="sales-list">
+      <div class="sale-item">
+        <div class="sale-avatar">AJ</div>
+        <div class="sale-info">
+          <p class="sale-project">E-Commerce React App</p>
+          <span class="sale-meta">
+            <i class="bi bi-person-fill"></i> Alex Johnson
+            <span style="color:#e2e8f0">·</span>
+            <i class="bi bi-clock"></i> 2 hours ago
+          </span>
+        </div>
+        <div class="sale-amount">+$49.99</div>
       </div>
-      <div class="text-success fw-bold">+ $49.99</div>
+
+      <div class="sale-item">
+        <div class="sale-avatar">SM</div>
+        <div class="sale-info">
+          <p class="sale-project">Flight Booking System</p>
+          <span class="sale-meta">
+            <i class="bi bi-person-fill"></i> Sarah Miller
+            <span style="color:#e2e8f0">·</span>
+            <i class="bi bi-clock"></i> 5 hours ago
+          </span>
+        </div>
+        <div class="sale-amount">+$79.99</div>
+      </div>
     </div>
 
-    <div class="sale-item d-flex justify-content-between py-3">
-      <div>
-        <h6 class="fw-bold mb-1">Flight Booking System</h6>
-        <small class="text-muted">Sarah Miller • 5 hours ago</small>
-      </div>
-      <div class="text-success fw-bold">+ $79.99</div>
-    </div>
   </div>
 
 </div>

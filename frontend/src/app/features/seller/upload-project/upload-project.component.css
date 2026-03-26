@@ -1,0 +1,266 @@
+:host {
+  display: block;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.upload-page {
+  background: #f1f5f9;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* ── PAGE HEADER CARD (matches Manage Sales) ── */
+.page-header-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(15,23,42,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-icon {
+  width: 44px;
+  height: 44px;
+  background: #7c3aed;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-family: 'Bricolage Grotesque', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 2px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.header-sub {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* ── FORM GRID: 2-column layout ── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* Left and right panels are white section cards */
+.form-panel {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(15,23,42,0.04);
+  overflow: hidden;
+}
+
+.panel-head {
+  padding: 13px 18px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.panel-title {
+  font-family: 'Bricolage Grotesque', Georgia, serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.panel-title i { color: #7c3aed; font-size: 13px; }
+
+.panel-body {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── ALERTS ── */
+.alert-success-box,
+.alert-error-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 13px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+.alert-success-box { background:#f0fdf4; border:1.5px solid #bbf7d0; color:#166534; }
+.alert-error-box   { background:#fef2f2; border:1.5px solid #fecaca; color:#991b1b; }
+.alert-success-box i, .alert-error-box i { font-size:14px; flex-shrink:0; margin-top:1px; }
+
+/* ── FORM FIELDS ── */
+.form-field { display: flex; flex-direction: column; gap: 5px; }
+
+.form-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #374151;
+  letter-spacing: 0.01em;
+}
+.required { color: #f43f5e; margin-left: 2px; }
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 9px;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  color: #0f172a;
+  background: #f8fafc;
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  display: block;
+}
+.form-input::placeholder, .form-textarea::placeholder { color: #cbd5e1; }
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+  background: #ffffff;
+}
+.form-textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+.form-select {
+  cursor: pointer; -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  background-color: #f8fafc; padding-right: 32px;
+}
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ── CHECKBOXES ── */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 6px;
+}
+
+.checkbox-item {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 10px; background: #f8fafc;
+  border: 1.5px solid #e2e8f0; border-radius: 8px;
+  cursor: pointer; transition: border-color 0.2s, background 0.2s; user-select: none;
+}
+.checkbox-item:hover { border-color: #7c3aed; background: #faf5ff; }
+.checkbox-item input[type="checkbox"] { width: 14px; height: 14px; accent-color: #7c3aed; cursor: pointer; flex-shrink: 0; }
+.checkbox-item span { font-size: 12px; font-weight: 600; color: #374151; }
+
+/* ── TAGS ── */
+.tag-input-row { display: flex; gap: 7px; }
+.tag-input-row .form-input { flex: 1; }
+.btn-add-tag {
+  padding: 8px 13px; background: #7c3aed; color: #fff; border: none;
+  border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 12px;
+  font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  transition: background 0.2s;
+}
+.btn-add-tag:hover { background: #6d28d9; }
+
+.tags-wrap { display: flex; flex-wrap: wrap; gap: 5px; min-height: 24px; }
+.tag-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #ede9fe; color: #5b21b6; border: 1px solid #ddd6fe;
+  border-radius: 999px; padding: 3px 9px; font-size: 11px; font-weight: 600;
+}
+.tag-remove {
+  background: none; border: none; cursor: pointer; color: #7c3aed;
+  font-size: 13px; line-height: 1; padding: 0; opacity: 0.7; transition: opacity 0.15s;
+}
+.tag-remove:hover { opacity: 1; }
+
+/* ── FILE UPLOAD ── */
+.file-upload-area {
+  border: 2px dashed #e2e8f0; border-radius: 12px; padding: 20px 16px;
+  text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+  background: #f8fafc; position: relative;
+}
+.file-upload-area:hover, .file-upload-area.has-file { border-color: #7c3aed; background: #faf5ff; }
+.file-upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.upload-icon {
+  width: 40px; height: 40px; border-radius: 50%; background: #ede9fe;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 8px; font-size: 18px; color: #7c3aed;
+}
+.upload-text  { font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 2px; }
+.upload-hint  { font-size: 11px; color: #94a3b8; }
+
+.file-selected-info {
+  display: flex; align-items: center; gap: 7px; margin-top: 8px;
+  padding: 7px 11px; background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 8px; font-size: 12px; font-weight: 600; color: #166534;
+}
+.file-selected-info i { font-size: 13px; flex-shrink: 0; }
+
+/* ── FOOTER ── */
+.form-footer {
+  display: flex; justify-content: flex-end; gap: 8px;
+  padding: 14px 18px; border-top: 1px solid #f1f5f9;
+  background: #fafafa;
+}
+
+.btn-reset {
+  padding: 8px 18px; background: transparent; border: 1.5px solid #e2e8f0;
+  border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 13px;
+  font-weight: 600; color: #475569; cursor: pointer; transition: all 0.2s;
+}
+.btn-reset:hover { border-color: #94a3b8; color: #1e293b; }
+
+.btn-submit {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 22px; background: #7c3aed; color: #fff; border: none;
+  border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 13px;
+  font-weight: 700; cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-submit:hover:not(:disabled) { background: #6d28d9; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(124,58,237,0.3); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.spinner-sm {
+  display: inline-block; width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff;
+  border-radius: 50%; animation: spin 0.65s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .upload-page { padding: 14px; }
+  .two-col { grid-template-columns: 1fr; }
+  .checkbox-grid { grid-template-columns: 1fr 1fr; }
+}

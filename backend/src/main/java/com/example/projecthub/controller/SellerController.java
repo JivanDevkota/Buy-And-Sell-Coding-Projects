@@ -1,5 +1,6 @@
 package com.example.projecthub.controller;
 
+import com.example.projecthub.dto.dashboard.DashboardResponse;
 import com.example.projecthub.dto.project.ProjectDTO;
 import com.example.projecthub.dto.project.ProjectDetailsResponse;
 import com.example.projecthub.dto.project.ProjectResponse;
@@ -7,6 +8,8 @@ import com.example.projecthub.dto.projectfile.ProjectFileDTO;
 import com.example.projecthub.jwt.MyUser;
 import com.example.projecthub.service.project.ProjectService;
 import com.example.projecthub.service.purchase.PurchaseService;
+import com.example.projecthub.service.review.ReviewService;
+import com.example.projecthub.service.seller.SellerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,8 @@ public class SellerController {
 
     private final ProjectService projectService;
     private final PurchaseService purchaseService;
+    private final ReviewService reviewService;
+    private final SellerService sellerService;
 
     /**
      * Creates a new project
@@ -186,6 +191,14 @@ public class SellerController {
                         "thisMonth",purchaseService.getMonthlySales(sellerId)
                 )
         );
+    }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<DashboardResponse> getSellerDashboard(Authentication authentication){
+        com.example.projecthub.jwt.MyUser user =(MyUser)authentication.getPrincipal();
+        long userId=user.getId();
+        log.info("Fetching dashboard for seller ID: {}", userId);
+        return ResponseEntity.ok(sellerService.getSellerDashboardResponse(userId));
     }
 
     /**

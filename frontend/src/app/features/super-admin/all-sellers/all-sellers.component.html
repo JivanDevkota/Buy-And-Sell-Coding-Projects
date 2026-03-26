@@ -1,2 +1,188 @@
-<h2>Seller works</h2>
-<div class="container mt-5"></div>
+<div class="sellers-page">
+
+  <!-- Page Header Card -->
+  <div class="page-header">
+    <div class="header-left">
+      <div class="header-icon">
+        <i class="bi bi-shop-window"></i>
+      </div>
+      <div>
+        <h2 class="header-title">Sellers Management</h2>
+        <p class="header-sub" *ngIf="stats">
+          {{ stats.totalSellers }} total — {{ stats.verified }} verified,
+          {{ stats.pending }} pending, {{ stats.suspended }} suspended
+        </p>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="btn-export">
+        <i class="bi bi-download"></i> Export Report
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-box">
+    <div class="spinner-border mb-3" role="status"><span class="visually-hidden">Loading...</span></div>
+    <p style="font-size:13px;color:#94a3b8;margin:0">Loading sellers...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="error-box">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    Failed to load sellers. Please try again.
+  </div>
+
+  <!-- Stat Cards -->
+  <div *ngIf="!loading && !error" class="stat-grid">
+
+    <div class="stat-card green">
+      <div class="stat-top">
+        <span class="stat-label">Total Revenue</span>
+        <div class="stat-icon green"><i class="bi bi-currency-dollar"></i></div>
+      </div>
+      <div class="stat-value">${{ stats.revenue | number:'1.0-0' }}</div>
+      <div class="stat-sub">From all sellers</div>
+    </div>
+
+    <div class="stat-card purple">
+      <div class="stat-top">
+        <span class="stat-label">Top Seller</span>
+        <div class="stat-icon purple"><i class="bi bi-trophy-fill"></i></div>
+      </div>
+      <div class="stat-value name-value">{{ sellers[0]?.fullName || 'N/A' }}</div>
+      <div class="stat-sub">${{ sellers[0]?.totalRevenue | number:'1.0-0' }} earned</div>
+    </div>
+
+    <div class="stat-card amber">
+      <div class="stat-top">
+        <span class="stat-label">Avg. Rating</span>
+        <div class="stat-icon amber"><i class="bi bi-star-fill"></i></div>
+      </div>
+      <div class="stat-value">{{ getAverageRating() }}</div>
+      <div class="stat-sub">Out of 5.0</div>
+    </div>
+
+    <div class="stat-card blue">
+      <div class="stat-top">
+        <span class="stat-label">Total Projects</span>
+        <div class="stat-icon blue"><i class="bi bi-diagram-3-fill"></i></div>
+      </div>
+      <div class="stat-value">{{ stats.totalProjects }}</div>
+      <div class="stat-sub">Projects listed</div>
+    </div>
+
+  </div>
+
+  <!-- Table Card -->
+  <div *ngIf="!loading && !error" class="table-card">
+
+    <div class="table-card-header">
+      <h4 class="table-title">
+        <i class="bi bi-person-lines-fill"></i> Sellers List
+      </h4>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <select class="filter-select" (change)="onStatusChange($event)">
+        <option value="ALL">All Sellers</option>
+        <option value="ACTIVE">Verified</option>
+        <option value="PENDING">Pending</option>
+        <option value="SUSPENDED">Suspended</option>
+      </select>
+
+      <select class="filter-select">
+        <option>Sort by: Revenue</option>
+        <option>Sort by: Rating</option>
+        <option>Sort by: Projects</option>
+        <option>Sort by: Sales</option>
+      </select>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Seller</th>
+          <th>Projects</th>
+          <th>Sales</th>
+          <th>Revenue</th>
+          <th>Rating</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let seller of sellers; let i = index">
+
+          <td>
+            <div class="seller-cell">
+              <div class="avatar" [ngClass]="'av-' + (i % 4)">
+                {{ seller.fullName?.charAt(0) || 'S' }}
+              </div>
+              <div>
+                <div class="seller-name">{{ seller.fullName }}</div>
+                <div class="seller-since">Since {{ seller.createdAt | date:'MMM yyyy' }}</div>
+              </div>
+            </div>
+          </td>
+
+          <td>{{ seller.totalProjects }}</td>
+          <td>{{ seller.totalSales }}</td>
+          <td><span class="col-revenue">${{ seller.totalRevenue | number:'1.0-0' }}</span></td>
+
+          <td>
+              <span class="rating-cell">
+                {{ seller.averageRating | number:'1.1-1' }}
+                <i class="bi bi-star-fill"></i>
+              </span>
+          </td>
+
+          <td>
+              <span class="status-badge" [ngClass]="{
+                'badge-verified':  seller.status === 'ACTIVE',
+                'badge-pending':   seller.status === 'PENDING',
+                'badge-suspended': seller.status === 'SUSPENDED'
+              }">
+                {{ seller.status === 'ACTIVE' ? 'Verified' : seller.status === 'PENDING' ? 'Pending' : 'Suspended' }}
+              </span>
+          </td>
+
+          <td>
+            <div class="action-btns">
+              <button class="btn-view">
+                <i class="bi bi-eye"></i> View
+              </button>
+              <button *ngIf="seller.status === 'ACTIVE'" class="btn-suspend">
+                <i class="bi bi-pause-circle"></i> Suspend
+              </button>
+              <button *ngIf="seller.status === 'PENDING'" class="btn-verify">
+                <i class="bi bi-check-circle"></i> Verify
+              </button>
+              <button *ngIf="seller.status === 'SUSPENDED'" class="btn-verify">
+                <i class="bi bi-arrow-counterclockwise"></i> Reinstate
+              </button>
+            </div>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="totalPages > 1" class="table-footer">
+      <span class="pagination-info">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+      <div class="pagination-btns">
+        <button class="btn-page" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 0">
+          <i class="bi bi-chevron-left"></i> Previous
+        </button>
+        <button class="btn-page" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage >= totalPages - 1">
+          Next <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

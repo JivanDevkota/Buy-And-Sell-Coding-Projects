@@ -1,0 +1,252 @@
+/* ==================================================
+   HOST
+================================================== */
+:host {
+  display: block;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==================================================
+   CARD
+================================================== */
+.card {
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 40px rgba(15, 23, 42, 0.1) !important;
+  background: #ffffff;
+}
+
+.card-body {
+  padding: 2.5rem 2.2rem !important;
+}
+
+/* ==================================================
+   LOGO
+================================================== */
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #2563eb;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 1.2rem;
+}
+
+/* ==================================================
+   HEADER
+================================================== */
+.card .text-center h3 {
+  font-family: 'Bricolage Grotesque', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-bottom: 5px;
+}
+
+.card .text-center p.text-muted {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+/* ==================================================
+   LABELS
+================================================== */
+.form-label.fw-semibold {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #374151;
+  letter-spacing: 0.01em;
+  margin-bottom: 6px;
+}
+
+.forgot-link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #2563eb;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.forgot-link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* ==================================================
+   INPUTS
+================================================== */
+.form-control,
+.form-control-lg {
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-size: 0.9rem !important;
+  color: #0f172a;
+  background: #f8fafc;
+  padding: 0.75rem 1rem !important;
+  height: auto !important;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.form-control::placeholder,
+.form-control-lg::placeholder {
+  color: #cbd5e1;
+  font-weight: 400;
+}
+
+.form-control:focus,
+.form-control-lg:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+  background: #ffffff;
+  outline: none;
+}
+
+.form-control.is-invalid,
+.form-control-lg.is-invalid {
+  border-color: #f87171 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.08) !important;
+  background: #fff;
+  background-image: none !important; /* remove Bootstrap's X icon */
+}
+
+/* ==================================================
+   PASSWORD FIELD WITH TOGGLE
+================================================== */
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap .form-control,
+.password-wrap .form-control-lg {
+  padding-right: 72px !important;
+}
+
+.toggle-pw {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  z-index: 2;
+  line-height: 1;
+}
+
+.toggle-pw:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+/* ==================================================
+   VALIDATION ERROR
+================================================== */
+.field-error {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #dc2626;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==================================================
+   SUBMIT BUTTON
+================================================== */
+.btn-success,
+.btn.btn-success {
+  background: #2563eb !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-size: 0.9rem !important;
+  font-weight: 700;
+  color: #ffffff !important;
+  padding: 0.85rem 1.5rem !important;
+  height: auto !important;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #1d4ed8 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35) !important;
+}
+
+.btn-success:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Spinner color fix */
+.spinner-border-sm {
+  border-color: rgba(255,255,255,0.35);
+  border-top-color: #ffffff;
+}
+
+/* ==================================================
+   ALERT
+================================================== */
+.alert-danger {
+  border: 1.5px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 0.83rem;
+  font-weight: 500;
+  padding: 10px 14px;
+}
+
+/* ==================================================
+   DIVIDER & FOOTER
+================================================== */
+.auth-divider {
+  border: none;
+  border-top: 1px solid #f1f5f9;
+  margin: 1.5rem 0 1.2rem;
+}
+
+.card .text-center small {
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.card .text-center a {
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.card .text-center a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+@media (max-width: 480px) {
+  .card-body {
+    padding: 2rem 1.4rem !important;
+  }
+}

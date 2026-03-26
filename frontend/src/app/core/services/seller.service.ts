@@ -6,6 +6,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ProjectResponse} from "../model/ProjectResponse";
 import {DashboardStats} from "../model/DashboardStats";
+import {SellerDashboard} from "../model/SellerDashboard";
 
 
 const baseUrl = 'http://localhost:8080/api';
@@ -116,8 +117,12 @@ export class SellerService {
       );
   }
 
-  getSalesStats():Observable<DashboardStats>{
+  getSalesStats(): Observable<DashboardStats> {
     return this.http.get<DashboardStats>(`${baseUrl}/seller/stats`)
+  }
+
+  getSellerDashboard():Observable<SellerDashboard>{
+    return this.http.get<SellerDashboard>(`${baseUrl}/seller/dashboard`)
   }
 
   /**
