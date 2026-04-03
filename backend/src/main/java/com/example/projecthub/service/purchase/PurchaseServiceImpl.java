@@ -5,6 +5,7 @@ import com.example.projecthub.dto.purchase.PurchaseRequestDTO;
 import com.example.projecthub.dto.purchase.PurchaseResponseDTO;
 import com.example.projecthub.exception.AlreadyPurchasedException;
 import com.example.projecthub.exception.InsufficientBalanceException;
+import com.example.projecthub.exception.ResourceNotFoundException;
 import com.example.projecthub.model.*;
 import com.example.projecthub.repository.ProjectRepository;
 import com.example.projecthub.repository.PurchaseRepository;
@@ -45,22 +46,22 @@ public class PurchaseServiceImpl implements PurchaseService {
         log.info("Processing purchase for buyer: {} on project: {}", buyerId, purchaseRequestDTO.getProjectId());
 
         User buyer = userRepository.findById(buyerId)
-                .orElseThrow(() -> new RuntimeException(BUYER_NOT_FOUND + buyerId));
+                .orElseThrow(() -> new ResourceNotFoundException(BUYER_NOT_FOUND + buyerId));
 
         Project project = projectRepository.findById(purchaseRequestDTO.getProjectId())
-                .orElseThrow(() -> new RuntimeException(PROJECT_NOT_FOUND + purchaseRequestDTO.getProjectId()));
+                .orElseThrow(() -> new ResourceNotFoundException(PROJECT_NOT_FOUND + purchaseRequestDTO.getProjectId()));
 
         User seller = userRepository.findById(project.getSeller().getId())
-                .orElseThrow(() -> new RuntimeException(SELLER_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(SELLER_NOT_FOUND));
 
         if (seller.getId().equals(buyerId)) {
             log.warn("Buyer {} attempted to purchase own project {}", buyerId, project.getId());
-            throw new RuntimeException(OWN_PROJECT_PURCHASE);
+            throw new IllegalArgumentException(OWN_PROJECT_PURCHASE);
         }
 
         if (project.getStatus() != ProjectStatus.APPROVED) {
             log.warn("Project {} is not approved. Status: {}", project.getId(), project.getStatus());
-            throw new RuntimeException(PROJECT_NOT_APPROVED + project.getStatus());
+            throw new IllegalArgumentException(PROJECT_NOT_APPROVED + project.getStatus());
         }
 
         if (purchaseRepository.existsByBuyerIdAndProjectIdAndStatus(buyerId, project.getId(), PurchaseStatus.COMPLETED)) {
@@ -71,7 +72,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         double price = project.getPrice();
         if (buyer.getBalance() < price) {
             log.warn("Insufficient balance for buyer {}. Required: {}, Available: {}", buyerId, price, buyer.getBalance());
-            throw new InsufficientBalanceException(INSUFFICIENT_BALANCE);
+            throw new InsufficientBalanceException(String.format(INSUFFICIENT_BALANCE, price, buyer.getBalance()));
         }
 
         buyer.deductBalance(price);
@@ -116,7 +117,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     public double getLifeTimeSpend(Long buyerId) {
         log.debug("Calculating lifetime spend for buyer: {}", buyerId);
         User buyer = userRepository.findById(buyerId)
-                .orElseThrow(() -> new RuntimeException(BUYER_NOT_FOUND + buyerId));
+                .orElseThrow(() -> new ResourceNotFoundException(BUYER_NOT_FOUND + buyerId));
         return purchaseRepository.getLifetimeSpend(buyer, PurchaseStatus.COMPLETED);
     }
 

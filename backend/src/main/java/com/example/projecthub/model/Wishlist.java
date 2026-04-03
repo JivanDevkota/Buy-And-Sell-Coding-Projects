@@ -8,7 +8,11 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(name = "wishlists",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "project_id"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "project_id"}),
+        indexes = {
+                @Index(name = "idx_wishlist_user", columnList = "user_id"),
+                @Index(name = "idx_wishlist_project", columnList = "project_id")
+        })
 public class Wishlist {
 
     @Id

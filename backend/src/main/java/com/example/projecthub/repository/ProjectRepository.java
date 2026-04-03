@@ -33,6 +33,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                     left join fetch p.languages
                     left join fetch p.tags
                     left join fetch p.category
+                    left join fetch p.projectFiles
                     where p.seller.id= :sellerId
             """)
     List<Project> findAllBySellerId(@Param("sellerId") Long sellerId);
@@ -43,6 +44,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                     left join fetch p.languages
                     left join fetch p.tags
                     left join fetch p.category
+                    left join fetch p.projectFiles
                     where p.id= :projectId
             """)
     Optional<Project> findByIdWithLanguages(Long projectId);
@@ -52,6 +54,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                 from Project p
                 left join fetch p.category
                 left join fetch p.languages
+                left join fetch p.projectFiles
                 where p.isActive=true 
             """)
     List<Project> findAllWithLanguagesAndCategory();
@@ -62,6 +65,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
                 left join fetch p.category
                 left join fetch p.languages
                 left join fetch p.tags
+                left join fetch p.projectFiles
                 where p.id  = :projectId
             """)
     Optional<Project> findProjectDetailsById(@Param("projectId") Long projectId);
@@ -95,5 +99,11 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
             """)
     Long getActiveProjectsBySeller(Long sellerId);
 
+    Long countProjectBySeller_IdAndStatus(Long sellerId,ProjectStatus status);
+
+    Long countProjectByStatus(ProjectStatus status);
+    
+    @Query("SELECT COALESCE(SUM(p.viewCount),0)  from Project p")
+    Long getTotalViewsCount();
 
 }

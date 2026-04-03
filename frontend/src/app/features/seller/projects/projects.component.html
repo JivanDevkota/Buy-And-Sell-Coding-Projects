@@ -12,18 +12,15 @@
           <span class="meta-pill">{{ projects.length }} active</span>
           <span class="meta-pill green">
             <i class="bi bi-check-circle-fill"></i>
-<!--            {{ getCountByStatus('APPROVED') }}-->
-            5 Approved
+            {{ projectStats?.APPROVED || 0 }} Approved
           </span>
           <span class="meta-pill orange">
             <i class="bi bi-pencil-fill"></i>
-<!--            {{ getCountByStatus('DRAFT') }} -->
-            3 Draft
+            {{ projectStats?.DRAFT || 0 }} Draft
           </span>
           <span class="meta-pill purple">
             <i class="bi bi-clock-fill"></i>
-<!--            {{ getCountByStatus('UNDER_REVIEW') }} -->
-            2 Under Review
+            {{ projectStats?.['UNDER REVIEW'] || 0 }} Under Review
           </span>
         </p>
       </div>
@@ -42,40 +39,34 @@
         <span class="stat-title">Approved</span>
         <div class="icon-box green"><i class="bi bi-check-circle-fill"></i></div>
       </div>
-      <div class="stat-number">
-<!--        {{ getCountByStatus('APPROVED') }}-->
-        5 APPROVED
-      </div>
+      <div class="stat-number">{{ projectStats?.APPROVED || 0 }}</div>
       <div class="stat-desc">Live on marketplace</div>
     </div>
+
     <div class="stat-card orange">
       <div class="stat-top">
         <span class="stat-title">Drafts</span>
         <div class="icon-box orange"><i class="bi bi-pencil-fill"></i></div>
       </div>
-      <div class="stat-number">
-<!--        {{ getCountByStatus('DRAFT') }}-->
-        3 DRAFT
-      </div>
+      <div class="stat-number">{{ projectStats?.DRAFT || 0 }}</div>
       <div class="stat-desc">Not yet submitted</div>
     </div>
+
     <div class="stat-card purple">
       <div class="stat-top">
         <span class="stat-title">Under Review</span>
         <div class="icon-box purple"><i class="bi bi-clock-fill"></i></div>
       </div>
-      <div class="stat-number">
-<!--        {{ getCountByStatus('UNDER_REVIEW') }}-->
-        2 UNDER REVIEW
-      </div>
+      <div class="stat-number">{{ projectStats?.['UNDER REVIEW'] || 0 }}</div>
       <div class="stat-desc">Awaiting approval</div>
     </div>
+
     <div class="stat-card blue">
       <div class="stat-top">
         <span class="stat-title">Total Views</span>
         <div class="icon-box blue"><i class="bi bi-eye-fill"></i></div>
       </div>
-      <div class="stat-number">2,847</div>
+      <div class="stat-number">{{ projectStats?.['TOTAL VIEWS'] || 0 }}</div>
       <div class="stat-desc">All-time impressions</div>
     </div>
   </div>
@@ -88,7 +79,7 @@
         <div class="card-top">
           <div>
             <h6 class="project-title">
-              <i class="bi bi-folder-fill"></i>{{ project.title }}
+              <i class="bi bi-folder-fill"></i> {{ project.title }}
             </h6>
             <p class="updated-text">Last updated: 2 days ago</p>
           </div>

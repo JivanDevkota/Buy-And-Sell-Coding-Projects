@@ -31,7 +31,7 @@ public class Purchase {
     @Enumerated(EnumType.STRING)
     private PurchaseStatus status=PurchaseStatus.PENDING;
 
-    @OneToMany(mappedBy = "purchase",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "purchase",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Download>downloads=new ArrayList<>();
 
     private String transactionId;   //payment gateway transaction id

@@ -1,0 +1,222 @@
+<div class="approvals-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <div class="header-icon"><i class="bi bi-hourglass-split"></i></div>
+      <div>
+        <h2 class="header-title">Pending Approvals</h2>
+        <p class="header-sub">
+          {{ total }} total pending —
+          {{ pendingSellers }} sellers, {{ pendingProjects }} projects
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global loading -->
+  <div *ngIf="isLoadingSummary && isLoadingSellers" class="loading-box">
+    <div class="spinner-border mb-3" role="status"><span class="visually-hidden">Loading...</span></div>
+    <p style="font-size:13px;color:#94a3b8;margin:0">Loading pending approvals...</p>
+  </div>
+
+  <!-- Global error -->
+  <div *ngIf="errorMessage" class="error-box">
+    <i class="bi bi-exclamation-triangle-fill"></i> {{ errorMessage }}
+  </div>
+
+  <!-- Toasts for approve / reject feedback -->
+  <div class="toast-area" *ngIf="toastMessage">
+    <div class="toast" [ngClass]="toastType === 'success' ? 'toast-success' : 'toast-error'">
+      <i class="bi" [ngClass]="toastType === 'success' ? 'bi-check-circle-fill' : 'bi-x-circle-fill'"></i>
+      {{ toastMessage }}
+      <button class="toast-close" (click)="toastMessage = null">×</button>
+    </div>
+  </div>
+
+  <!-- ── STAT CARDS ── -->
+  <div *ngIf="!isLoadingSummary" class="stat-grid">
+
+    <div class="stat-card amber">
+      <div class="stat-top">
+        <span class="stat-label">Pending Sellers</span>
+        <div class="stat-icon amber"><i class="bi bi-shop"></i></div>
+      </div>
+      <div class="stat-value">{{ pendingSellers }}</div>
+      <div class="stat-sub">Awaiting verification</div>
+    </div>
+
+    <div class="stat-card orange">
+      <div class="stat-top">
+        <span class="stat-label">Pending Projects</span>
+        <div class="stat-icon orange"><i class="bi bi-folder-fill"></i></div>
+      </div>
+      <div class="stat-value">{{ pendingProjects }}</div>
+      <div class="stat-sub">Awaiting review</div>
+    </div>
+
+    <div class="stat-card blue">
+      <div class="stat-top">
+        <span class="stat-label">Total Pending</span>
+        <div class="stat-icon blue"><i class="bi bi-clock-fill"></i></div>
+      </div>
+      <div class="stat-value">{{ total }}</div>
+      <div class="stat-sub">Across all queues</div>
+    </div>
+
+    <div class="stat-card green">
+      <div class="stat-top">
+        <span class="stat-label">Approved Today</span>
+        <div class="stat-icon green"><i class="bi bi-check-circle-fill"></i></div>
+      </div>
+      <div class="stat-value">{{ approvedToday }}</div>
+      <div class="stat-sub">Processed today</div>
+    </div>
+
+  </div>
+
+  <!-- ── PENDING SELLERS TABLE ── -->
+  <div class="section-card" *ngIf="!isLoadingSellers">
+
+    <div class="section-header">
+      <h4 class="section-title">
+        <i class="bi bi-person-badge-fill"></i> Pending Sellers
+      </h4>
+      <span class="count-pill amber">{{ pendingSellerApprovals.length }} pending</span>
+    </div>
+
+    <div style="overflow-x: auto;" *ngIf="pendingSellerApprovals.length > 0">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Seller</th>
+          <th>Email</th>
+          <th>Requested</th>
+          <th>Projects</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let seller of pendingSellerApprovals">
+          <td><span class="col-name">{{ seller.username }}</span></td>
+          <td><span class="col-email">{{ seller.email }}</span></td>
+          <td><span class="col-date">{{ seller.requestedDate | date:'MMM d, yyyy' }}</span></td>
+          <td>
+            <span class="col-count">{{ seller.projectCount }} projects</span>
+          </td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-approve">
+<!--                      (click)="approveSeller(seller)"-->
+<!--                      [disabled]="actionLoading[seller.username]"-->
+
+                <i class="bi bi-check-lg"></i>
+                {{ actionLoading[seller.username] ? '...' : 'Approve' }}
+              </button>
+              <button class="btn-reject">
+<!--                      (click)="rejectSeller(seller)"-->
+<!--                      [disabled]="actionLoading[seller.username]"-->
+
+                <i class="bi bi-x-lg"></i>
+                {{ actionLoading[seller.username] ? '...' : 'Reject' }}
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty sellers -->
+    <div *ngIf="pendingSellerApprovals.length === 0" class="empty-state">
+      <div class="empty-icon"><i class="bi bi-person-check"></i></div>
+      <div class="empty-text">No pending sellers</div>
+      <div class="empty-sub">All seller applications have been reviewed</div>
+    </div>
+
+  </div>
+
+  <!-- ── PENDING PROJECTS TABLE ── -->
+  <div class="section-card">
+
+    <div class="section-header">
+      <h4 class="section-title">
+        <i class="bi bi-folder2-open"></i> Pending Projects
+      </h4>
+      <span class="count-pill amber">{{ projects.length }} on this page</span>
+    </div>
+
+    <!-- Loading projects -->
+    <div *ngIf="loading" style="padding:40px;text-align:center">
+      <div class="spinner-border" role="status" style="color:#0f172a;width:28px;height:28px">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Project error -->
+    <div *ngIf="error" class="error-box" style="margin:16px 20px;border-radius:10px">
+      <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+    </div>
+
+    <div style="overflow-x: auto;" *ngIf="!loading && projects.length > 0">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Project</th>
+          <th>Seller</th>
+          <th>Category</th>
+          <th>Submitted</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let project of projects">
+          <td><span class="col-name">{{ project.projectName }}</span></td>
+          <td><span class="col-email">{{ project.sellerName }}</span></td>
+          <td><span class="col-cat">{{ project.categoryName }}</span></td>
+          <td><span class="col-date">{{ project.submittedAt | date:'MMM d, yyyy' }}</span></td>
+          <td><span class="col-price">{{ project.price | currency }}</span></td>
+          <td>
+            <div class="action-btns">
+              <button class="btn-approve"
+                      (click)="approve(project.projectId)"
+                      [disabled]="projectActionLoading[project.projectId]">
+                <i class="bi bi-check-lg"></i>
+                {{ projectActionLoading[project.projectId] ? '...' : 'Approve' }}
+              </button>
+              <button class="btn-reject"
+                      (click)="reject(project.projectId)"
+                      [disabled]="projectActionLoading[project.projectId]">
+                <i class="bi bi-x-lg"></i>
+                {{ projectActionLoading[project.projectId] ? '...' : 'Reject' }}
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty projects -->
+    <div *ngIf="!loading && projects.length === 0 && !error" class="empty-state">
+      <div class="empty-icon"><i class="bi bi-folder-check"></i></div>
+      <div class="empty-text">No pending projects</div>
+      <div class="empty-sub">All submitted projects have been reviewed</div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="table-footer" *ngIf="totalPages > 1">
+      <span class="pagination-info">Page {{ page + 1 }} of {{ totalPages }}</span>
+      <div class="pagination-btns">
+        <button class="btn-page" (click)="prevPage()" [disabled]="page === 0">
+          <i class="bi bi-chevron-left"></i> Previous
+        </button>
+        <button class="btn-page" (click)="nextPage()" [disabled]="page + 1 >= totalPages">
+          Next <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

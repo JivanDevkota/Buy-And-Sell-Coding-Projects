@@ -42,4 +42,12 @@ public interface ProjectService {
     ProjectResponse suspendProject(Long projectId);
 
     Page<PendingProjects> getUnderReviewProjects(int page, int size);
+
+    Long approvedCount(Long sellerId);
+
+    Long draftCount(Long sellerId);
+
+    Long under_ReviewCount(Long sellerId);
+
+    Long getViewCount();
 }

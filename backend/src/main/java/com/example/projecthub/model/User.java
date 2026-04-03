@@ -42,8 +42,11 @@ public class User {
     @OneToMany(mappedBy = "buyer",cascade = CascadeType.ALL)
     private List<Purchase>purchases=new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review>reviews=new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Wishlist>wishlists=new ArrayList<>();
 
     @PrePersist
     public void onCreate() {
@@ -58,9 +61,10 @@ public class User {
 
 
     public boolean hasPurchased(Project project) {
-        return purchases.stream()
-                .anyMatch(p->p.getProject().getId().equals(project.getId())
-                && p.canDownload());
+        return purchases != null && purchases.stream()
+                .anyMatch(p -> p.getProject() != null && 
+                p.getProject().getId().equals(project.getId()) &&
+                p.canDownload());
     }
 
     /**

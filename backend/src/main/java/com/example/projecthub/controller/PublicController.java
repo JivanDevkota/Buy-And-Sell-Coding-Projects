@@ -1,7 +1,7 @@
 package com.example.projecthub.controller;
 
 import com.example.projecthub.dto.category.CategoryDTO;
-import com.example.projecthub.dto.language.ProgrammingLanguageResponse;
+import com.example.projecthub.dto.language.LanguageDTO;
 import com.example.projecthub.dto.project.ProjectResponse;
 import com.example.projecthub.dto.project.PublicProjectDetailsResponse;
 import com.example.projecthub.dto.project.PublicProjectResponse;
@@ -42,13 +42,13 @@ public class PublicController {
                                                                          @PageableDefault(size = 5, sort = "viewCount,desc") Pageable pageable) {
         Page<Project> topProjectsByLanguage = projectService.getTopProjectsByLanguage(languageId, pageable);
         Page<ProjectResponse> map = topProjectsByLanguage.
-                map(ProjectResponse::toProjectDto);
+                map(ProjectResponse::fromEntity);
         return ResponseEntity.ok(map);
     }
 
     @GetMapping("/languages")
-    public ResponseEntity<List<ProgrammingLanguageResponse>> getAllProjectsByLanguage() {
-        List<ProgrammingLanguageResponse> allLanguages = languageService.getAllLanguages();
+    public ResponseEntity<List<LanguageDTO>> getAllProjectsByLanguage() {
+        List<LanguageDTO> allLanguages = languageService.getAllLanguages();
         return ResponseEntity.ok(allLanguages);
     }
 

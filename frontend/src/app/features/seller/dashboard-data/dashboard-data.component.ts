@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SellerService} from "../../../core/services/seller.service";
-import {SellerDashboard} from "../../../core/model/SellerDashboard";
+import {SellerDashboard} from "../../../core/model";
 
 @Component({
   selector: 'app-dashboard-data',

@@ -5,7 +5,10 @@ import {Observable} from "rxjs";
 import {CategoryDTO} from "../model/CategoryDTO";
 import {PaginatedPendingProjectsResponse, PendingProjects} from "../model/PendingProjects";
 import {DashboardUserStats} from "../model/DashboardUserStats";
-import {PageResponse, SellerSummaryDTO} from "../model/Seller";
+import {PagedResponse, SellerSummaryDTO} from "../model/Seller";
+import {BuyerSummaryDTO} from "../model/BuyerSummaryDTO";
+import { environment } from "../../../environments/environment";
+import {LanguageDTO, PendingApprovalsSummary, PendingSellerApprovals} from "../model";
 
 
 export interface PaginatedUsersResponse {
@@ -36,7 +39,7 @@ export interface UpdateStatusRequest {
 )
 
 export class AdminService {
-  private readonly adminUrl = "http://localhost:8080/api";
+  private readonly adminUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {
 
@@ -106,23 +109,11 @@ export class AdminService {
     return this.http.get<DashboardUserStats>(`${this.adminUrl}/admin/users/stats`);
   }
 
-  // getSellers(page: number, size: number): Observable<PageResponse<SellerSummaryDTO>> {
-  //   const params = new HttpParams()
-  //     .set('page', page.toString())
-  //     .set('size', size.toString());
-  //
-  //   return this.http.get<PageResponse<SellerSummaryDTO>>(
-  //     `${this.adminUrl}/admin/sellers`,
-  //     {params}
-  //   );
-  //
-  // }
-
   getSellers(
     page: number,
     size: number,
     status?: string
-  ): Observable<PageResponse<SellerSummaryDTO>> {
+  ): Observable<PagedResponse<SellerSummaryDTO>> {
 
     let params = new HttpParams()
       .set('page', page.toString())
@@ -132,10 +123,33 @@ export class AdminService {
       params = params.set('status', status);
     }
 
-    return this.http.get<PageResponse<SellerSummaryDTO>>(
+    return this.http.get<PagedResponse<SellerSummaryDTO>>(
       `${this.adminUrl}/admin/sellers`,
       { params }
     );
+  }
+
+  getBuyer():Observable<BuyerSummaryDTO[]>{
+    return this.http.get<BuyerSummaryDTO[]>(`${this.adminUrl}/admin/top-buyers`);
+  }
+
+  getPendingApprovals():Observable<PendingApprovalsSummary>{
+    return this.http.get<PendingApprovalsSummary>(`${this.adminUrl}/admin/pending-approvals`);
+  }
+
+  getPendingSellerApprovals():Observable<PendingSellerApprovals[]>{
+    return this.http.get<PendingSellerApprovals[]>(`${this.adminUrl}/admin/pending-sellers-approvals`);
+  }
+
+
+  getAllLanguages(): Observable<LanguageDTO[]> {
+    return this.http.get<LanguageDTO[]>(`${this.adminUrl}/admin/languages`);
+  }
+
+
+  createLanguage(formData: FormData): Observable<LanguageDTO> {
+    return this.http.post<LanguageDTO>(`${this.adminUrl}/admin/create/language`, formData);
+    // Do NOT set Content-Type manually — HttpClient sets multipart boundary automatically
   }
 
 }

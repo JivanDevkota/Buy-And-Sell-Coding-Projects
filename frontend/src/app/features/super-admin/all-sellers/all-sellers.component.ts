@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AdminService} from '../../../core/services/admin.service';
-import {SellerSummaryDTO, PageResponse} from '../../../core/model/Seller';
+import {SellerSummaryDTO, PagedResponse} from '../../../core/model/Seller';
 
 @Component({
   selector: 'app-all-sellers',
@@ -12,7 +12,7 @@ export class AllSellersComponent implements OnInit {
   totalElements = 0;
   totalPages = 0;
   currentPage = 0;
-  pageSize = 5;
+  pageSize = 10;
   loading = false;
   error = false;
 
@@ -41,7 +41,7 @@ export class AllSellersComponent implements OnInit {
     this.adminService
       .getSellers(page, this.pageSize, this.selectedStatus)
       .subscribe({
-        next: (response) => {
+        next: (response: PagedResponse<SellerSummaryDTO>) => {
           this.sellers = response.content;
           this.totalElements = response.totalElements;
           this.totalPages = response.totalPages;
@@ -57,7 +57,7 @@ export class AllSellersComponent implements OnInit {
 
   onStatusChange(event: any) {
     this.selectedStatus = event.target.value;
-    this.loadSellers(0); // reset to first page
+    this.loadSellers(0);
   }
 
   calculateStats() {
@@ -65,8 +65,8 @@ export class AllSellersComponent implements OnInit {
     this.stats.verified = this.sellers.filter(s => s.status === 'ACTIVE').length;
     this.stats.pending = this.sellers.filter(s => s.status === 'PENDING').length;
     this.stats.suspended = this.sellers.filter(s => s.status === 'SUSPENDED').length;
-    this.stats.revenue = this.sellers.reduce((sum, s) => sum + s.totalRevenue, 0);
-    this.stats.totalProjects = this.sellers.reduce((sum, s) => sum + s.totalProjects, 0);
+    this.stats.revenue = this.sellers.reduce((sum, s) => sum + (s.totalRevenue || 0), 0);
+    this.stats.totalProjects = this.sellers.reduce((sum, s) => sum + (s.totalProjects || 0), 0);
   }
 
   onPageChange(page: number) {
@@ -75,8 +75,16 @@ export class AllSellersComponent implements OnInit {
 
   getAverageRating(): number {
     if (this.sellers.length === 0) return 0;
-    const total = this.sellers.reduce((sum, s) => sum + s.averageRating, 0);
-    return Math.round((total / this.sellers.length) * 10) / 10;
+    const ratedSellers = this.sellers.filter(s => s.averageRating > 0);
+    if (ratedSellers.length === 0) return 0;
+    const total = ratedSellers.reduce((sum, s) => sum + s.averageRating, 0);
+    return Math.round((total / ratedSellers.length) * 10) / 10;
+  }
+
+  getTopSeller(): SellerSummaryDTO | null {
+    if (this.sellers.length === 0) return null;
+    return this.sellers.reduce((top, s) =>
+      (!top || (s.totalRevenue || 0) > (top.totalRevenue || 0)) ? s : top, null as any);
   }
 }
 

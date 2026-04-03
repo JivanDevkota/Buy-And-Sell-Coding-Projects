@@ -1,12 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PublicService} from '../../../core/services/Public.service';
-import {CategoryDTO} from '../../../core/model/CategoryDTO';
 import {SellerService} from '../../../core/services/seller.service';
-import {ProjectDTO} from '../../../core/model/ProjectDTO';
-import {LanguageResponse} from "../../../core/model/languageResponse";
 import {LocalstorageService} from "../../../core/services/localstorage.service";
-
-;
+import {CategoryDTO, LanguageDTO, ProjectDTO} from "../../../core/model";
 
 @Component({
   selector: 'app-upload-project',
@@ -16,7 +12,7 @@ import {LocalstorageService} from "../../../core/services/localstorage.service";
 export class UploadProjectComponent implements OnInit {
 
   categories: CategoryDTO[] = [];
-  languages: LanguageResponse[] = [];
+  languages: LanguageDTO[] = [];
   selectedFile: File | null = null;
   selectedFileName: string = '';
   isLoading: boolean = false;
@@ -112,7 +108,7 @@ export class UploadProjectComponent implements OnInit {
    */
   getAllLanguage(): void {
     this.publicService.getAllLanguages().subscribe({
-      next: (data: LanguageResponse[]) => {
+      next: (data: LanguageDTO[]) => {
         this.languages = data;
         console.log('Languages loaded:', this.languages);
       },

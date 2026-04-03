@@ -1,32 +1,30 @@
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import {Observable} from "rxjs";
-import {LanguageResponse} from "../model/languageResponse";
-import {CategoryDTO} from "../model/CategoryDTO";
-import {PublicProjectResponse} from "../model/PublicProjectResponse";
-import {PublicProjectDetailsResponse} from "../model/PublicProjectDetailsReponse";
-
+import { Observable } from "rxjs";
+import { LanguageDTO, CategoryDTO, PublicProjectListItem, PublicProjectDetails } from "../model";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
-export  class PublicService {
+export class PublicService {
 
-  private readonly publicUrl="http://localhost:8080/api";
-  constructor(private http:HttpClient) {}
+  private readonly publicUrl = environment.apiUrl;
+  constructor(private http: HttpClient) {}
 
-  getAllLanguages(): Observable<LanguageResponse[]>{
-    return  this.http.get<LanguageResponse[]>(this.publicUrl+"/languages");
-  }
-  getAllCategory():Observable<CategoryDTO[]>{
-    return  this.http.get<CategoryDTO[]>(this.publicUrl+"/categories");
+  getAllLanguages(): Observable<LanguageDTO[]> {
+    return this.http.get<LanguageDTO[]>(this.publicUrl + "/languages");
   }
 
-  getAllProjects():Observable<PublicProjectResponse[]>{
-    return  this.http.get<PublicProjectResponse[]>(this.publicUrl+"/projects");
+  getAllCategory(): Observable<CategoryDTO[]> {
+    return this.http.get<CategoryDTO[]>(this.publicUrl + "/categories");
   }
 
-  getProjectDetailsById(projectId:number):Observable<PublicProjectDetailsResponse>{
-    return  this.http.get<PublicProjectDetailsResponse>(this.publicUrl+"/projects/" + projectId);
+  getAllProjects(): Observable<PublicProjectListItem[]> {
+    return this.http.get<PublicProjectListItem[]>(this.publicUrl + "/projects");
+  }
+
+  getProjectDetailsById(projectId: number): Observable<PublicProjectDetails> {
+    return this.http.get<PublicProjectDetails>(this.publicUrl + "/projects/" + projectId);
   }
 }

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {SellerService} from "../../../core/services/seller.service";
-import {DashboardStats} from "../../../core/model/DashboardStats";
+import {DashboardStats} from "../../../core/model";
 
 @Component({
   selector: 'app-sales',

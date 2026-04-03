@@ -2,7 +2,7 @@
 
 <div class="page-wrapper">
 
-  <!-- ===================== HERO ===================== -->
+  <!-- ═══════════════════════ HERO ═══════════════════════ -->
   <section class="hero">
     <div class="hero-bg-shapes">
       <div class="shape shape-1"></div>
@@ -28,13 +28,8 @@
       </p>
 
       <div class="search-bar">
-        <div class="search-icon">
-          <i class="fas fa-search"></i>
-        </div>
-        <input
-          placeholder="Search projects — React eCommerce, Django, Spring Boot..."
-          type="text"
-        />
+        <div class="search-icon"><i class="fas fa-search"></i></div>
+        <input placeholder="Search — React eCommerce, Django, Spring Boot..." type="text" />
         <button class="search-btn">Search</button>
       </div>
 
@@ -57,7 +52,7 @@
     </div>
   </section>
 
-  <!-- ===================== CATEGORIES ===================== -->
+  <!-- ═══════════════════════ CATEGORIES ═══════════════════════ -->
   <section class="categories" id="categories">
     <div class="container">
       <div class="section-header">
@@ -76,73 +71,132 @@
       <div class="lang-grid">
         <div *ngFor="let language of languages" class="lang-card">
           <div class="lang-card-icon">
-            <img [src]="'http://localhost:8080' + language.iconUrl" alt="{{ language.name }}" />
+            <img [src]="'http://localhost:8080' + language.iconUrl" [alt]="language.name" />
           </div>
-          <div class="lang-card-body">
-            <h6 class="lang-name">{{ language.name }}</h6>
-            <p class="lang-desc">{{ language.description }}</p>
-            <span class="lang-price">From $19.99</span>
-          </div>
+          <h6 class="lang-name">{{ language.name }}</h6>
+          <p class="lang-desc">{{ language.description }}</p>
+          <span class="lang-price">From $19.99</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== FEATURED PROJECTS ===================== -->
+  <!-- ═══════════════════════ FEATURED PROJECTS — CAROUSEL ═══════════════════════ -->
   <section class="featured-projects">
     <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">Handpicked for You</p>
-        <h2 class="section-title">Featured Projects</h2>
-      </div>
 
-      <div class="projects-grid">
-        <div *ngFor="let project of projects" class="project-card">
+      <!-- Header row: title on left, arrows on right -->
+      <div class="carousel-header">
+        <div>
+          <p class="section-eyebrow">Handpicked for You</p>
+          <h2 class="section-title" style="margin:0">Featured Projects</h2>
+        </div>
 
-          <div class="project-img-wrap">
-            <img [src]="'http://localhost:8080' + project.projectImgUrl" alt="project-img" />
-            <div class="project-price-badge">${{ project.price }}</div>
-          </div>
+        <div class="carousel-nav">
+          <!-- Arrow left -->
+          <button
+            class="carousel-btn carousel-btn-prev"
+            (click)="scrollCarousel('left')"
+            [disabled]="!canScrollLeft"
+            aria-label="Previous projects">
+            <i class="bi bi-chevron-left"></i>
+          </button>
 
-          <div class="project-body">
-            <h5 class="project-title">{{ project.title }}</h5>
-            <p class="project-desc">{{ project.description }}</p>
+          <!-- project count pill -->
+          <span class="carousel-count" *ngIf="projects.length > 0">
+            {{ projects.length }} projects
+          </span>
 
-            <div class="project-tags">
-              <span *ngFor="let lang of project.languagesName" class="tag">{{ lang }}</span>
-            </div>
-
-            <div class="project-footer">
-              <div class="project-rating">
-                <span class="stars">★★★★☆</span>
-              </div>
-
-              <div class="project-actions">
-                <a [routerLink]="['/projects', project.id]" class="btn-outline">Details</a>
-                <button
-                  (click)="purchaseProject(project.id)"
-                  [disabled]="purchaseLoading[project.id]"
-                  [title]="isBuyerLoggedIn ? 'Buy Now' : 'Sign In To Buy'"
-                  class="btn-primary-action"
-                >
-                  <span *ngIf="purchaseLoading[project.id]" class="spinner"></span>
-                  {{ purchaseLoading[project.id] ? 'Processing...' : (isBuyerLoggedIn ? 'Buy Now' : 'Sign In') }}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Alerts inside card -->
-          <div *ngIf="purchaseSuccess" class="card-alert card-alert-success">
-            <i class="fas fa-check-circle"></i> {{ purchaseSuccess }}
-            <button (click)="purchaseSuccess = null" class="alert-close">×</button>
-          </div>
-          <div *ngIf="purchaseError" class="card-alert card-alert-error">
-            <i class="fas fa-exclamation-circle"></i> {{ purchaseError }}
-            <button (click)="purchaseError = null" class="alert-close">×</button>
-          </div>
+          <!-- Arrow right -->
+          <button
+            class="carousel-btn carousel-btn-next"
+            (click)="scrollCarousel('right')"
+            [disabled]="!canScrollRight"
+            aria-label="Next projects">
+            <i class="bi bi-chevron-right"></i>
+          </button>
         </div>
       </div>
+
+      <!-- Global purchase alerts -->
+      <div *ngIf="purchaseSuccess" class="global-alert global-alert-success">
+        <i class="bi bi-check-circle-fill"></i>
+        {{ purchaseSuccess }}
+        <button (click)="purchaseSuccess = null" class="alert-close">×</button>
+      </div>
+      <div *ngIf="purchaseError" class="global-alert global-alert-error">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        {{ purchaseError }}
+        <button (click)="purchaseError = null" class="alert-close">×</button>
+      </div>
+
+      <!-- Carousel wrapper (fade edges) -->
+      <div class="carousel-wrapper">
+
+        <!-- Left fade overlay -->
+        <div class="carousel-fade carousel-fade-left" [class.visible]="canScrollLeft"></div>
+
+        <!-- Scrollable track -->
+        <div
+          class="carousel-track"
+          #carousel
+          (scroll)="updateScrollState()">
+
+          <article *ngFor="let project of projects" class="project-card">
+
+            <div class="project-img-wrap">
+              <img
+                [src]="'http://localhost:8080' + project.projectImgUrl"
+                [alt]="project.title"
+                loading="lazy" />
+              <span class="project-price-badge">${{ project.price }}</span>
+            </div>
+
+            <div class="project-body">
+              <h5 class="project-title">{{ project.title }}</h5>
+              <p class="project-desc">{{ project.description }}</p>
+
+              <div class="project-tags">
+                <span *ngFor="let lang of project.languagesName" class="tag">{{ lang }}</span>
+              </div>
+
+              <div class="project-footer">
+                <span class="stars">★★★★☆</span>
+
+                <div class="project-actions">
+                  <a [routerLink]="['/projects', project.id]" class="btn-details">Details</a>
+                  <button
+                    class="btn-buy"
+                    (click)="purchaseProject(project.id)"
+                    [disabled]="purchaseLoading[project.id]"
+                    [title]="isBuyerLoggedIn ? 'Buy Now' : 'Sign in to buy'">
+                    <span *ngIf="purchaseLoading[project.id]" class="spinner"></span>
+                    <i *ngIf="!purchaseLoading[project.id]" class="bi bi-bag-fill"></i>
+                    {{ purchaseLoading[project.id] ? 'Processing...' : (isBuyerLoggedIn ? 'Buy Now' : 'Sign In') }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </article>
+
+          <!-- Empty state inside track -->
+          <div *ngIf="projects.length === 0" class="carousel-empty">
+            <i class="bi bi-grid-3x3-gap"></i>
+            <p>No projects available yet.</p>
+          </div>
+
+        </div>
+
+        <!-- Right fade overlay -->
+        <div class="carousel-fade carousel-fade-right" [class.visible]="canScrollRight"></div>
+      </div>
+
+      <!-- Scroll hint (only when there are more cards than visible) -->
+      <p class="carousel-hint" *ngIf="projects.length > 4">
+        <i class="bi bi-mouse"></i> Scroll or use arrows to explore all {{ projects.length }} projects
+      </p>
+
     </div>
   </section>
 

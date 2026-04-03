@@ -5,6 +5,7 @@ import com.example.projecthub.dto.purchase.PurchaseRequestDTO;
 import com.example.projecthub.dto.purchase.PurchaseResponseDTO;
 import com.example.projecthub.dto.review.ReviewRequest;
 import com.example.projecthub.dto.review.ReviewResponseDTO;
+import com.example.projecthub.dto.wishlist.WishlistAddResponse;
 import com.example.projecthub.dto.wishlist.WishlistResponse;
 import com.example.projecthub.model.Review;
 import com.example.projecthub.model.Wishlist;
@@ -107,11 +108,11 @@ public class PurchaseController {
     }
 
     @PostMapping("/wishlist/add/{buyerId}/project/{projectId}")
-    public ResponseEntity<Wishlist> addProjectToWishlist(
+    public ResponseEntity<WishlistAddResponse> addProjectToWishlist(
             @PathVariable Long buyerId,
             @PathVariable Long projectId) {
         log.info("Adding project {} to wishlist for buyer ID: {}", projectId, buyerId);
-        Wishlist wishlist = wishlistService.addProjectToWishlist(buyerId, projectId);
+        WishlistAddResponse wishlist = wishlistService.addProjectToWishlist(buyerId, projectId);
         log.info("Project {} successfully added to wishlist for buyer ID: {}", projectId, buyerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(wishlist);
     }

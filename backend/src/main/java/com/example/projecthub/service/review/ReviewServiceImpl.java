@@ -1,7 +1,7 @@
 package com.example.projecthub.service.review;
 
-import com.example.projecthub.dto.dashboard.DashboardResponse;
 import com.example.projecthub.dto.review.ReviewResponseDTO;
+import com.example.projecthub.dto.review.ReviewStatsDTO;
 import com.example.projecthub.model.Project;
 import com.example.projecthub.model.PurchaseStatus;
 import com.example.projecthub.model.Review;
@@ -30,28 +30,6 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final PurchaseRepository purchaseRepository;
 
-    /**
-     * Adds a new review for a project with comprehensive validation.
-     * <p>
-     * Validates:
-     * - Buyer exists and is valid
-     * - Project exists and is valid
-     * - Buyer has purchased the project
-     * - Buyer hasn't already reviewed the project
-     * - Rating is within 1-5 range
-     * - Updates project's average rating after review is added
-     *
-     * @param buyerId   the ID of the buyer submitting the review
-     * @param projectId the ID of the project being reviewed
-     * @param rating    the rating score (1-5)
-     * @param comment   the review comment text
-     * @return Review the created review entity
-     * @throws RuntimeException if buyer not found
-     * @throws RuntimeException if project not found
-     * @throws RuntimeException if buyer hasn't purchased the project
-     * @throws RuntimeException if buyer already reviewed this project
-     * @throws RuntimeException if rating is outside 1-5 range
-     */
     @Transactional
     public Review addReview(Long buyerId, Long projectId, int rating, String comment) {
         log.info("Adding review for project: {} by buyer: {} with rating: {}", projectId, buyerId, rating);
@@ -106,16 +84,19 @@ public class ReviewServiceImpl implements ReviewService {
         return savedReview;
     }
 
-    /**
-     * Retrieves all reviews for a specific project.
-     * <p>
-     * Fetches reviews in database order (typically chronological).
-     * Returns empty list if project has no reviews.
-     *
-     * @param userId the ID of the project for which to retrieve reviews
-     * @return List of reviews for the project (empty list if no reviews)
-     * @throws RuntimeException if project not found with given ID
-     */
+    @Override
+    public ReviewStatsDTO getReviewStats(Long sellerId) {
+        long totalReview = reviewRepository.countBySellerId(sellerId);
+        long fiveStarReviews = reviewRepository.countFiveStarBySellerId(sellerId);
+        long pendingResponses = reviewRepository.countPendingResponseBySellerId(sellerId);
+        Double avgRating = reviewRepository.avgRatingBySellerId(sellerId);
+
+        double fiveStarPercentage = totalReview > 0 ? (fiveStarReviews * 100.0 / totalReview) : 0.0;
+        double responseRate = totalReview > 0 ? ((totalReview - pendingResponses) * 100.0 / totalReview) : 0.0;
+        return new ReviewStatsDTO(avgRating, totalReview, fiveStarReviews, fiveStarPercentage, responseRate, pendingResponses);
+    }
+
+
     @Transactional(readOnly = true)
     public List<ReviewResponseDTO> getMyReviews(Long userId) {
 
@@ -168,7 +149,6 @@ public class ReviewServiceImpl implements ReviewService {
         else
             return "just now";
     }
-
 
 
 }

@@ -2,6 +2,7 @@ package com.example.projecthub.service.project;
 
 import com.example.projecthub.dto.project.*;
 import com.example.projecthub.dto.projectfile.ProjectFileDTO;
+import com.example.projecthub.exception.ResourceNotFoundException;
 import com.example.projecthub.helper.FileHelper;
 import com.example.projecthub.helper.ImageHelper;
 import com.example.projecthub.model.*;
@@ -41,6 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ImageHelper imageHelper;
     private final FileHelper fileHelper;
     private final ProjectFileRepository projectFileRepository;
+    private final SellerRepository sellerRepository;
 
     @Override
     @Transactional
@@ -52,10 +54,10 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         User user = userRepository.findById(projectDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND_MSG + projectDTO.getUserId()));
+                .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND_MSG + projectDTO.getUserId()));
 
         Category category = categoryRepository.findById(projectDTO.getCategoryId())
-                .orElseThrow(() -> new RuntimeException(CATEGORY_NOT_FOUND_MSG + projectDTO.getCategoryId()));
+                .orElseThrow(() -> new ResourceNotFoundException(CATEGORY_NOT_FOUND_MSG + projectDTO.getCategoryId()));
 
         Set<Language> languages = new HashSet<>(languageRepository.findAllById(projectDTO.getLanguageIds()));
         if (languages.isEmpty()) {
@@ -97,10 +99,10 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         Project project = projectRepository.findById(projectFileDTO.getProjectId())
-                .orElseThrow(() -> new RuntimeException(PROJECT_NOT_FOUND_MSG + projectFileDTO.getProjectId()));
+                .orElseThrow(() -> new ResourceNotFoundException(PROJECT_NOT_FOUND_MSG + projectFileDTO.getProjectId()));
 
         if (!project.getSeller().getId().equals(userId)) {
-            throw new RuntimeException(UNAUTHORIZED_FILE_ACCESS);
+            throw new SecurityException(UNAUTHORIZED_FILE_ACCESS);
         }
 
         Integer displayOrder = projectFileDTO.getDisplayOrder();
@@ -123,53 +125,58 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectFile savedFile = projectFileRepository.save(projectFile);
         log.info("File added successfully to project ID: {}", projectFileDTO.getProjectId());
 
-        return ProjectFileDTO.toDTO(savedFile);
+        return ProjectFileDTO.fromEntity(savedFile);
     }
 
+    @Transactional(readOnly = true)
     public List<PublicProjectResponse> getAllProjects() {
         return projectRepository.findAllWithLanguagesAndCategory()
                 .stream()
                 .limit(MAX_PUBLIC_PROJECTS)
-                .map(PublicProjectResponse::toProjectDto)
+                .map(PublicProjectResponse::fromEntity)
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public PublicProjectDetailsResponse getProjectDetails(Long projectId) {
         Project project = projectRepository.findProjectDetailsById(projectId)
-                .orElseThrow(() -> new RuntimeException(PROJECT_NOT_FOUND_MSG + projectId));
+                .orElseThrow(() -> new ResourceNotFoundException(PROJECT_NOT_FOUND_MSG + projectId));
         project.increaseViewCount();
-        return PublicProjectDetailsResponse.toDTO(project);
+        return PublicProjectDetailsResponse.fromEntity(project);
     }
 
+    @Transactional(readOnly = true)
     public List<Project> getProjectsByLanguageId(Long languageId) {
         return projectRepository.findByLanguages_Id(languageId);
     }
 
+    @Transactional(readOnly = true)
     public Page<Project> getTopProjectsByLanguage(Long languageId, Pageable pageable) {
         log.info("Fetching top projects by language ID: {} with pageable: {}", languageId, pageable);
 
         return projectRepository.findTopByLanguage(languageId, pageable);
     }
 
+    @Transactional(readOnly = true)
     public List<ProjectResponse> getMyProjects(Long userId) {
         List<Project> projects = projectRepository.findAllBySellerId(userId);
         return projects.stream()
-                .map(ProjectResponse::toProjectDto)
+                .map(ProjectResponse::fromEntity)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public ProjectDetailsResponse getProjectDetailsById(Long projectId) {
         Project project = projectRepository.findByIdWithLanguages(projectId)
-                .orElseThrow(() -> new RuntimeException(PROJECT_NOT_FOUND_MSG + projectId));
-        return ProjectDetailsResponse.toDTO(project);
+                .orElseThrow(() -> new ResourceNotFoundException(PROJECT_NOT_FOUND_MSG + projectId));
+        return ProjectDetailsResponse.fromEntity(project);
     }
 
     @Transactional
     public ProjectResponse submitForReview(Long projectId) {
         log.info("Submitting projectId: {} for reviews", projectId);
         Project project = projectRepository.findByIdWithTags(projectId)
-                .orElseThrow(() -> new RuntimeException(PROJECT_NOT_FOUND_MSG + projectId));
+                .orElseThrow(() -> new ResourceNotFoundException(PROJECT_NOT_FOUND_MSG + projectId));
 
         if (project.getProjectFiles() == null || project.getProjectFiles().isEmpty()) {
             throw new ValidationException("Cannot submit project without project files. Please add at least one project file");
@@ -182,14 +189,14 @@ public class ProjectServiceImpl implements ProjectService {
         project.setStatus(ProjectStatus.UNDER_REVIEW);
         Project updatedProject = projectRepository.save(project);
         log.info("Project ID: {} submitted for review successfully", projectId);
-        return ProjectResponse.toProjectDto(updatedProject);
+        return ProjectResponse.fromEntity(updatedProject);
     }
 
     @Transactional
     public ProjectResponse withdrawFromReview(Long projectId) {
         log.info("Withdrawing project ID: {} from review", projectId);
         Project project = projectRepository.findByIdWithTags(projectId)
-                .orElseThrow(() -> new RuntimeException(PROJECT_NOT_FOUND_MSG + projectId));
+                .orElseThrow(() -> new ResourceNotFoundException(PROJECT_NOT_FOUND_MSG + projectId));
 
         if (project.getStatus() != ProjectStatus.UNDER_REVIEW) {
             throw new ValidationException("Only UNDER_REVIEW projects can be withdrawn");
@@ -198,14 +205,14 @@ public class ProjectServiceImpl implements ProjectService {
         project.setStatus(ProjectStatus.DRAFT);
         Project updatedProject = projectRepository.save(project);
         log.info("Project ID: {} withdrawn successfully", projectId);
-        return ProjectResponse.toProjectDto(updatedProject);
+        return ProjectResponse.fromEntity(updatedProject);
     }
 
     @Transactional
     public ProjectResponse approveProject(Long projectId) {
         log.info("Approving project ID: {}", projectId);
         Project project = projectRepository.findByIdWithTags(projectId)
-                .orElseThrow(() -> new RuntimeException(PROJECT_NOT_FOUND_MSG + projectId));
+                .orElseThrow(() -> new ResourceNotFoundException(PROJECT_NOT_FOUND_MSG + projectId));
 
         if (project.getStatus() != ProjectStatus.UNDER_REVIEW) {
             throw new ValidationException("Only UNDER_REVIEW projects can be approved");
@@ -215,14 +222,14 @@ public class ProjectServiceImpl implements ProjectService {
         project.setIsActive(true);
         Project updatedProject = projectRepository.save(project);
         log.info("Project ID: {} approved successfully", projectId);
-        return ProjectResponse.toProjectDto(updatedProject);
+        return ProjectResponse.fromEntity(updatedProject);
     }
 
     @Transactional
     public ProjectResponse rejectProject(Long projectId) {
         log.info("Rejecting project ID: {}", projectId);
         Project project = projectRepository.findByIdWithTags(projectId)
-                .orElseThrow(() -> new RuntimeException(PROJECT_NOT_FOUND_MSG + projectId));
+                .orElseThrow(() -> new ResourceNotFoundException(PROJECT_NOT_FOUND_MSG + projectId));
 
         if (project.getStatus() != ProjectStatus.UNDER_REVIEW) {
             throw new ValidationException("Only UNDER_REVIEW projects can be rejected");
@@ -232,14 +239,14 @@ public class ProjectServiceImpl implements ProjectService {
         project.setIsActive(false);
         Project updatedProject = projectRepository.save(project);
         log.info("Project ID: {} rejected successfully", projectId);
-        return ProjectResponse.toProjectDto(updatedProject);
+        return ProjectResponse.fromEntity(updatedProject);
     }
 
     @Transactional
     public ProjectResponse suspendProject(Long projectId) {
         log.info("Suspending project ID: {}", projectId);
         Project project = projectRepository.findByIdWithTags(projectId)
-                .orElseThrow(() -> new RuntimeException(PROJECT_NOT_FOUND_MSG + projectId));
+                .orElseThrow(() -> new ResourceNotFoundException(PROJECT_NOT_FOUND_MSG + projectId));
 
         if (project.getStatus() != ProjectStatus.APPROVED) {
             throw new ValidationException("Only APPROVED projects can be suspended");
@@ -249,7 +256,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setIsActive(false);
         Project updatedProject = projectRepository.save(project);
         log.info("Project ID: {} suspended successfully", projectId);
-        return ProjectResponse.toProjectDto(updatedProject);
+        return ProjectResponse.fromEntity(updatedProject);
     }
 
 
@@ -257,6 +264,22 @@ public class ProjectServiceImpl implements ProjectService {
         Pageable pageable = PageRequest.of(page, size);
         return projectRepository.findAllPendingProjects(ProjectStatus.UNDER_REVIEW, pageable);
 
+    }
+
+    public Long approvedCount(Long sellerId) {
+        return projectRepository.countProjectBySeller_IdAndStatus(sellerId,ProjectStatus.APPROVED);
+    }
+
+    public Long draftCount(Long sellerId) {
+        return projectRepository.countProjectBySeller_IdAndStatus(sellerId,ProjectStatus.DRAFT);
+    }
+
+    public Long under_ReviewCount(Long sellerId) {
+        return projectRepository.countProjectBySeller_IdAndStatus(sellerId,ProjectStatus.UNDER_REVIEW);
+    }
+
+    public Long getViewCount(){
+        return projectRepository.getTotalViewsCount();
     }
 
 }

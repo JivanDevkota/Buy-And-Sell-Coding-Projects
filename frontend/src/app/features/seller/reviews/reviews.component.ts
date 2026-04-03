@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ReviewStats} from "../../../core/model/ReviewStats";
+import {SellerService} from "../../../core/services/seller.service";
 
 
 interface Review {
@@ -19,14 +21,23 @@ interface Review {
   templateUrl: './reviews.component.html',
   styleUrls: ['./reviews.component.css']
 })
-export class ReviewsComponent {
+export class ReviewsComponent implements OnInit {
 
-  stats = {
-    averageRating: { value: '4.8', sub: 'Based on 32 reviews' },
-    fiveStars:     { value: '24',  sub: '75% of total' },
-    responseRate:  { value: '92%', sub: 'You respond to most reviews' },
-    pending:       { value: 5,     sub: 'Need your attention' },
-  };
+  stats!: ReviewStats;
+
+  constructor(private sellerService: SellerService) {
+  }
+
+  ngOnInit(): void {
+    this.loadReviewStats();
+  }
+
+  loadReviewStats() {
+    this.sellerService.getReviewStats().subscribe({
+      next: (data) => this.stats = data,
+      error: (err) => console.error(err)
+    });
+  }
 
   reviews: Review[] = [
     {
@@ -68,7 +79,7 @@ export class ReviewsComponent {
   ];
 
   getStars(rating: number): number[] {
-    return Array.from({ length: 5 }, (_, i) => i + 1);
+    return Array.from({length: 5}, (_, i) => i + 1);
   }
 
   toggleResponseBox(review: Review): void {

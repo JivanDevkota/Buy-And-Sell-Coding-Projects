@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {LocalstorageService} from "../../../core/services/localstorage.service";
-import {PurchaseHistoryResponse} from "../../../core/model/PurchaseHistoryResponse";
 import {BuyerService} from "../../../core/services/buyer.service";
-import {BuyerStats} from "../../../core/model/buyer-stats";
-import {Review} from "../../../core/model/ReviewResponse";
+import {PurchaseHistoryResponse, BuyerStats, Review} from "../../../core/model";
 
 @Component({
   selector: 'app-dashboard-data',

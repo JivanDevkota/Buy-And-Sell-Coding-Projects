@@ -4,15 +4,23 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.reviews-page {
-  /*background: #f1f5f9;*/
-  /*min-height: 100vh;*/
-  /*padding: 24px;*/
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 28px 24px 40px;
-}
+/*.reviews-page {*/
+/*  !*background: #f1f5f9;*!*/
+/*  !*min-height: 100vh;*!*/
+/*  !*padding: 24px;*!*/
+/*  max-width: 1200px;*/
+/*  margin: 0 auto;*/
+/*  padding: 28px 24px 40px;*/
+/*}*/
 
+.reviews-page {
+  background: #f1f5f9;
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 /* PAGE HEADER CARD */
 .reviews-page-header {
   background: #ffffff;

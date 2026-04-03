@@ -5,8 +5,9 @@ import { catchError, map, Observable, of, throwError } from "rxjs";
 import { LoginRequest } from "../model/LoginRequest";
 import { LocalstorageService } from "./localstorage.service";
 import { AuthStateService } from "./AuthStateService";
+import { environment } from "../../../environments/environment";
 
-const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = environment.apiUrl;
 
 /**
  * Authentication Service

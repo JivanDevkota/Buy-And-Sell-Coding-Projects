@@ -32,12 +32,7 @@ public class ProjectFileDTO {
 
     private String fileUrl;
 
-    /**
-     * Converts ProjectFile entity to DTO
-     * @param projectFile the entity
-     * @return ProjectFileDTO instance
-     */
-    public static ProjectFileDTO toDTO(ProjectFile projectFile) {
+    public static ProjectFileDTO fromEntity(ProjectFile projectFile) {
         if (projectFile == null) {
             return null;
         }

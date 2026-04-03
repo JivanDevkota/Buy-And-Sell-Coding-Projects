@@ -5,6 +5,7 @@ import com.example.projecthub.dto.project.ProjectDTO;
 import com.example.projecthub.dto.project.ProjectDetailsResponse;
 import com.example.projecthub.dto.project.ProjectResponse;
 import com.example.projecthub.dto.projectfile.ProjectFileDTO;
+import com.example.projecthub.dto.review.ReviewStatsDTO;
 import com.example.projecthub.jwt.MyUser;
 import com.example.projecthub.service.project.ProjectService;
 import com.example.projecthub.service.purchase.PurchaseService;
@@ -18,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -199,6 +199,25 @@ public class SellerController {
         long userId=user.getId();
         log.info("Fetching dashboard for seller ID: {}", userId);
         return ResponseEntity.ok(sellerService.getSellerDashboardResponse(userId));
+    }
+
+
+    @GetMapping("/stats/projects")
+    public ResponseEntity<Map<String,Long>>getMyProjectStats(Authentication authentication){
+        MyUser user=(MyUser)authentication.getPrincipal();
+        long sellerId = user.getId();
+        return ResponseEntity.ok(Map.of(
+                "APPROVED",projectService.approvedCount(sellerId),
+                "DRAFT",projectService.draftCount(sellerId),
+                "UNDER REVIEW",projectService.under_ReviewCount(sellerId),
+                "TOTAL VIEWS",projectService.getViewCount()
+        ));
+    }
+
+    @GetMapping("/stats/reviews")
+    public ResponseEntity<ReviewStatsDTO> getReviewStats(Authentication authentication) {
+        MyUser user = (MyUser) authentication.getPrincipal();
+        return ResponseEntity.ok(reviewService.getReviewStats(user.getId()));
     }
 
     /**

@@ -1,37 +1,31 @@
 package com.example.projecthub.dto.project;
 
-import com.example.projecthub.model.Language;
 import com.example.projecthub.model.Project;
 import com.example.projecthub.model.ProjectStatus;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
-public class PublicProjectResponse {
-    private Long id;
-    private String title;
-    private String description;
-    private String projectImgUrl;
-    private Double price;
-    private List<String> languagesName;
+@EqualsAndHashCode(callSuper = true)
+public class PublicProjectResponse extends BaseProjectResponse {
     private ProjectStatus status;
-    private String categoryName;
 
-    public static PublicProjectResponse toProjectDto(Project project) {
-        PublicProjectResponse projectResponse = new PublicProjectResponse();
-        projectResponse.setId(project.getId());
-        projectResponse.setTitle(project.getTitle());
-        projectResponse.setDescription(project.getDescription());
-        projectResponse.setProjectImgUrl(project.getProjectImgUrl());;
-        projectResponse.setPrice(project.getPrice());
-        projectResponse.setStatus(project.getStatus());
-        projectResponse.setLanguagesName(project.getLanguages().stream()
-                .map(Language::getName)
+    public static PublicProjectResponse fromEntity(Project project) {
+        PublicProjectResponse response = new PublicProjectResponse();
+        response.setId(project.getId());
+        response.setTitle(project.getTitle());
+        response.setDescription(project.getDescription());
+        response.setProjectImgUrl(project.getProjectImgUrl());
+        response.setPrice(project.getPrice());
+        response.setLanguagesName(project.getLanguages().stream()
+                .map(lang -> lang.getName())
                 .collect(Collectors.toList()));
-        projectResponse.setCategoryName(project.getCategory().getName());
-        return projectResponse;
+        response.setCategoryName(project.getCategory().getName());
+        response.setStatus(project.getStatus());
+        return response;
     }
 }

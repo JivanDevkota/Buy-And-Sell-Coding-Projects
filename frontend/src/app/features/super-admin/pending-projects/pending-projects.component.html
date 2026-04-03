@@ -1,55 +1,129 @@
-<div *ngIf="loading" class="text-center my-3">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
+<div class="projects-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <div class="header-icon">
+        <i class="bi bi-grid-3x3-gap-fill"></i>
+      </div>
+      <div>
+        <h2 class="header-title">Pending Projects</h2>
+        <p class="header-sub">Review and approve submitted projects</p>
+      </div>
+    </div>
+
+    <!-- Live badge — only when projects exist -->
+    <div *ngIf="!loading && projects.length > 0" class="pending-pill">
+      <span class="pending-dot"></span>
+      {{ projects.length }} awaiting review
+    </div>
   </div>
-</div>
 
-<div *ngIf="error" class="alert alert-danger my-3">
-  {{ error }}
-</div>
+  <!-- Error / Success banners -->
+  <div *ngIf="error" class="alert-error">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    {{ error }}
+    <button class="alert-close" (click)="error = null">×</button>
+  </div>
+  <div *ngIf="successMessage" class="alert-success">
+    <i class="bi bi-check-circle-fill"></i>
+    {{ successMessage }}
+    <button class="alert-close" (click)="successMessage = null">×</button>
+  </div>
 
-<div *ngIf="!loading && projects.length > 0" class="table-responsive my-3">
-  <table class="table table-striped table-hover align-middle">
-    <thead class="table-dark">
-    <tr>
-      <th scope="col">Project Name</th>
-      <th scope="col">Seller</th>
-      <th scope="col">Category</th>
-      <th scope="col">Submitted At</th>
-      <th scope="col">Price</th>
-      <th scope="col">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let project of projects">
-      <td>{{ project.projectName }}</td>
-      <td>{{ project.sellerName }}</td>
-      <td>{{ project.categoryName }}</td>
-      <td>{{ project.submittedAt | date:'short' }}</td>
-      <td>{{ project.price | currency }}</td>
-      <td>
-        <button class="btn btn-success btn-sm me-2" (click)="approve(project.projectId)">
-          Approve
+  <!-- Table card -->
+  <div class="section-card">
+
+    <div class="section-header">
+      <h4 class="section-title">
+        <i class="bi bi-hourglass-split"></i> Submitted Projects
+      </h4>
+      <span class="count-pill" *ngIf="!loading">{{ projects.length }} projects</span>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-box">
+      <div class="spinner-border mb-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p style="font-size:13px;color:#94a3b8;margin:0">Loading projects...</p>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!loading && projects.length > 0" style="overflow-x:auto">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th>Project</th>
+          <th>Seller</th>
+          <th>Category</th>
+          <th>Submitted</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let project of projects">
+
+          <td><span class="col-name">{{ project.projectName }}</span></td>
+
+          <td>
+            <div class="seller-cell">
+              <div class="avatar">{{ getInitials(project.sellerName) }}</div>
+              <span class="seller-name">{{ project.sellerName }}</span>
+            </div>
+          </td>
+
+          <td><span class="cat-pill">{{ project.categoryName }}</span></td>
+
+          <td><span class="col-date">{{ project.submittedAt | date:'MMM d, yyyy' }}</span></td>
+
+          <td><span class="col-price">{{ project.price | currency }}</span></td>
+
+          <td>
+            <div class="action-btns">
+              <button
+                class="btn-approve"
+                (click)="approve(project.projectId)"
+                [disabled]="actionLoading[project.projectId]">
+                <i class="bi bi-check-circle-fill"></i>
+                {{ actionLoading[project.projectId] ? '...' : 'Approve' }}
+              </button>
+              <button
+                class="btn-reject"
+                (click)="reject(project.projectId)"
+                [disabled]="actionLoading[project.projectId]">
+                <i class="bi bi-x-circle-fill"></i>
+                Reject
+              </button>
+            </div>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!loading && projects.length === 0" class="empty-state">
+      <div class="empty-icon"><i class="bi bi-grid-3x3-gap"></i></div>
+      <div class="empty-text">No pending projects</div>
+      <div class="empty-sub">All submissions have been reviewed</div>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!loading && totalPages > 1" class="table-footer">
+      <span class="pagination-info">Page {{ page + 1 }} of {{ totalPages }}</span>
+      <div class="pagination-btns">
+        <button class="btn-page" (click)="prevPage()" [disabled]="page === 0">
+          <i class="bi bi-chevron-left"></i> Previous
         </button>
-        <button class="btn btn-danger btn-sm" (click)="reject(project.projectId)">
-          Reject
+        <button class="btn-page" (click)="nextPage()" [disabled]="page + 1 >= totalPages">
+          Next <i class="bi bi-chevron-right"></i>
         </button>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+      </div>
+    </div>
 
-<div *ngIf="totalPages > 1" class="d-flex justify-content-between align-items-center my-3">
-  <button class="btn btn-outline-primary" (click)="prevPage()" [disabled]="page === 0">
-    &laquo; Previous
-  </button>
-  <span>Page {{ page + 1 }} of {{ totalPages }}</span>
-  <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="page + 1 === totalPages">
-    Next &raquo;
-  </button>
-</div>
+  </div>
 
-<div *ngIf="!loading && projects.length === 0" class="alert alert-info my-3">
-  No pending projects found.
 </div>

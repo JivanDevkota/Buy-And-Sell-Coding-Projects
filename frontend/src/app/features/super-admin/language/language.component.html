@@ -1,0 +1,168 @@
+<div class="language-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="header-icon"><i class="bi bi-code-slash"></i></div>
+    <div>
+      <h2 class="header-title">Language Management</h2>
+      <p class="header-sub">Add and manage programming language icons</p>
+    </div>
+  </div>
+
+  <!-- Two-column layout: form | grid -->
+  <div class="content-grid">
+
+    <!-- ── CREATE FORM ── -->
+    <div class="form-card">
+
+      <div class="form-card-head">
+        <h4 class="form-card-title">
+          <i class="bi bi-plus-circle-fill"></i> Add Language
+        </h4>
+      </div>
+
+      <form [formGroup]="languageForm" (ngSubmit)="onSubmit()">
+        <div class="form-card-body">
+
+          <!-- Success / Error alerts -->
+          <div *ngIf="successMessage" class="alert-success">
+            <i class="bi bi-check-circle-fill"></i> {{ successMessage }}
+          </div>
+          <div *ngIf="errorMessage" class="alert-error">
+            <i class="bi bi-exclamation-circle-fill"></i> {{ errorMessage }}
+          </div>
+
+          <!-- Name -->
+          <div class="form-field">
+            <label class="form-label">Name <span class="required">*</span></label>
+            <input
+              type="text"
+              class="form-input"
+              formControlName="name"
+              placeholder="e.g. TypeScript" />
+            <span class="field-error"
+                  *ngIf="languageForm.get('name')?.touched && languageForm.get('name')?.invalid">
+              Name is required (min 2 chars)
+            </span>
+          </div>
+
+          <hr class="form-divider" />
+
+          <!-- Description -->
+          <div class="form-field">
+            <label class="form-label">Description <span class="required">*</span></label>
+            <textarea
+              class="form-textarea"
+              formControlName="description"
+              placeholder="Briefly describe this language..."
+              rows="3">
+            </textarea>
+            <span class="field-error"
+                  *ngIf="languageForm.get('description')?.touched && languageForm.get('description')?.invalid">
+              Description is required
+            </span>
+          </div>
+
+          <hr class="form-divider" />
+
+          <!-- Icon Upload -->
+          <div class="form-field">
+            <label class="form-label">Icon <span class="required">*</span></label>
+
+            <div class="upload-zone"
+                 [class.has-file]="selectedFile"
+                 [class.drag-over]="isDragging"
+                 (click)="fileInput.click()"
+                 (dragover)="onDragOver($event)"
+                 (dragleave)="isDragging = false"
+                 (drop)="onDrop($event)">
+
+              <!-- Preview -->
+              <div *ngIf="previewUrl" class="upload-preview">
+                <img [src]="previewUrl" alt="Preview" class="preview-img" />
+                <div class="preview-info">
+                  <span class="preview-name">{{ selectedFile?.name }}</span>
+                  <button type="button" class="preview-remove" (click)="removeFile($event)">
+                    <i class="bi bi-x-circle-fill"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Placeholder -->
+              <div *ngIf="!previewUrl" class="upload-placeholder">
+                <div class="upload-icon-wrap">
+                  <i class="bi bi-cloud-arrow-up-fill"></i>
+                </div>
+                <p class="upload-hint">Click or drag & drop</p>
+                <p class="upload-sub">PNG, JPG, SVG · max 2 MB</p>
+              </div>
+
+            </div>
+
+            <input #fileInput type="file" accept="image/*" style="display:none"
+                   (change)="onFileSelected($event)" />
+
+            <span class="field-error" *ngIf="fileError">{{ fileError }}</span>
+          </div>
+
+        </div>
+
+        <div class="form-card-footer">
+          <button type="button" class="btn-reset" (click)="resetForm()">Reset</button>
+          <button type="submit" class="btn-submit"
+                  [disabled]="languageForm.invalid || !selectedFile || loading">
+            <span *ngIf="loading" class="spinner-sm"></span>
+            <i *ngIf="!loading" class="bi bi-check-lg"></i>
+            {{ loading ? 'Saving...' : 'Add Language' }}
+          </button>
+        </div>
+      </form>
+
+    </div>
+
+    <!-- ── LANGUAGE GRID ── -->
+    <div class="table-card">
+
+      <div class="table-card-header">
+        <h4 class="table-card-title">
+          <i class="bi bi-grid-3x3-gap-fill"></i> Language List
+        </h4>
+        <span class="page-pill">{{ languages.length }} languages loaded</span>
+      </div>
+
+      <!-- Loading Skeleton -->
+      <div *ngIf="listLoading" class="lang-grid">
+        <div *ngFor="let s of skeletons" class="lang-card skeleton-card">
+          <div class="sk-icon"></div>
+          <div class="sk-line sk-name"></div>
+          <div class="sk-line sk-desc"></div>
+        </div>
+      </div>
+
+      <!-- Language Cards -->
+      <div *ngIf="!listLoading && languages.length > 0" class="lang-grid">
+        <div *ngFor="let lang of languages; let i = index"
+             class="lang-card"
+             [style.animation-delay]="i * 50 + 'ms'">
+          <div class="lang-icon-wrap">
+            <img [src]="'http://localhost:8080'+lang.iconUrl" [alt]="lang.name" class="lang-icon"
+                 (error)="onImgError($event)" />
+          </div>
+          <div class="lang-info">
+            <span class="lang-name">{{ lang.name }}</span>
+            <span class="lang-desc">{{ lang.description }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!listLoading && languages.length === 0" class="empty-state">
+        <div class="empty-icon"><i class="bi bi-code-slash"></i></div>
+        <div class="empty-text">No languages yet</div>
+        <p class="empty-sub">Add your first programming language using the form.</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>

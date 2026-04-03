@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FileType, ProjectFileDTO} from "../../../core/model/ProjectFileDTO";
+import {FileType, ProjectFileDTO} from "../../../core/model";
 import {ActivatedRoute, Router} from "@angular/router";
 import { SellerService } from 'src/app/core/services/seller.service';
 import {LocalstorageService} from "../../../core/services/localstorage.service";

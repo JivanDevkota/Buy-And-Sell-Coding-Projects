@@ -12,18 +12,18 @@ export interface SellerSummaryDTO {
   totalSales: number;
   totalRevenue: number;
   averageRating: number;
-  createdAt: string; // ISO date string
+  createdAt: string;
 }
 
-export interface PageResponse<T> {
+export interface PagedResponse<T> {
   content: T[];
+  pageNumber: number;
+  pageSize: number;
   totalElements: number;
   totalPages: number;
-  number: number;   // current page
-  size: number;
+  last: boolean;
+  first: boolean;
 }
-
-
 
 export interface StatusConfig {
   label: string;

@@ -9,7 +9,7 @@
       <div>
         <h2 class="header-title">Reviews</h2>
         <p class="header-sub">
-          You have <strong>{{ stats.pending.value }} new reviews</strong> waiting for response
+          You have <strong>{{ stats?.pendingResponses }} new reviews</strong> waiting for response
         </p>
       </div>
     </div>
@@ -33,8 +33,8 @@
           <i class="bi bi-star-fill" style="color:#059669"></i>
         </div>
       </div>
-      <div class="stat-value">{{ stats.averageRating.value }}</div>
-      <div class="stat-sub">{{ stats.averageRating.sub }}</div>
+      <div class="stat-value">{{ stats?.avgRating | number:'1.1-1'  }}</div>
+      <div class="stat-sub">{{ stats?.totalReviews }}</div>
     </div>
 
     <div class="stat-card" style="--accent: #2563eb">
@@ -44,8 +44,8 @@
           <i class="bi bi-star-fill" style="color:#2563eb"></i>
         </div>
       </div>
-      <div class="stat-value">{{ stats.fiveStars.value }}</div>
-      <div class="stat-sub">{{ stats.fiveStars.sub }}</div>
+      <div class="stat-value">{{ stats?.fiveStarReviews }}</div>
+      <div class="stat-sub">{{ stats?.fiveStarPercentage }}% of total</div>
     </div>
 
     <div class="stat-card" style="--accent: #d97706">
@@ -55,8 +55,8 @@
           <i class="bi bi-reply-fill" style="color:#d97706"></i>
         </div>
       </div>
-      <div class="stat-value">{{ stats.responseRate.value }}</div>
-      <div class="stat-sub">{{ stats.responseRate.sub }}</div>
+      <div class="stat-value">{{ stats?.responseRate }}%</div>
+      <div class="stat-sub">You respond to most reviews</div>
     </div>
 
     <div class="stat-card" style="--accent: #7c3aed">
@@ -66,8 +66,8 @@
           <i class="bi bi-clock-fill" style="color:#7c3aed"></i>
         </div>
       </div>
-      <div class="stat-value">{{ stats.pending.value }}</div>
-      <div class="stat-sub">{{ stats.pending.sub }}</div>
+      <div class="stat-value">{{ stats?.pendingResponses }}</div>
+      <div class="stat-sub">Need your attention</div>
     </div>
 
   </div>

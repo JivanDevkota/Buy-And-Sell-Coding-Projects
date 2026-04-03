@@ -1,0 +1,45 @@
+export enum ProjectStatus {
+  DRAFT = 'DRAFT',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+  SUSPENDED = 'SUSPENDED',
+  ARCHIVED = 'ARCHIVED'
+}
+
+export enum FileType {
+  SOURCE_CODE = 'SOURCE_CODE',
+  EXECUTABLE = 'EXECUTABLE',
+  DOCUMENTATION = 'DOCUMENTATION',
+  DATABASE = 'DATABASE',
+  CONFIGURATION = 'CONFIGURATION',
+  MEDIA = 'MEDIA',
+  OTHER = 'OTHER'
+}
+
+export enum Role {
+  BUYER = 'BUYER',
+  SELLER = 'SELLER',
+  ADMIN = 'ADMIN',
+  SUPER_ADMIN = 'SUPER_ADMIN'
+}
+
+export enum UserStatus {
+  PENDING = 'PENDING',
+  ACTIVE = 'ACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  DEACTIVATED = 'DEACTIVATED'
+}
+
+export enum PurchaseStatus {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  FAILED = 'FAILED',
+  REFUNDED = 'REFUNDED'
+}
+
+export enum PaymentType {
+  ESEWA= 'ESEWA',
+  PAYPAL = 'PAYPAL',
+  STRIPE = 'STRIPE'
+}

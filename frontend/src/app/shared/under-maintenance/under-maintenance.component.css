@@ -1,0 +1,36 @@
+.maintenance-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #eef2f7, #dbe3ec);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.maintenance-card {
+  background: white;
+  padding: 50px 40px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  width: 90%;
+}
+
+.maintenance-card h1 {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #4b5563;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+}

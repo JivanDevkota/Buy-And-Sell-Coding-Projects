@@ -1,5 +1,6 @@
 package com.example.projecthub.service.wishlist;
 
+import com.example.projecthub.dto.wishlist.WishlistAddResponse;
 import com.example.projecthub.dto.wishlist.WishlistResponse;
 import com.example.projecthub.exception.ValidationException;
 import com.example.projecthub.model.Project;
@@ -16,14 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Service implementation for managing user wishlists.
- * Handles wishlist operations including:
- * - Adding projects to wishlist with duplicate prevention
- * - Retrieving wishlist items with project details
- * - Counting total wishlist items for users
- * - Validation of user and project existence
- */
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -45,7 +39,7 @@ public class WishlistServiceImpl implements WishlistService {
     }
 
     @Transactional
-    public Wishlist addProjectToWishlist(Long userId, Long projectId) {
+    public WishlistAddResponse addProjectToWishlist(Long userId, Long projectId) {
         log.info("Adding project {} to wishlist for user {}", projectId, userId);
 
         User user = userRepository.findById(userId)
@@ -72,7 +66,7 @@ public class WishlistServiceImpl implements WishlistService {
         Wishlist savedWishlist = wishlistRepository.save(wishlist);
         log.info("Successfully added project {} to wishlist for user {}", projectId, userId);
 
-        return savedWishlist;
+        return WishlistAddResponse.from(savedWishlist);
     }
 
     @Transactional(readOnly = true)

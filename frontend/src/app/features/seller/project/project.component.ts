@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import {ProjectDetailsResponse, ProjectStatus} from "../../../core/model/ProjectDetailsResponse";
+import {ProjectDetails, ProjectStatus} from "../../../core/model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SellerService} from "../../../core/services/seller.service";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-project',
@@ -11,7 +12,7 @@ import {SellerService} from "../../../core/services/seller.service";
 export class ProjectComponent {
 
   projectId: number = 0;
-  project: ProjectDetailsResponse | null = null;
+  project: ProjectDetails | null = null;
   isLoading: boolean = true;
   errorMessage: string = '';
 
@@ -37,7 +38,7 @@ export class ProjectComponent {
     this.errorMessage = '';
 
     this.sellerService.getProjectDetails(this.projectId).subscribe({
-      next: (data: ProjectDetailsResponse) => {
+      next: (data: ProjectDetails) => {
         this.project = data;
         // Sort files by display order
         if (this.project.files) {
@@ -93,7 +94,7 @@ export class ProjectComponent {
    */
   downloadFile(fileUrl: string, fileName: string): void {
     const link = document.createElement('a');
-    link.href = 'http://localhost:8080' + fileUrl;
+    link.href = environment.apiUrl + fileUrl;
     link.download = fileName;
     link.target = '_blank';
     document.body.appendChild(link);

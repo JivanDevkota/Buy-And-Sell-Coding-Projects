@@ -12,13 +12,21 @@
 /* ==================================================
    WRAPPER
 ================================================== */
-.dashboard-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 28px 24px 40px;
-  /*background: #f1f5f9;*/
-  /*min-height: 100vh;*/
-  /*padding: 24px;*/
+/*.dashboard-wrapper {*/
+/*  max-width: 1600px;*/
+/*  !*margin: 0 auto;*!*/
+/*  padding: 28px 24px 40px;*/
+/*  background: #f1f5f9;*/
+/*  min-height: 100vh;*/
+/*  padding: 24px;*/
+/*}*/
+.dashboard-wrapper{
+background: #f1f5f9;
+min-height: 100vh;
+padding: 24px;
+display: flex;
+flex-direction: column;
+gap: 16px;
 }
 
 /* ==================================================

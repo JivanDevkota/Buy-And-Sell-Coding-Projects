@@ -13,10 +13,13 @@ export class CategoryComponent implements OnInit {
   categoryForm!: FormGroup;
   loading = false;
 
-  categories: CategoryDTO[] = [];
+  // Inline feedback messages (replaces alert())
+  successMessage: string | null = null;
+  errorMessage:   string | null = null;
 
-  page = 0;
-  size = 5;
+  categories: CategoryDTO[] = [];
+  page      = 0;
+  size      = 8;
   totalPages = 0;
 
   constructor(
@@ -26,61 +29,57 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
+      name:        ['', [Validators.required, Validators.minLength(2)]],
+      description: ['',  Validators.required],
     });
 
     this.loadAllCategory();
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.categoryForm.invalid) {
+      this.categoryForm.markAllAsTouched();
       return;
     }
 
     this.loading = true;
+    this.successMessage = null;
+    this.errorMessage   = null;
 
-    const category = this.categoryForm.value;
-
-    this.adminService.createCategory(category).subscribe({
+    this.adminService.createCategory(this.categoryForm.value).subscribe({
       next: () => {
         this.loading = false;
+        this.successMessage = `Category "${this.categoryForm.value.name}" created successfully!`;
         this.categoryForm.reset();
-        this.page = 0;               // go back to first page
-        this.loadAllCategory();      // refresh list
+        this.page = 0;
+        this.loadAllCategory();
+        setTimeout(() => { this.successMessage = null; }, 4000);
       },
       error: (error) => {
         this.loading = false;
+        this.errorMessage = error?.error?.message || 'Failed to create category. Please try again.';
+        setTimeout(() => { this.errorMessage = null; }, 5000);
         console.error(error);
       }
     });
   }
 
-  loadAllCategory() {
+  loadAllCategory(): void {
     this.adminService.getAllCategories(this.page, this.size).subscribe({
       next: (data: any) => {
-        console.log(data);
-        this.categories = data.categories || [];   // Spring page uses "content"
+        this.categories = data.categories || [];
         this.totalPages = data.totalPages;
-        this.page = data.currentPage;
+        this.page       = data.currentPage ?? this.page;
       },
-      error: (error) => {
-        console.error(error);
-      }
+      error: (error) => { console.error(error); }
     });
   }
 
-  nextPage() {
-    if (this.page + 1 < this.totalPages) {
-      this.page++;
-      this.loadAllCategory();
-    }
+  nextPage(): void {
+    if (this.page + 1 < this.totalPages) { this.page++; this.loadAllCategory(); }
   }
 
-  prevPage() {
-    if (this.page > 0) {
-      this.page--;
-      this.loadAllCategory();
-    }
+  prevPage(): void {
+    if (this.page > 0) { this.page--; this.loadAllCategory(); }
   }
 }

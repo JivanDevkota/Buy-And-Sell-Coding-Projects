@@ -1,29 +1,25 @@
 package com.example.projecthub.dto.projectfile;
 
-import com.example.projecthub.model.FileType;
 import com.example.projecthub.model.ProjectFile;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class ProjectFileResponse {
-    private Long id;
-    private FileType fileType;
-    private String description;
-    private Integer displayOrder;
-    private String fileName;
-    private String fileUrl;
+@EqualsAndHashCode(callSuper = true)
+public class ProjectFileResponse extends ProjectFileDTO {
 
-    public static ProjectFileResponse toDTO(ProjectFile projectFile) {
+    public static ProjectFileResponse fromEntity(ProjectFile projectFile) {
         if (projectFile == null) {
             return null;
         }
-        ProjectFileResponse projectFileResponse=new ProjectFileResponse();
-        projectFileResponse.setId(projectFile.getId());
-        projectFileResponse.setFileType(projectFile.getFileType());
-        projectFileResponse.setDescription(projectFile.getDescription());
-        projectFileResponse.setDisplayOrder(projectFile.getDisplayOrder());
-        projectFileResponse.setFileName(projectFile.getFileName());
-        projectFileResponse.setFileUrl(projectFile.getFileUrl());
-        return projectFileResponse;
+        ProjectFileResponse response = new ProjectFileResponse();
+        response.setId(projectFile.getId());
+        response.setProjectId(projectFile.getProject() != null ? projectFile.getProject().getId() : null);
+        response.setFileType(projectFile.getFileType());
+        response.setDescription(projectFile.getDescription());
+        response.setDisplayOrder(projectFile.getDisplayOrder());
+        response.setFileName(projectFile.getFileName());
+        response.setFileUrl(projectFile.getFileUrl());
+        return response;
     }
 }

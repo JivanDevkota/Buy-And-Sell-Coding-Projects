@@ -1,20 +1,20 @@
 package com.example.projecthub.service.admin;
 
+import com.example.projecthub.dto.buyer.BuyerSummaryDTO;
 import com.example.projecthub.dto.category.CategoryDTO;
 import com.example.projecthub.dto.dashboard.DashboardAdminStats;
 import com.example.projecthub.dto.dashboard.RoleCountDTO;
+import com.example.projecthub.dto.seller.PagedResponse;
+import com.example.projecthub.dto.seller.PendingSellerApprovals;
 import com.example.projecthub.dto.seller.SellerSummaryDTO;
 import com.example.projecthub.dto.user.UserDetailsResponse;
-import com.example.projecthub.model.Category;
-import com.example.projecthub.model.Status;
-import com.example.projecthub.model.User;
-import com.example.projecthub.model.UserStatusHistory;
-import com.example.projecthub.repository.CategoryRepository;
-import com.example.projecthub.repository.SellerRepository;
-import com.example.projecthub.repository.UserRepository;
-import com.example.projecthub.repository.UserStatusHistoryRepository;
+import com.example.projecthub.model.*;
+import com.example.projecthub.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,6 +31,8 @@ public class AdminServiceImpl implements AdminService {
     private final UserStatusHistoryRepository userStatusHistoryRepository;
     private final CategoryRepository categoryRepository;
     private final SellerRepository sellerRepository;
+    private final BuyerRepository buyerRepository;
+    private final ProjectRepository projectRepository;
 
     @Override
     public void updateUserStatus(
@@ -131,14 +133,14 @@ public class AdminServiceImpl implements AdminService {
                 .collect(Collectors.toList());
     }
 
-    public DashboardAdminStats getDashboardStats(){
+    public DashboardAdminStats getDashboardStats() {
         List<RoleCountDTO> roleCountDTOS = userRepository.countUsersByRole();
 
-        Map<String,Long>roleCountMap=new HashMap<>();
-        for (RoleCountDTO dto:roleCountDTOS){
-            roleCountMap.put(dto.getRoleName().substring(5),dto.getCount());
+        Map<String, Long> roleCountMap = new HashMap<>();
+        for (RoleCountDTO dto : roleCountDTOS) {
+            roleCountMap.put(dto.getRoleName().substring(5), dto.getCount());
         }
-        DashboardAdminStats stats=new DashboardAdminStats();
+        DashboardAdminStats stats = new DashboardAdminStats();
         stats.setRoleCounts(roleCountMap);
         stats.setTotalUsers(userRepository.count());
         stats.setActiveUsers(18L);
@@ -147,33 +149,42 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Page<SellerSummaryDTO> getSellers(Status status, Pageable pageable) {
-        Page<Object[]> raw;
-        if (status != null && !status.toString().isEmpty()) {
-            raw = sellerRepository.findSellerSummariesByStatus(status, pageable);
+    public PagedResponse<SellerSummaryDTO> getSellers(Status status, Pageable pageable) {
+        Page<SellerSummaryDTO> page;
+
+        if (status != null) {
+            page = sellerRepository.findSellerSummariesByStatus(status, pageable);
         } else {
-            raw = sellerRepository.findSellerSummaries(pageable);
+            page = sellerRepository.findSellerSummaries(pageable);
         }
-        List<SellerSummaryDTO> dtos = raw.getContent().stream()
-                .map(this::mapRow)
-                .toList();
-        return new PageImpl<>(dtos, pageable, raw.getTotalElements());
+
+        return new PagedResponse<>(
+                page.getContent(),
+                page.getNumber(),
+                page.getSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isLast(),
+                page.isFirst()
+        );
     }
 
-    /** Maps a native query Object[] row → SellerSummaryDTO */
-    private SellerSummaryDTO mapRow(Object[] row) {
-        // row order must match SELECT column order in the repository query
-        return SellerSummaryDTO.builder()
-                .id(((Number) row[0]).longValue())
-                .username((String) row[1])
-                .fullName((String) row[2])
-                .profileImgUrl((String) row[3])
-                .status((String) row[4])
-                .totalProjects(((Number) row[5]).intValue())
-                .totalSales(((Number) row[6]).intValue())
-                .totalRevenue(((Number) row[7]).doubleValue())
-                .averageRating(Math.round(((Number) row[8]).doubleValue() * 10.0) / 10.0)
-                .createdAt((LocalDateTime) row[9])
-                .build();
+    @Override
+    public List<BuyerSummaryDTO> getTop5Buyers() {
+        Pageable topFive = PageRequest.of(0, 5);
+        return buyerRepository.findTopBuyers(topFive).getContent();
+    }
+
+
+    public Long countSellerByStatus() {
+        return sellerRepository.sellerCountByStatus(Status.PENDING);
+    }
+
+    public Long countProjectByStatus() {
+        return projectRepository.countProjectByStatus(ProjectStatus.UNDER_REVIEW);
+    }
+
+    public List<PendingSellerApprovals>getAllSellerPendingApprovals(){
+        return sellerRepository.findAllPendingSellers(Status.PENDING);
     }
 }
