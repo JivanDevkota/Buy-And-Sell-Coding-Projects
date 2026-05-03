@@ -1,4 +1,4 @@
-# CodeMarket 🚀
+# CodeMarketplace 🚀
 
 > **A Full-Stack Developer Marketplace** — Buy and sell ready-to-use code projects with secure payments, reviews, and role-based access.
 
@@ -6,17 +6,15 @@
 [![Angular](https://img.shields.io/badge/Angular-v16.2-red?logo=angular)](https://angular.io/)
 [![Java](https://img.shields.io/badge/Java-17-orange?logo=java)](https://www.oracle.com/java/)
 [![MySQL](https://img.shields.io/badge/MySQL-Database-blue?logo=mysql)](https://www.mysql.com/)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 ## 📖 Overview
 
-**CodeMarket** is a full-stack **developer marketplace platform** enabling developers to **buy and sell ready-to-use code projects**. With role-based access control, secure JWT authentication, and an intuitive user interface, CodeMarket streamlines the process of sharing and monetizing coding projects.
+**CodeMarketplace** is a full-stack **developer marketplace platform** enabling developers to **buy and sell ready-to-use code projects**. With role-based access control, secure JWT authentication, and an intuitive user interface, CodeMarketplace streamlines the process of sharing and monetizing coding projects.
 
 ### 🎯 Perfect For:
 - **Developers** looking to monetize their code projects
 - **Businesses** seeking production-ready code solutions  
 - **Teams** collaborating on code sharing platforms
-- **Educational** communities exchanging projects
 
 ---
 
@@ -49,14 +47,12 @@
 ### 📥 **File Management**
 - Secure project file uploads and downloads
 - Multi-file project support
-- File organization and version tracking
 - Streaming downloads for large files
 
 ### 📊 **Analytics & Management**
 - Dashboard statistics and insights
 - Seller revenue tracking
 - Purchase history and analytics
-- Project performance metrics
 
 ---
 
@@ -70,62 +66,85 @@
 | **Frontend Language** | TypeScript | 5.1.3 |
 | **Styling** | Bootstrap | 5.3.8 |
 | **Database** | MySQL | Latest |
-| **Security** | JWT + Spring Security | - |
-| **Authentication** | JJWT (JSON Web Tokens) | 0.11.5 |
+| **Security** | JWT + Spring Security | JJWT 0.11.5 |
 | **Build Tool** | Maven | 3.x |
-| **Email Service** | Spring Mail | Built-in |
 
 ---
 
 ## 🏗 Project Structure
 
 ```
-Buy-And-Sell-Coding-Projects/
-├── backend/                          # Spring Boot Backend (Java 17)
-│   ├── src/main/java/com/example/projecthub/
-│   │   ├── controller/              # REST API Controllers
-│   │   │   ├── PublicController.java          # Auth & Public endpoints
-│   │   │   ├── SellerController.java          # Seller operations
-│   │   │   ├── PurchaseController.java        # Buyer & purchase endpoints
-│   │   │   ├── SuperAdminController.java      # Admin management
-│   │   │   ├── CategoryController.java        # Category management
-│   │   │   └── LanguageController.java        # Language management
-│   │   ├── service/                 # Business Logic Services
-│   │   │   ├── auth/
-│   │   │   ├── project/
-│   │   │   ├── purchase/
-│   │   │   ├── seller/
-│   │   │   ├── review/
-│   │   │   ├── wishlist/
-│   │   │   ├── download/
-│   │   │   ├── language/
-│   │   │   └── admin/
-│   │   ├── repository/              # Data Access Layer
-│   │   ├── model/                   # JPA Entity Models
-│   │   ├── dto/                     # Data Transfer Objects
-│   │   ├── jwt/                     # JWT Configuration
-│   │   ├── exception/               # Custom Exceptions
-│   │   └── util/                    # Utility Classes
-│   ├── resources/
-│   │   └── application.properties    # Configuration
-│   └── pom.xml                      # Maven Dependencies
-│
-├── frontend/                         # Angular Frontend (TypeScript)
+code-marketplace/
+├── frontend/                                 # Angular Frontend (TypeScript)
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── components/          # Reusable Components
-│   │   │   ├── pages/               # Page Components
-│   │   │   ├── services/            # HTTP Services
-│   │   │   ├── guards/              # Route Guards
-│   │   │   ├── interceptors/        # HTTP Interceptors
-│   │   │   └── models/              # TypeScript Models
-│   │   ├── assets/                  # Static Resources
-│   │   └── styles/                  # Global Styles
-│   ├── angular.json                 # Angular Configuration
-│   ├── package.json                 # NPM Dependencies
-│   └── tsconfig.json                # TypeScript Configuration
+│   │   │   ├── core/                        # Core Services & Guards
+│   │   │   │   ├── guards/                  # Route guards
+│   │   │   │   ├── interceptor/             # HTTP interceptors
+│   │   │   │   ├── model/                   # Data models
+│   │   │   │   ├── services/                # Core services
+│   │   │   │   └── utils/                   # Utility functions
+│   │   │   ├── features/                    # Feature modules
+│   │   │   │   ├── auth/                    # Authentication module
+│   │   │   │   ├── buyer/                   # Buyer features
+│   │   │   │   ├── seller/                  # Seller features
+│   │   │   │   ├── home/                    # Home page
+│   │   │   │   ├── project-details/         # Project details
+│   │   │   │   └── super-admin/             # Admin features
+│   │   │   ├── shared/                      # Shared components
+│   │   │   │   ├── footer/                  # Footer component
+│   │   │   │   ├── module/                  # Shared modules
+│   │   │   │   ├── nav/                     # Navigation component
+│   │   │   │   ├── review-modal/            # Review modal
+│   │   │   │   ├── seller-head/             # Seller header
+│   │   │   │   └── under-maintenance/       # Maintenance page
+│   │   │   ├── app.component.ts             # Root component
+│   │   │   ├── app.module.ts                # Root module
+│   │   │   └── app-routing.module.ts        # Routing config
+│   │   ├── assets/                          # Static assets
+│   │   ├── environments/                    # Environment configs
+│   │   │   ├── environment.prod.ts          # Production
+│   │   │   └── environment.ts               # Development
+│   │   └── styles/                          # Global styles
+│   ├── angular.json                         # Angular CLI config
+│   ├── package.json                         # Dependencies
+│   └── tsconfig.json                        # TypeScript config
 │
-└── README.md                        # This file
+├── backend/                                 # Spring Boot Backend (Java 17)
+│   ├── src/main/java/com/example/projecthub/
+│   │   ├── controller/                      # REST API Controllers
+│   │   │   ├── PublicController.java        # Public endpoints (auth, browse)
+│   │   │   ├── SellerController.java        # Seller operations
+│   │   │   ├── PurchaseController.java      # Buyer & purchase endpoints
+│   │   │   ├── SuperAdminController.java    # Admin management
+│   │   │   ├── CategoryController.java      # Category management
+│   │   │   └── LanguageController.java      # Language management
+│   │   ├── service/                         # Business Logic
+│   │   │   ├── admin/                       # Admin services
+│   │   │   ├── auth/                        # Authentication
+│   │   │   ├── download/                    # File downloads
+│   │   │   ├── language/                    # Language management
+│   │   │   ├── project/                     # Project management
+│   │   │   ├── purchase/                    # Purchase handling
+│   │   │   ├── review/                      # Reviews
+│   │   │   ├── seller/                      # Seller operations
+│   │   │   └── wishlist/                    # Wishlist
+│   │   ├── dto/                             # Data Transfer Objects
+│   │   ├── exception/                       # Custom exceptions
+│   │   ├── helper/                          # Helper classes
+│   │   ├── jwt/                             # JWT configuration
+│   │   ├── model/                           # JPA Entity Models
+│   │   ├── repository/                      # Data Access Layer
+│   │   ├── security/                        # Security configuration
+│   │   └── ProjecthubApplication.java       # Application entry point
+│   ├── src/main/resources/
+│   │   ├── application.properties           # Configuration
+│   │   └── application-prod.properties      # Production config
+│   ├── src/test/                            # Unit tests
+│   ├── pom.xml                              # Maven dependencies
+│   └── .mvn/                                # Maven wrapper
+│
+└── README.md                                # This file
 ```
 
 ---
@@ -135,13 +154,13 @@ Buy-And-Sell-Coding-Projects/
 ### Prerequisites
 - **Java 17** or higher
 - **Node.js 16+** and **npm**
-- **MySQL 8.0+** running locally or remotely
+- **MySQL 8.0+**
 - **Git**
 
 ### 1️⃣ Clone Repository
 ```bash
-git clone https://github.com/JivanDevkota/Buy-And-Sell-Coding-Projects.git
-cd Buy-And-Sell-Coding-Projects
+git clone https://github.com/JivanDevkota/code-marketplace.git
+cd code-marketplace
 ```
 
 ### 2️⃣ Backend Setup (Spring Boot)
@@ -149,15 +168,21 @@ cd Buy-And-Sell-Coding-Projects
 ```bash
 cd backend
 
-# Configure database connection
-# Edit: backend/src/main/resources/application.properties
-# Update: spring.datasource.url, spring.datasource.username, spring.datasource.password
+# Configure database in: src/main/resources/application.properties
+# Update these properties:
+# spring.datasource.url=jdbc:mysql://localhost:3306/codemarket
+# spring.datasource.username=root
+# spring.datasource.password=your_password
 
 # Run the application
 ./mvnw spring-boot:run
+
+# Or build & run
+./mvnw clean package
+java -jar target/projecthub-0.0.1-SNAPSHOT.jar
 ```
 
-Backend will start on: `http://localhost:8080`
+**Backend runs on**: `http://localhost:8080`
 
 ### 3️⃣ Frontend Setup (Angular)
 
@@ -173,11 +198,11 @@ npm start
 ng serve
 ```
 
-Frontend will be available at: `http://localhost:4200`
+**Frontend runs on**: `http://localhost:4200`
 
-### 4️⃣ Access the Application
-- **User Login**: http://localhost:4200/login
-- **API Documentation**: http://localhost:8080/api (see endpoints below)
+### 4️⃣ Access Application
+- **Web**: http://localhost:4200
+- **API**: http://localhost:8080/api
 
 ---
 
@@ -190,9 +215,9 @@ Frontend will be available at: `http://localhost:4200`
 |--------|----------|-------------|
 | `POST` | `/register` | Register new user account |
 | `POST` | `/login` | Login user (returns JWT tokens) |
-| `POST` | `/refresh` | Refresh access token using refresh token |
+| `POST` | `/refresh` | Refresh access token |
 
-#### Browse & Discover
+#### Browse Projects
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/languages` | Get all programming languages |
@@ -211,9 +236,6 @@ Frontend will be available at: `http://localhost:4200`
 | `GET` | `/{buyerId}/my-purchases` | Get purchase history |
 | `POST` | `/reviews/project/{projectId}/user/{buyerId}` | Submit project review |
 | `GET` | `/reviews/project/{userId}` | Get user's reviews |
-| `POST` | `/{buyerId}/wishlist/add` | Add project to wishlist |
-| `GET` | `/{buyerId}/wishlist` | Get wishlist items |
-| `DELETE` | `/{buyerId}/wishlist/{projectId}` | Remove from wishlist |
 | `GET` | `/{buyerId}/download/{purchaseId}` | Download project files |
 
 ---
@@ -227,9 +249,7 @@ Frontend will be available at: `http://localhost:4200`
 | `GET` | `/my-projects` | Get seller's projects |
 | `PUT` | `/project/{projectId}` | Update project details |
 | `DELETE` | `/project/{projectId}` | Delete project |
-| `GET` | `/dashboard` | Seller dashboard with stats |
-| `GET` | `/sales` | Get sales analytics |
-| `GET` | `/reviews/stats` | Get review statistics |
+| `GET` | `/dashboard` | Seller dashboard stats |
 
 ---
 
@@ -238,110 +258,88 @@ Frontend will be available at: `http://localhost:4200`
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `POST` | `/add/category` | Create category |
-| `GET` | `/recent/categories` | Get recent categories (paginated) |
+| `GET` | `/recent/categories` | Get recent categories |
 | `POST` | `/create/language` | Create programming language |
 | `GET` | `/languages` | Get all languages |
 | `PATCH` | `/{userId}/status` | Update user status |
 | `GET` | `/recent/users` | Get recently joined users |
 | `PUT` | `/project/{projectId}/approve` | Approve pending project |
 | `PUT` | `/project/{projectId}/suspend` | Suspend project |
-| `GET` | `/pending/projects` | Get pending project approvals |
 | `GET` | `/dashboard` | Admin dashboard stats |
 
 ---
 
-## 🔐 User Roles & Permissions
+## 🔐 User Roles
 
 | Role | Capabilities |
 |------|--------------|
-| **Buyer** | Browse projects, purchase, write reviews, manage wishlist |
-| **Seller** | Upload projects, manage listings, track sales, view analytics |
-| **Admin** | Manage categories, languages, moderate content, approve projects |
-| **Super Admin** | Full platform control, user management, system administration |
+| **Buyer** | Browse, purchase, review, manage wishlist |
+| **Seller** | Upload projects, manage listings, track sales |
+| **Admin** | Manage content, approve projects, moderate users |
+| **Super Admin** | Full platform control, system administration |
 
 ---
 
-## 🛠 Development
+## 🛠 Development Commands
 
-### Build Backend
+### Backend
 ```bash
 cd backend
+
+# Build
 ./mvnw clean package
-```
 
-### Build Frontend
-```bash
-cd frontend
-npm run build
-```
+# Run
+./mvnw spring-boot:run
 
-### Run Tests
-```bash
-# Backend tests
-cd backend
+# Run tests
 ./mvnw test
+```
 
-# Frontend tests
+### Frontend
+```bash
 cd frontend
+
+# Install dependencies
+npm install
+
+# Development server
+npm start
+
+# Build
+npm run build
+
+# Run tests
 npm test
 ```
 
 ---
 
-## 📝 Database Schema
+## 📝 Environment Configuration
 
-Key entities:
-- **User**: Base user with roles (Buyer, Seller, Admin)
-- **Project**: Code projects for sale
-- **ProjectFile**: Files attached to projects
-- **Purchase**: Transaction records
-- **Review**: User ratings and feedback
-- **Wishlist**: Saved projects
-- **Category**: Project categories
-- **Language**: Programming languages
+### Frontend (`frontend/environments/`)
+- `environment.ts` - Development
+- `environment.prod.ts` - Production
+
+### Backend (`backend/src/main/resources/`)
+- `application.properties` - Development
+- `application-prod.properties` - Production
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! To get started:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions are welcome! Please feel free to submit pull requests or open issues.
 
 ---
 
-## 📄 License
+## 📧 Contact & Support
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙋 Support & Contact
-
-- **Issues**: [GitHub Issues](https://github.com/JivanDevkota/Buy-And-Sell-Coding-Projects/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/JivanDevkota/Buy-And-Sell-Coding-Projects/discussions)
-- **Author**: [JivanDevkota](https://github.com/JivanDevkota)
-
----
-
-## 🎉 Acknowledgments
-
-Built with:
-- **Spring Boot** - Enterprise-grade Java framework
-- **Angular** - Modern web framework
-- **Bootstrap** - Responsive design
-- **MySQL** - Reliable database
-- **JWT** - Secure authentication
+For questions or support, please open an issue on the repository.
 
 ---
 
 <div align="center">
-
-**[⬆ back to top](#codemarket-)**
 
 Made with ❤️ by [JivanDevkota](https://github.com/JivanDevkota)
 
